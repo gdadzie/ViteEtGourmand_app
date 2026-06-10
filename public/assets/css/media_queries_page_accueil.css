@@ -1,0 +1,129 @@
+/* ===============================
+   RESET / SÉCURITÉ MOBILE
+   =============================== */
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ===============================
+   TITRE
+   =============================== */
+.titre-h1 {
+    letter-spacing: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+/* ===============================
+   HEADER (BANNIÈRE)
+   =============================== */
+.header {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;       /* Fix iOS Safari */
+    height: 100vh;
+    background-image: url('/assets/images/service_traiteur_vite_et_gourmand.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;         /* empêche tout débordement */
+}
+
+/* ===============================
+   OVERLAY
+   =============================== */
+.header .overlay {
+    position: absolute;
+    inset: 0;                 /* top/right/bottom/left = 0 */
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+/* ===============================
+   CONTENU HEADER
+   =============================== */
+.header .header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #ebe3d0;
+    max-width: 800px;
+    padding: 20px;
+}
+
+/* ===============================
+   BOUTON
+   =============================== */
+.header .btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #aa6d27;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.header .btn:hover {
+    background-color: #e55b00;
+}
+
+/* ===============================
+   TABLETTE & MOBILE
+   =============================== */
+@media (max-width: 768px) {
+
+    .header {
+        min-height: 100svh;
+        padding: 0 15px;
+    }
+
+    .titre-h1 {
+        letter-spacing: 4px;
+        font-size: 2.4rem;
+    }
+
+    .header .header-content p {
+        font-size: 1rem;
+    }
+
+    .header .btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===============================
+   IPHONE 14 PRO & PETITS ÉCRANS
+   =============================== */
+@media (max-width: 430px) {
+
+    .titre-h1 {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+
+    .header .header-content {
+        padding: 10px;
+    }
+
+    .header .header-content p {
+        font-size: 0.95rem;
+    }
+
+    .header .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+}

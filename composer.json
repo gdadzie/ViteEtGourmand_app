@@ -1,0 +1,24 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Config\\": "Config/",
+      "Repository\\": "src/Repository/",
+      "Controller\\": "src/Controller/",
+      "Entity\\": "src/Entity/",
+      "Service\\": "src/Service/",
+      "View\\": "src/View/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "mongodb/mongodb": "^2.1",
+    "ext-mongodb": "*",
+    "phpmailer/phpmailer": "^7.0",
+    "php": ">=8.1",
+    "ext-fileinfo": "*",
+    "ext-mbstring": "*",
+    "vlucas/phpdotenv": "^5.6"
+  }
+
+
+}

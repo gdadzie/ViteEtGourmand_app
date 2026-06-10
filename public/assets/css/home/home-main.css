@@ -1,0 +1,172 @@
+/* =========================
+   BASE (DESKTOP & TABLET)
+========================= */
+
+.cadre-img {
+    width: 265px;
+    height: 300px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.btn-en-savoir-plus {
+    background-color: #aa6d27;
+    color: #ebe3d0;
+}
+
+.section-equipe {
+    background-color: #aa6d27;
+}
+
+.titre-h2 {
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.titre-h3 {
+    color: #ebe3d0;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Team bubbles */
+.team-bubble {
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    border-radius: 50%;
+    padding: 10px;
+    background: radial-gradient(circle, #ff7a00, #f3efed);
+}
+
+.bubble-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid white;
+}
+
+.role {
+    color: #f3efed;
+    font-weight: 600;
+}
+
+/* Reviews */
+.avatar-sm {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+}
+
+.stars i {
+    color: #f1c40f;
+    font-size: 0.9rem;
+}
+
+.review-item {
+    padding: 5px 0;
+}
+
+.review-item p,
+.review-item h6 {
+    line-height: 1.3;
+}
+
+/* =========================
+   MOBILE GLOBAL (≤ 768px)
+   iPhone SE → iPhone XR → iPhone 14 Pro Max
+========================= */
+
+@media (max-width: 768px) {
+
+    /* Images pleine largeur */
+    .cadre-img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
+
+    /* Titres */
+    .titre-h2 {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+        text-align: center;
+    }
+
+    .titre-h3 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        text-align: center;
+    }
+
+    /* Team bubbles */
+    .team-bubble {
+        width: 140px;
+        height: 140px;
+        padding: 8px;
+    }
+
+    .bubble-photo {
+        border-width: 4px;
+    }
+
+    .role {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    /* Boutons */
+    .btn-en-savoir-plus {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* Reviews */
+    .avatar-sm {
+        width: 45px;
+        height: 45px;
+    }
+
+    .stars i {
+        font-size: 0.8rem;
+    }
+
+    .review-item h6 {
+        font-size: 0.95rem;
+    }
+
+    .review-item p {
+        font-size: 0.9rem;
+    }
+}
+
+/* =========================
+   PETITS MOBILES (iPhone SE)
+   ≤ 375px
+========================= */
+
+@media (max-width: 375px) {
+
+    .titre-h2 {
+        font-size: 1.4rem;
+    }
+
+    .titre-h3 {
+        font-size: 1.1rem;
+    }
+
+    .team-bubble {
+        width: 120px;
+        height: 120px;
+    }
+
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+    }
+}

@@ -1,0 +1,529 @@
+:root{
+    --bg:#f5f5f5;
+    --card:#ffffff;
+    --text:#212529;
+    --muted:#6c757d;
+
+    --brand:#aa6d27;
+    --brand-dark:#935f22;
+    --tint:#fdf2e7;
+
+    --border:rgba(0,0,0,.08);
+
+    --shadow:0 10px 30px rgba(0,0,0,.10);
+    --shadow-soft:0 6px 18px rgba(0,0,0,.06);
+    --shadow-hover:0 14px 34px rgba(0,0,0,.11);
+
+    --radius:18px;
+}
+
+/* =========================
+   GLOBAL
+========================= */
+
+body{
+    background:var(--bg);
+    font-family:'Inter', sans-serif;
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.h-title{
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    letter-spacing:-0.3px;
+    line-height:1.15;
+}
+
+/* =========================
+   NAVBAR + DROPDOWN
+========================= */
+
+.navbar{
+    position:relative;
+    z-index:5000;
+}
+
+.dropdown-menu{
+    z-index:99999 !important;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:.6rem;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.dropdown-item{
+    border-radius:10px;
+    transition:all .2s ease;
+}
+
+.dropdown-item:hover{
+    background:var(--tint);
+    color:var(--brand-dark);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    position:relative;
+    z-index:1;
+
+    min-height:72vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+
+    overflow:visible;
+
+    border-bottom-left-radius:26px;
+    border-bottom-right-radius:26px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:28px;
+
+    background:
+            radial-gradient(
+                    1200px 600px at 20% 20%,
+                    rgba(170,109,39,.45),
+                    transparent 55%
+            ),
+
+            radial-gradient(
+                    900px 500px at 80% 30%,
+                    rgba(170,109,39,.35),
+                    transparent 60%
+            ),
+
+            linear-gradient(
+                    120deg,
+                    rgba(0,0,0,.65),
+                    rgba(0,0,0,.35)
+            ),
+
+            url('/assets/images/images/menu_noel_1.jpg')
+            center/cover no-repeat;
+}
+
+/* OVERLAY */
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    z-index:0;
+
+    background:
+            linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,.45),
+                    rgba(0,0,0,.55)
+            );
+
+    pointer-events:none;
+
+    border-bottom-left-radius:26px;
+    border-bottom-right-radius:26px;
+}
+
+/* CONTENU HERO */
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    text-align:center;
+
+    padding:28px 16px;
+
+    max-width:980px;
+}
+
+/* =========================
+   HERO DETAILS
+========================= */
+
+.brand-dot{
+    width:10px;
+    height:10px;
+
+    border-radius:999px;
+
+    background:var(--brand);
+
+    display:inline-block;
+
+    margin-right:10px;
+
+    box-shadow:0 0 0 4px rgba(170,109,39,.18);
+}
+
+.hero h1{
+    font-size:clamp(2.2rem, 4vw, 3.4rem);
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+    margin:0 0 10px 0;
+
+    font-family:'Outfit', sans-serif;
+}
+
+.hero p{
+    margin:0 auto 18px auto;
+
+    max-width:760px;
+
+    font-size:clamp(1rem, 1.4vw, 1.15rem);
+
+    color:rgba(255,255,255,.92);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-brand{
+    background:var(--brand);
+    border-color:var(--brand);
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    font-weight:700;
+
+    box-shadow:0 10px 22px rgba(170,109,39,.28);
+
+    transition:all .2s ease;
+}
+
+.btn-brand:hover{
+    background:var(--brand-dark);
+    border-color:var(--brand-dark);
+
+    color:#fff;
+
+    transform:translateY(-2px);
+}
+
+.btn-outline-brand{
+    border-radius:999px;
+
+    border-color:rgba(170,109,39,.55);
+
+    color:var(--brand-dark);
+
+    font-weight:700;
+
+    padding:9px 16px;
+
+    transition:all .2s ease;
+}
+
+.btn-outline-brand:hover{
+    background:var(--tint);
+
+    border-color:rgba(170,109,39,.65);
+
+    color:var(--brand-dark);
+
+    transform:translateY(-2px);
+}
+
+/* =========================
+   HERO CHIPS
+========================= */
+
+.hero-badges{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    justify-content:center;
+
+    margin-top:18px;
+}
+
+.hero-chip{
+    background:rgba(255,255,255,.14);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    backdrop-filter:blur(6px);
+
+    border-radius:999px;
+
+    padding:.35rem .7rem;
+
+    font-size:.9rem;
+
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+
+    color:rgba(255,255,255,.92);
+}
+
+.hero-chip i{
+    color:#fff;
+    opacity:.95;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section-slab{
+    position:relative;
+    padding:64px 0;
+}
+
+.section-slab.bg-tint{
+    background:
+            linear-gradient(
+                    180deg,
+                    rgba(170,109,39,.08),
+                    rgba(170,109,39,.04)
+            );
+}
+
+.section-slab.bg-white{
+    background:transparent;
+}
+
+.section-divider{
+    height:1px;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(0,0,0,.12),
+                    transparent
+            );
+
+    margin:0;
+}
+
+.slab-inner{
+    background:rgba(255,255,255,.72);
+
+    border:1px solid rgba(0,0,0,.06);
+
+    border-radius:22px;
+
+    box-shadow:var(--shadow-soft);
+
+    padding:26px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.section-card{
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow-soft);
+
+    padding:22px;
+}
+
+.frame-img{
+    width:100%;
+    height:auto;
+
+    object-fit:cover;
+
+    border-radius:var(--radius);
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow-soft);
+}
+
+.h-title{
+    font-weight:800;
+    letter-spacing:.2px;
+}
+
+.text-muted-2{
+    color:var(--muted);
+}
+
+/* =========================
+   TEAM
+========================= */
+
+.team-card{
+    background:#fff;
+
+    border:1px solid rgba(0,0,0,.08);
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-soft);
+
+    padding:18px;
+
+    height:100%;
+
+    transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+}
+
+.team-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-hover);
+}
+
+.team-photo{
+    width:110px;
+    height:110px;
+
+    border-radius:999px;
+
+    object-fit:cover;
+
+    border:5px solid var(--tint);
+
+    box-shadow:0 10px 22px rgba(0,0,0,.10);
+
+    display:block;
+
+    margin:0 auto;
+}
+
+.role-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.35rem;
+
+    background:rgba(170,109,39,.10);
+
+    border:1px solid rgba(170,109,39,.18);
+
+    color:var(--brand-dark);
+
+    border-radius:999px;
+
+    padding:.25rem .65rem;
+
+    font-size:.85rem;
+
+    font-weight:600;
+}
+
+/* =========================
+   REVIEWS
+========================= */
+
+.review-card{
+    background:#fff;
+
+    border:1px solid rgba(0,0,0,.08);
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-soft);
+
+    padding:16px;
+
+    height:100%;
+
+    transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+}
+
+.review-card:hover{
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}
+
+.avatar-sm{
+    width:44px;
+    height:44px;
+
+    object-fit:cover;
+
+    border:3px solid var(--tint);
+}
+
+.stars i{
+    color:var(--brand);
+}
+
+.quote{
+    color:rgba(170,109,39,.35);
+
+    font-size:1.2rem;
+
+    margin-right:.35rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width:768px){
+
+    .hero{
+        min-height:60vh;
+        padding:20px 0;
+    }
+
+    .hero-content{
+        padding:20px 14px;
+    }
+
+    .hero-badges{
+        gap:8px;
+    }
+
+    .hero-chip{
+        font-size:.82rem;
+    }
+
+    .section-slab{
+        padding:44px 0;
+    }
+
+    .team-photo{
+        width:90px;
+        height:90px;
+    }
+
+}

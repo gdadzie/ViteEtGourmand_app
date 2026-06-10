@@ -1,0 +1,7 @@
+services:
+  app:
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+
+  mongo:
+    image: mongo
