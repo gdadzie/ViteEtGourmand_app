@@ -111,7 +111,9 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb breadcrumb-custom">
         <li class="breadcrumb-item">
-            <a href="?page=espace_admin"><i class="bi bi-arrow-left"></i> Retour</a>
+            <a href="<?= $retour ?>">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
         </li>
     </ol>
 </nav>

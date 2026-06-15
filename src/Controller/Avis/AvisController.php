@@ -110,7 +110,29 @@ class AvisController
 
         $avis = $this->avisRepo->readAll();
 
+        $role = $_SESSION['id_role'] ?? 'employe';
+
+        $retour = match ($role) {
+            'admin'   => '?page=espace_admin',
+            'employe' => '?page=espace_employe',
+            default    => '?page=home'
+        };
+
         require __DIR__ . '/../../View/Avis/gestion_des_avis.php';
+    }
+
+    public function showAvisByUtilisateur(): void
+    {
+        $this->requireAuth();
+
+        if (!in_array((int)($_SESSION['id_role'] ?? 0), [1])) {
+            $_SESSION['error'] = "Accès interdit";
+            $this->redirect('home');
+        }
+
+        $avis = $this->avisRepo->readByUtilisateur($_SESSION['id_utilisateur']);
+
+        require __DIR__ . '/../../View/Avis/historique_avis.php';
     }
 
     /* =========================================================
@@ -130,7 +152,7 @@ class AvisController
             $this->redirect('gestion_avis');
         }
 
-        $this->avisRepo->valider($idAvis)
+        $this->avisRepo->validate($idAvis)
             ? $_SESSION['success'] = "Avis validé avec succès"
             : $_SESSION['error'] = "Erreur lors de la validation";
 

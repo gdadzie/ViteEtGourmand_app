@@ -80,7 +80,7 @@ class AvisRepository
     // ===============================
     // VALIDER AVIS
     // ===============================
-    public function valider(int $id): bool
+    public function validate(int $id): bool
     {
         $stmt = $this->conn->prepare("
             UPDATE avis
@@ -179,6 +179,30 @@ class AvisRepository
         }
 
         return $this->hydrate($data);
+    }
+
+    public function readByUtilisateur(int $idUtilisateur): array
+    {
+        $stmt = $this->conn->prepare("
+        SELECT *
+        FROM avis
+        WHERE id_utilisateur = :id
+        ORDER BY id_avis DESC
+    ");
+
+        $stmt->execute([
+            'id' => $idUtilisateur
+        ]);
+
+        $datas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $avis = [];
+
+        foreach ($datas as $data) {
+            $avis[] = $this->hydrate($data);
+        }
+
+        return $avis;
     }
 
     public function findAvisByCommande(int $idCommande): ?Avis

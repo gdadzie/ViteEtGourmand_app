@@ -166,18 +166,18 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
             <table class="table align-middle">
 
+
                 <thead>
                 <tr>
                     <th>Menu</th>
-                    <th>Personnes</th>
                     <th>Prix</th>
-                    <th>Livraison</th>
-                    <th>Paiement</th>
+                    <th>Date de commande</th>
                     <th>Statut</th>
                     <th>Avis</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
+
 
                 <tbody>
 
@@ -188,42 +188,34 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                         <tr>
 
                             <!-- MENU -->
-                            <td><strong>#<?= $e($commande->getIdMenu()) ?></strong></td>
-
-                            <!-- PERSONNES -->
-                            <td><?= $commande->getNombrePersonnes() ?></td>
-
-                            <!-- PRIX -->
-                            <td><strong><?= number_format($commande->getPrixTotal(), 2, ',', ' ') ?> €</strong></td>
-
-                            <!-- LIVRAISON -->
                             <td>
-                                <?= $e($commande->getDateLivraison()) ?><br>
-                                <small class="text-muted">
-                                    <?= $e($commande->getHeureLivraison()) ?>
-                                </small>
+                                <strong>#<?= $e($commande->getIdMenu()) ?></strong>
                             </td>
 
-                            <!-- PAIEMENT -->
+                            <!-- PRIX -->
                             <td>
-                                <div><?= $e(ucfirst(str_replace('_',' ',$commande->getModePaiement()))) ?></div>
+                                <strong>
+                                    <?= number_format($commande->getPrixTotal(), 2, ',', ' ') ?> €
+                                </strong>
+                            </td>
 
-                                <span class="badge <?= $commande->getStatutPaiement()==='payé'?'bg-success':'bg-warning text-dark' ?> rounded-pill">
-                                    <?= $e($commande->getStatutPaiement()) ?>
-                                </span>
+                            <!-- DATE DE COMMANDE -->
+                            <td>
+                                <strong>
+                                    <?= $e($commande->getDateCreation('%Y-%m-%d')) ?>
+                                </strong>
                             </td>
 
                             <!-- STATUT -->
                             <td>
-                                <span class="status <?= $commande->getStatut() ?>">
-                                    <?= $e(ucfirst(str_replace('_',' ',$commande->getStatut()))) ?>
-                                </span>
+        <span class="status <?= $commande->getStatut() ?>">
+            <?= $e(ucfirst(str_replace('_', ' ', $commande->getStatut()))) ?>
+        </span>
                             </td>
 
                             <!-- AVIS -->
                             <td>
-                                <?php if ($commande->getStatut()==='terminée'): ?>
-
+                                <?php if ($commande->getStatut() === 'terminée'): ?>
                                     <a class="btn btn-warning btn-sm rounded-pill"
                                        href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>">
                                         ⭐ Avis
@@ -234,29 +226,34 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                             </td>
 
                             <!-- ACTIONS -->
-                            <td class="d-flex justify-content-center gap-2">
+                            <td>
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
 
-                                <a href="index.php?page=detail_commande&id=<?= $commande->getIdCommande() ?>"
-                                   class="btn btn-outline-dark btn-sm rounded-pill">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+                                    <!-- DÉTAIL -->
+                                    <a href="index.php?page=detail_commande&id=<?= $commande->getIdCommande() ?>"
+                                       class="btn btn-sm btn-outline-dark">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
 
-                                <?php if ($commande->getStatut()==='reçue'): ?>
-                                    <form method="POST"
-                                          action="index.php?page=annuler_commande"
-                                          onsubmit="return confirm('Annuler ?');">
+                                    <!-- SUPPRIMER -->
+                                    <?php if ($commande->getStatut() === 'reçue'): ?>
+                                        <form method="POST"
+                                              action="index.php?page=supprimer_commande&id_commande=<?= $commande->getIdCommande() ?>"
+                                              onsubmit="return confirm('Voulez-vous vraiment supprimer cette commande ?');">
 
-                                        <input type="hidden"
-                                               name="id_commande"
-                                               value="<?= $commande->getIdCommande() ?>">
+                                            <input type="hidden"
+                                                   name="id_commande"
+                                                   value="<?= $commande->getIdCommande() ?>">
 
-                                        <button class="btn btn-danger btn-sm rounded-pill">
-                                            <i class="bi bi-x-circle"></i>
-                                        </button>
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
 
-                                    </form>
-                                <?php endif; ?>
+                                        </form>
+                                    <?php endif; ?>
 
+                                </div>
                             </td>
 
                         </tr>

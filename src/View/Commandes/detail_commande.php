@@ -231,7 +231,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                         <?php if ($commande->getStatut()==='terminée'): ?>
 
-                            <a href="index.php?page=ajouter_avis&id_commande=<?= $commande->getIdCommande() ?>"
+                            <a href="index.php?page=mon_historique_avis"
                                class="btn btn-warning btn-sm">
                                 ⭐ Avis
                             </a>

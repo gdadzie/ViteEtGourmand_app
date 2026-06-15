@@ -246,6 +246,7 @@
     const blocAdresse = document.getElementById('bloc_adresse');
     const adresseInput = document.getElementById('adresse_livraison');
     const nombrePersonnesInput = document.getElementById('nombre_personnes');
+    const villeSelect = document.getElementById('id_ville');
 
     const prixMenu = document.getElementById('prix_menu');
     const reduction = document.getElementById('reduction');
@@ -255,6 +256,11 @@
     const prixParPersonne = <?= json_encode($prixParPersonne) ?>;
     const minimumPersonnes = <?= json_encode($minimumPersonnes) ?>;
 
+    const villes = <?= json_encode($villes) ?>;
+
+    // =====================================================
+    // GESTION ADRESSE
+    // =====================================================
     function gererAdresse() {
 
         if (modeReception.value === 'sur_place') {
@@ -270,6 +276,31 @@
         }
     }
 
+    // =====================================================
+    // CALCUL LIVRAISON (DYNAMIQUE)
+    // =====================================================
+    function calculLivraison() {
+
+        if (modeReception.value !== 'livraison') {
+            return 0;
+        }
+
+        const idVille = villeSelect.value;
+
+        const ville = villes.find(v => v.id_ville == idVille);
+
+        if (!ville) return 0;
+
+        if (ville.nom_ville.toLowerCase() === 'bordeaux') {
+            return 0;
+        }
+
+        return 5 + (parseFloat(ville.distance_km) * 0.59);
+    }
+
+    // =====================================================
+    // CALCUL GLOBAL
+    // =====================================================
     function calculerPrix() {
 
         let nb = parseInt(nombrePersonnesInput.value);
@@ -286,7 +317,7 @@
             montantReduction = totalMenu * 0.10;
         }
 
-        let livraison = (modeReception.value === 'livraison') ? 5 : 0;
+        let livraison = calculLivraison();
 
         let total = totalMenu - montantReduction + livraison;
 
@@ -296,6 +327,9 @@
         prixTotal.innerText = total.toFixed(2) + ' €';
     }
 
+    // =====================================================
+    // EVENTS
+    // =====================================================
     modeReception.addEventListener('change', function () {
         gererAdresse();
         calculerPrix();
@@ -306,7 +340,11 @@
     });
 
     nombrePersonnesInput.addEventListener('input', calculerPrix);
+    villeSelect.addEventListener('change', calculerPrix);
 
+    // =====================================================
+    // INIT
+    // =====================================================
     gererAdresse();
     calculerPrix();
 

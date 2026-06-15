@@ -272,7 +272,7 @@ class CommandesController
                 (float)$menu->getPrixParPersonne(),
                 $nb,
                 $minimumPersonnes,
-                $nomVille
+                $villeEntity
             );
 
             $prixMenus = $detailsPrix['prix_menus'];
@@ -350,15 +350,12 @@ class CommandesController
     // =========================================================
     public function supprimerUneCommande(): void
     {
-        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-
-        if ($method !== 'POST') {
-            http_response_code(405);
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
 
-        $id = (int)($_POST['id'] ?? 0);
+        $id = (int)($_POST['id_commande'] ?? 0);
 
         if (!$id) {
             $_SESSION['error'] = "ID invalide";
@@ -367,7 +364,7 @@ class CommandesController
         }
 
         if ($this->commandeRepo->delete($id)) {
-            $_SESSION['success'] = "Commande supprimée";
+            $_SESSION['success'] = "Commande supprimée avec succès";
         } else {
             $_SESSION['error'] = "Commande introuvable";
         }
@@ -375,7 +372,6 @@ class CommandesController
         header('Location: index.php?page=gestion_des_commandes');
         exit;
     }
-
     // =========================================================
     // MODIFIER STATUT COMMANDE
     // =========================================================
@@ -527,28 +523,15 @@ class CommandesController
 // =========================================================
 
 
-    private function calculLivraison(string $ville = 'bordeaux'): float
+    private function calculLivraison(array $ville): float
     {
-        $ville = strtolower($ville);
-
-        if ($ville === 'bordeaux') {
+        if ($ville['nom_ville'] === 'Bordeaux') {
             return 0;
         }
 
-        $distances = [
-            'merignac' => 8,
-            'pessac' => 10,
-            'talence' => 5,
-            'cenon' => 7,
-            'begles' => 6,
-            'floirac' => 8,
-            'le bouscat' => 4,
-            'bruges' => 6,
-        ];
+        $distance = (int)$ville['distance_km'];
 
-        $distanceKm = $distances[$ville] ?? 15;
-
-        return round(5 + ($distanceKm * 0.59), 2);
+        return round(5 + ($distance * 0.59), 2);
     }
 // =========================================================
 // CALCUL DE LA RÉDUCTION
@@ -575,7 +558,7 @@ class CommandesController
         float $prixParPersonne,
         int $nombrePersonnes,
         int $minimumPersonnes,
-        string $ville
+        array $villeEntity
     ): array {
 
         $prixMenus = $prixParPersonne * $nombrePersonnes;
@@ -586,7 +569,7 @@ class CommandesController
             $minimumPersonnes
         );
 
-        $fraisLivraison = $this->calculLivraison($ville);
+        $fraisLivraison = $this->calculLivraison($villeEntity);
 
         $total = $prixMenus - $reduction + $fraisLivraison;
 

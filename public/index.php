@@ -211,6 +211,10 @@ switch ($page) {
         $avisController->store();
         break;
 
+    case'mon_historique_avis':
+        $avisController->showAvisByUtilisateur();
+        break;
+
     case 'enregistrer_avis':
         requirePostMethod();
         $avisController->storeAvis();
@@ -222,7 +226,7 @@ switch ($page) {
 
     case 'valider_avis':
         requirePostMethod();
-        $avisController->validerAvis();
+        $avisController->update();
         break;
 
     case 'supprimer_avis':
