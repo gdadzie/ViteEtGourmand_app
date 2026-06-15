@@ -221,13 +221,13 @@
             </div>
         </a>
 
-        <a href="index.php?page=modify_contacts" class="card-link">
+        <a href="index.php?page=gestion_avis" class="card-link">
             <div class="card-admin">
                 <div class="d-flex align-items-start gap-3">
                     <div class="icon-badge"><i class="bi bi-telephone"></i></div>
                     <div>
-                        <h5 class="card-title">Modifier les contacts</h5>
-                        <p class="card-text">Mettez à jour les informations de contact.</p>
+                        <h5 class="card-title">Gestion des avis</h5>
+                        <p class="card-text">Gérez tous les avis clients.</p>
                         <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
                     </div>
                 </div>

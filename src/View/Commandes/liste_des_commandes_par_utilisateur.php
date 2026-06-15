@@ -225,7 +225,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                 <?php if ($commande->getStatut()==='terminée'): ?>
 
                                     <a class="btn btn-warning btn-sm rounded-pill"
-                                       href="index.php?page=ajouter_avis&id_commande=<?= $commande->getIdCommande() ?>">
+                                       href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>">
                                         ⭐ Avis
                                     </a>
                                 <?php else: ?>

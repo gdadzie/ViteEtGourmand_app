@@ -135,8 +135,9 @@ class CommandesController
             // DONNÉES CLIENT
             // =================================================
             $numeroRue = $client?->getNumeroRue() ?? '';
-            $nomRue = $client?->getNumeroRue() ?? '';
+            $nomRue = $client?->getNomRue() ?? '';
             $codePostal = $client?->getCodePostal() ?? '';
+            $ville = $client?->getIdVille()??'';
             $nom = $client?->getNom() ?? '';
             $prenom = $client?->getPrenom() ?? '';
             $telephone = $client?->getTelephone() ?? '';
@@ -455,12 +456,20 @@ class CommandesController
 
         $commandes = $this->commandeRepo->readAllCommandeByUtilisateur($idUtilisateur);
 
+
         require __DIR__ . '/../../View/Commandes/liste_des_commandes_par_utilisateur.php';
     }
 
     public function listeDesCommandesParUtilisateur(): void
     {
-        $this->historiqueCommandeParUtilisateur();
+        if (!isset($_SESSION['id_utilisateur'])) {
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+
+        $idUtilisateur = (int)$_SESSION['id_utilisateur'];
+
+        $commandes = $this->commandeRepo->readById();
     }
 
     // =========================================================

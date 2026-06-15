@@ -15,6 +15,7 @@ class Avis
     private string $commentaire;
 
     private bool $est_valide = false;
+    private string $dateCreation;
 
     // =========================
     // GETTERS
@@ -45,9 +46,14 @@ class Avis
         return $this->commentaire;
     }
 
-    public function isValide(): bool
+    public function getEstValide(): bool
     {
         return $this->est_valide;
+    }
+
+    public function getDateCreation(): string
+    {
+        return $this->dateCreation;
     }
 
     // =========================
@@ -88,5 +94,10 @@ class Avis
     {
         $this->est_valide = $est_valide;
         return $this;
+    }
+
+    public function setDateCreation(string $dateCreation): void
+    {
+        $this->dateCreation = $dateCreation;
     }
 }

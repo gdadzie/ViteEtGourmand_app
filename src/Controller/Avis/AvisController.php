@@ -2,305 +2,164 @@
 
 namespace Controller\Avis;
 
-use Entity\Avis;
 use Repository\AvisRepository;
 use Repository\CommandesRepository;
 use Service\Avis\AvisService;
 
 class AvisController
 {
-    private AvisService $avisService;
-    private AvisRepository $avisRepo;
-    private CommandesRepository $commandeRepo;
-
     public function __construct(
-        AvisRepository $avisRepo,
-        CommandesRepository $commandeRepo,
-        AvisService $avisService
+        private AvisRepository $avisRepo,
+        private CommandesRepository $commandeRepo,
+        private AvisService $avisService
     ) {
-        $this->avisRepo = $avisRepo;
-        $this->commandeRepo = $commandeRepo;
-        $this->avisService = $avisService;
-
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public function index(){
+    /* =========================================================
+       OUTILS INTERNES (UTILITAIRES)
+    ========================================================= */
 
-        require __DIR__ . '/../../View/Avis/creer_avis.php';
+    private function redirect(string $page): void
+    {
+        header("Location: index.php?page=$page");
+        exit;
     }
 
-    // ===============================
-    // FORMULAIRE AJOUT AVIS
-    // ===============================
-    public function createAvis(): void
+    private function requireAuth(): void
     {
         if (!isset($_SESSION['id_utilisateur'])) {
             $_SESSION['error'] = "Connexion requise";
-            header('Location: index.php?page=connexion');
-            exit;
+            $this->redirect('connexion');
         }
+    }
+
+    /* =========================================================
+       AFFICHAGE FORMULAIRE AVIS
+    ========================================================= */
+
+    public function create(): void
+    {
+        $this->requireAuth();
 
         $idCommande = (int)($_GET['id_commande'] ?? 0);
 
         if ($idCommande <= 0) {
-            $_SESSION['error'] = "Commande introuvable";
-            header('Location: index.php?page=mes_commandes');
-            exit;
+            $_SESSION['error'] = "Commande invalide";
+            $this->redirect('mes_commandes');
         }
 
-        $commande = $this->commandeRepo->readCommandeByIdUtilisateur(
-            (int)$_SESSION['id_utilisateur'],
-            $idCommande
-        );
+        $commande = $this->commandeRepo->readById($idCommande);
 
-        if (!$commande) {
-            $_SESSION['error'] = "Commande introuvable";
-            header('Location: index.php?page=mes_commandes');
-            exit;
+
+        if (
+            !$commande ||
+            $commande->getIdUtilisateur() != $_SESSION['id_utilisateur'] ||
+            $commande->getStatut() !== 'terminée' ||
+
+            $this->avisRepo->existeDeja($idCommande)
+
+
+        ) {
+            $_SESSION['error'] = "Impossible de laisser un avis";
+            $this->redirect('mes_commandes');
         }
 
-        if ($commande->getStatut() !== 'terminée') {
-            $_SESSION['error'] = "Vous ne pouvez pas encore laisser d'avis";
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
 
-        if ($this->avisRepo->existeDeja($idCommande)) {
-            $_SESSION['error'] = "Vous avez déjà laissé un avis";
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
 
-        // ✅ AFFICHER LE FORMULAIRE DIRECTEMENT
         require __DIR__ . '/../../View/Avis/creer_avis.php';
     }
 
+    /* =========================================================
+       ENREGISTREMENT AVIS
+    ========================================================= */
 
-    // ===============================
-    // STORE AVIS
-    // ===============================
-
-    public function storeAvis(): void
+    public function store(): void
     {
-        if (!isset($_SESSION['id_utilisateur'])) {
-            header('Location: index.php?page=connexion');
-            exit;
-        }
+        $this->requireAuth();
 
-        $this->avisService->createAvis(
-            $_POST,
-            (int)$_SESSION['id_utilisateur']
-        );
-
-        header('Location: index.php?page=mes_commandes');
-        exit;
-    }
-
-    // ===============================
-    // ENREGISTRER AVIS
-    // ===============================
-    public function enregistrerAvis(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
-
-        if (!isset($_SESSION['id_utilisateur'])) {
-
-            header('Location: index.php?page=connexion');
-            exit;
-        }
-
-        $idCommande = (int)($_POST['id_commande'] ?? 0);
-
-        $note = (int)($_POST['note'] ?? 0);
-
-        $commentaire = trim($_POST['commentaire'] ?? '');
-
-        // Validation
-        if (
-            !$idCommande ||
-            $note < 1 ||
-            $note > 5 ||
-            empty($commentaire)
-        ) {
-
-            $_SESSION['error'] =
-                "Tous les champs sont obligatoires";
-
-            header(
-                "Location: index.php?page=ajouter_avis&id_commande=$idCommande"
+        try {
+            $this->avisService->createAvis(
+                $_POST,
+                (int)$_SESSION['id_utilisateur']
             );
 
-            exit;
+            $_SESSION['success'] = "Avis envoyé avec succès";
+
+        } catch (\Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
         }
 
-        // Vérifie commande utilisateur
-        $commande = $this->commandeRepo->findAllByUtilisateur(
-            (int)$_SESSION['id_utilisateur'],
-            $idCommande
-        );
-
-        if (!$commande) {
-
-            $_SESSION['error'] = "Commande invalide";
-
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
-
-        // Vérification statut terminé
-        if ($commande->getStatut() !== 'terminée') {
-
-            $_SESSION['error'] =
-                "Impossible de laisser un avis";
-
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
-
-        // Vérification doublon
-        if ($this->avisRepo->existeDeja($idCommande)) {
-
-            $_SESSION['error'] =
-                "Vous avez déjà laissé un avis";
-
-            header('Location: index.php?page=mes_commandes');
-            exit;
-        }
-
-        // Création avis
-        $avis = new Avis();
-
-        $avis->setIdCommande($idCommande);
-
-        $avis->setIdUtilisateur(
-            (int)$_SESSION['id_utilisateur']
-        );
-
-        $avis->setNote($note);
-
-        $avis->setCommentaire($commentaire);
-
-        // Sauvegarde
-        if ($this->avisRepo->create($avis)) {
-
-            $_SESSION['success'] =
-                "Votre avis a été envoyé avec succès";
-
-        } else {
-
-            $_SESSION['error'] =
-                "Erreur lors de l'envoi de l'avis";
-        }
-
-        header('Location: index.php?page=mes_commandes');
-        exit;
+        $this->redirect('mes_commandes');
     }
 
-    // ===============================
-    // LISTE AVIS ADMIN / EMPLOYÉ
-    // ===============================
-    public function gestionAvis(): void
+    /* =========================================================
+       ADMIN - LISTE AVIS
+    ========================================================= */
+
+    public function indexAdmin(): void
     {
-        if (!isset($_SESSION['id_utilisateur'])) {
+        $this->requireAuth();
 
-            header('Location: index.php?page=connexion');
-            exit;
-        }
-
-        // 2 = admin / 3 = employé
-        if (
-            !isset($_SESSION['id_role']) ||
-            !in_array((int)$_SESSION['id_role'], [2, 3])
-        ) {
-
+        if (!in_array((int)($_SESSION['id_role'] ?? 0), [2, 3])) {
             $_SESSION['error'] = "Accès interdit";
-
-            header('Location: index.php?page=home');
-            exit;
+            $this->redirect('home');
         }
 
-        $avis = $this->avisRepo->findAll();
+        $avis = $this->avisRepo->readAll();
 
-        require __DIR__ .
-            '/../../View/Avis/gestion_avis.php';
+        require __DIR__ . '/../../View/Avis/gestion_des_avis.php';
     }
 
-    // ===============================
-    // VALIDER AVIS
-    // ===============================
-    public function validerAvis(): void
+    /* =========================================================
+       ADMIN - VALIDER AVIS
+    ========================================================= */
+
+    public function update(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-            header('Location: index.php?page=gestion_avis');
-            exit;
+            $this->redirect('gestion_avis');
         }
 
         $idAvis = (int)($_POST['id_avis'] ?? 0);
 
         if (!$idAvis) {
-
             $_SESSION['error'] = "Avis invalide";
-
-            header('Location: index.php?page=gestion_avis');
-            exit;
+            $this->redirect('gestion_avis');
         }
 
-        if ($this->avisRepo->valider($idAvis)) {
+        $this->avisRepo->valider($idAvis)
+            ? $_SESSION['success'] = "Avis validé avec succès"
+            : $_SESSION['error'] = "Erreur lors de la validation";
 
-            $_SESSION['success'] =
-                "Avis validé avec succès";
-
-        } else {
-
-            $_SESSION['error'] =
-                "Erreur lors de la validation";
-        }
-
-        header('Location: index.php?page=gestion_avis');
-        exit;
+        $this->redirect('gestion_avis');
     }
 
-    // ===============================
-    // SUPPRIMER AVIS
-    // ===============================
-    public function supprimerAvis(): void
+    /* =========================================================
+       ADMIN - SUPPRIMER AVIS
+    ========================================================= */
+
+    public function delete(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-            header('Location: index.php?page=gestion_avis');
-            exit;
+            $this->redirect('gestion_avis');
         }
 
         $idAvis = (int)($_POST['id_avis'] ?? 0);
 
         if (!$idAvis) {
-
             $_SESSION['error'] = "Avis invalide";
-
-            header('Location: index.php?page=gestion_avis');
-            exit;
+            $this->redirect('gestion_avis');
         }
 
-        if ($this->avisRepo->delete($idAvis)) {
+        $this->avisRepo->delete($idAvis)
+            ? $_SESSION['success'] = "Avis supprimé avec succès"
+            : $_SESSION['error'] = "Erreur lors de la suppression";
 
-            $_SESSION['success'] =
-                "Avis supprimé avec succès";
-
-        } else {
-
-            $_SESSION['error'] =
-                "Erreur lors de la suppression";
-        }
-
-        header('Location: index.php?page=gestion_avis');
-        exit;
+        $this->redirect('gestion_avis');
     }
+
+
 }

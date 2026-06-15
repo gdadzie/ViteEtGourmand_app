@@ -204,11 +204,11 @@ switch ($page) {
     // ===============================
 
     case 'avis':
-        $avisController->index();
+        $avisController->create();
         break;
 
     case 'ajouter_avis':
-        $avisController->createAvis();
+        $avisController->store();
         break;
 
     case 'enregistrer_avis':
@@ -217,7 +217,7 @@ switch ($page) {
         break;
 
     case 'gestion_avis':
-        $avisController->gestionAvis();
+        $avisController->indexAdmin();
         break;
 
     case 'valider_avis':

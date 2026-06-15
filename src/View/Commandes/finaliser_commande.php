@@ -126,8 +126,7 @@
                                     name="adresse_livraison"
                                     id="adresse_livraison"
                                     class="form-control"
-                                    value="<?= htmlspecialchars($adresse) ?>"
-                            >
+                                    value="<?= htmlspecialchars($numeroRue.' '.$nomRue. ' ' . $codePostal );?>">
                             <div class="mb-3">
                                 <label class="form-label">Ville de livraison</label>
                             <select name="id_ville" id="id_ville" class="form-select">

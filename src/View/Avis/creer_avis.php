@@ -3,12 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Détail commande</title>
+    <title>Laisser un avis</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-
 
     <style>
         .review-form-card{
@@ -47,9 +45,11 @@
     </style>
 </head>
 
-<section class="section-slab bg-tint">
-    <div class="container px-2 px-md-4">
+<body>
 
+<section class="section-slab bg-tint">
+
+    <div class="container px-2 px-md-4">
 
         <div class="row justify-content-center">
 
@@ -65,7 +65,14 @@
                         Votre retour nous aide à améliorer nos services.
                     </p>
 
-                    <form method="POST" action="/avis/create">
+                    <form method="POST" action="index.php?page=ajouter_avis">
+
+                        <!-- ID COMMANDE -->
+                        <input
+                                type="hidden"
+                                name="id_commande"
+                                value="<?= $commande->getIdCommande() ?>"
+                        >
 
                         <div class="mb-4">
 
@@ -73,17 +80,17 @@
                                 Votre note
                             </label>
 
-                            <select name="note"
+                            <select
+                                    name="note"
                                     class="form-select custom-input"
-                                    required>
-
+                                    required
+                            >
                                 <option value="">Choisir une note</option>
                                 <option value="5">★★★★★ - Excellent</option>
                                 <option value="4">★★★★☆ - Très bien</option>
                                 <option value="3">★★★☆☆ - Bien</option>
                                 <option value="2">★★☆☆☆ - Moyen</option>
                                 <option value="1">★☆☆☆☆ - Décevant</option>
-
                             </select>
 
                         </div>
@@ -94,22 +101,24 @@
                                 Votre commentaire
                             </label>
 
-                            <textarea name="commentaire"
-                                      rows="5"
-                                      class="form-control custom-input"
-                                      placeholder="Partagez votre expérience..."
-                                      required></textarea>
+                            <textarea
+                                    name="commentaire"
+                                    rows="5"
+                                    class="form-control custom-input"
+                                    placeholder="Partagez votre expérience..."
+                                    required
+                            ></textarea>
 
                         </div>
 
                         <div class="text-center">
 
-                            <button type="submit"
-                                    class="btn btn-submit-review">
-
+                            <button
+                                    type="submit"
+                                    class="btn btn-submit-review"
+                            >
                                 <i class="bi bi-send-fill me-2"></i>
                                 Publier mon avis
-
                             </button>
 
                         </div>
@@ -124,5 +133,7 @@
 
     </div>
 
-
 </section>
+
+</body>
+</html>

@@ -181,35 +181,6 @@ $stats = $stats ?? [
             </a>
         </div>
 
-        <!-- Commandes à noter -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=ajouter_avis">
-                <div class="card card-tile h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="icon-badge">
-                                <i class="bi bi-star-half fs-4 accent"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Donner mon avis</h5>
-                                <div class="muted small">Note 1 à 5 + commentaire</div>
-                            </div>
-                        </div>
-                        <p class="card-text muted mb-0">
-                            Quand une commande est terminée, vous pouvez laisser un avis depuis son détail.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-outline-secondary w-100">
-                            Voir les commandes à noter
-                            <span class="ms-2 badge text-bg-light border">
-                                <?= $stats['a_noter'] ?? '—' ?>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
 
         <!-- Suivi des commandes (info) -->
         <div class="col-12 col-md-6 col-lg-4">

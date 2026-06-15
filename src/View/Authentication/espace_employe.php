@@ -193,13 +193,13 @@
 
         <!-- Carte 3 : Modifier contacts -->
         <div class="col-12 col-md-6 col-xl-4">
-            <a href="index.php?page=modify_contacts" class="card-link">
+            <a href="index.php?page=gestion_avis" class="card-link">
                 <div class="card-emp">
                     <div class="d-flex align-items-start gap-3">
                         <div class="icon-badge"><i class="bi bi-telephone"></i></div>
                         <div>
-                            <h5 class="card-title">Modifier contacts</h5>
-                            <p class="card-text">Mettez à jour les informations de contact de l’entreprise.</p>
+                            <h5 class="card-title">Gestion des avis</h5>
+                            <p class="card-text">Validez les avis des clients</p>
                             <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
                         </div>
                     </div>

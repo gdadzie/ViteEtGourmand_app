@@ -32,6 +32,7 @@ class AvisRepository
         $avis->setCommentaire($data['commentaire']);
 
         $avis->setEstValide((bool)$data['est_valide']);
+        $avis->setDateCreation((int)$data['date_creation']);
 
         return $avis;
     }
@@ -48,7 +49,8 @@ class AvisRepository
                 id_utilisateur,
                 note,
                 commentaire,
-                est_valide
+                est_valide,
+                date_creation
             )
             VALUES
             (
@@ -56,7 +58,8 @@ class AvisRepository
                 :id_utilisateur,
                 :note,
                 :commentaire,
-                0
+                0,
+                now()
             )
         ");
 
@@ -71,6 +74,8 @@ class AvisRepository
             'commentaire' => $avis->getCommentaire()
         ]);
     }
+
+
 
     // ===============================
     // VALIDER AVIS
@@ -108,7 +113,7 @@ class AvisRepository
     // ===============================
     // TOUS LES AVIS
     // ===============================
-    public function findAll(): array
+    public function readAll(): array
     {
         $stmt = $this->conn->query("
             SELECT *
@@ -155,7 +160,7 @@ class AvisRepository
     // ===============================
     // TROUVER PAR ID
     // ===============================
-    public function findById(int $id): ?Avis
+    public function readById(int $id): ?Avis
     {
         $stmt = $this->conn->prepare("
             SELECT *
@@ -173,6 +178,23 @@ class AvisRepository
             return null;
         }
 
+        return $this->hydrate($data);
+    }
+
+    public function findAvisByCommande(int $idCommande): ?Avis
+    {
+        $stmt = $this->conn->prepare("
+            SELECT *
+            FROM avis
+            WHERE id_commande = :id_commande
+        ");
+        $stmt->execute([
+            'id_commande' => $idCommande
+        ]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$data) {
+            return null;
+        }
         return $this->hydrate($data);
     }
 
