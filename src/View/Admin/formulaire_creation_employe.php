@@ -118,8 +118,24 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             </div>
 
             <div class="mb-3">
-                <label for="adresse" class="form-label">Adresse</label>
-                <textarea class="form-control" id="adresse" name="adresse" rows="3"></textarea>
+                <label for="id_ville" class="form-label">Ville</label>
+
+                <select name="id_ville" id="id_ville" class="form-select" required>
+                    <option value="">-- Sélectionner une ville --</option>
+
+                    <?php
+                    $selectedVille = $_POST['id_ville'] ?? '';
+                    ?>
+
+                    <?php foreach ($villes as $ville): ?>
+                        <option
+                                value="<?= $ville['id_ville'] ?>"
+                                <?= $selectedVille == $ville['id_ville'] ? 'selected' : '' ?>
+                        >
+                            <?= htmlspecialchars($ville['nom_ville']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="mb-3">

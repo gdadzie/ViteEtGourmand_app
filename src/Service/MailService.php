@@ -7,44 +7,69 @@ use PHPMailer\PHPMailer\Exception;
 
 class MailService
 {
-    public function envoyerMailCreationCompte(string $email, string $nomComplet): bool
+    public function envoyerMailCreationCompte(
+        string $email,
+        string $nomComplet,
+        string $type = 'employe'
+    ): bool
     {
         $mail = new PHPMailer(true);
 
         try {
             // ======================
-            // CONFIGURATION SMTP
+            // CONFIG SMTP
             // ======================
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'egsdigitalagency@gmail.com'; // ← À MODIFIER
-            $mail->Password   = 'zgfvsiquymarqvug';  // ← À MODIFIER
+            $mail->Username   = 'egsdigitalagency@gmail.com';
+            $mail->Password   = $_ENV['SMTP_PASSWORD']; // ⚠️ recommandé (pas en dur)
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             // ======================
-            // EXPÉDITEUR / DESTINATAIRE
+            // EXPÉDITEUR
             // ======================
-            $mail->setFrom('TON_EMAIL_GMAIL@gmail.com', 'Vite & Gourmand');
+            $mail->setFrom('egsdigitalagency@gmail.com', 'Vite & Gourmand');
             $mail->addAddress($email, $nomComplet);
 
             // ======================
-            // CONTENU DU MAIL
+            // FORMAT EMAIL
             // ======================
-            $mail->isHTML(false);
-            $mail->Subject = 'Création de votre compte employé';
+            $mail->isHTML(true);
 
-            $mail->Body =
-                "Bonjour $nomComplet,
+            // ======================
+            // SUJET SELON TYPE
+            // ======================
+            if ($type === 'employe') {
+                $mail->Subject = 'Création de votre compte employé';
+            } else {
+                $mail->Subject = 'Bienvenue sur Vite & Gourmand';
+            }
 
-Un compte employé a été créé pour vous sur l'application Vite & Gourmand.
+            // ======================
+            // CONTENU HTML
+            // ======================
+            $mail->Body = "
+                <h2>Bonjour {$nomComplet}</h2>
 
-Pour des raisons de sécurité, votre mot de passe ne vous est pas communiqué par email.
-Merci de vous rapprocher de l'administrateur afin de l'obtenir.
-<a href='https://vite-et-gourmand-35a20c0f19db.herokuapp.com/index.php?page=home'>Cliquez ici pour vous connecter.</a>
-Cordialement,
-L'équipe Vite & Gourmand";
+                <p>Votre compte a été créé avec succès sur <strong>Vite & Gourmand</strong>.</p>
+
+                <p>
+                    Pour des raisons de sécurité, votre mot de passe ne vous est pas communiqué par email.<br>
+                    Merci de contacter l'administrateur si nécessaire.
+                </p>
+
+                <p>
+                    <a href='https://vite-et-gourmand-35a20c0f19db.herokuapp.com/index.php?page=connexion'>
+                        Se connecter
+                    </a>
+                </p>
+
+                <br>
+
+                <p>Cordialement,<br>L'équipe Vite & Gourmand</p>
+            ";
 
             $mail->send();
             return true;

@@ -169,6 +169,8 @@ class CommandesController
 
             $villes = $this->villesRepo->findAll();
 
+
+
             require __DIR__ . '/../../View/Commandes/finaliser_commande.php';
 
             return;
@@ -202,30 +204,7 @@ class CommandesController
                 $_POST['mode_paiement'] ?? 'paiement_livraison'
             );
 
-            // =================================================
-            // VALIDATION VILLE
-            // =================================================
-            if ($idVille <= 0) {
 
-                $_SESSION['error'] = "Ville invalide";
-
-                header('Location: index.php?page=liste_des_menus');
-
-                exit;
-            }
-
-            $villeEntity = $this->villesRepo->findById($idVille);
-
-            if (!$villeEntity) {
-
-                $_SESSION['error'] = "Ville introuvable";
-
-                header('Location: index.php?page=liste_des_menus');
-
-                exit;
-            }
-
-            $nomVille = strtolower($villeEntity['nom_ville']);
 
             // =================================================
             // VALIDATION

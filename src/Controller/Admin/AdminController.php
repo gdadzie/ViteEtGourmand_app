@@ -62,26 +62,43 @@ class AdminController
     {
         AuthService::requireAdmin();
 
+        // Chargement des villes pour le formulaire
+        $villes = $this->villesRepo->findAll();
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
 
-        $prenom     = trim($_POST['prenom'] ?? '');
-        $nom        = trim($_POST['nom'] ?? '');
-        $telephone  = trim($_POST['telephone'] ?? '');
-        $numero_rue = trim($_POST['numero_rue'] ?? '');
-        $nom_rue    = trim($_POST['nom_rue'] ?? '');
+        $prenom      = trim($_POST['prenom'] ?? '');
+        $nom         = trim($_POST['nom'] ?? '');
+        $telephone   = trim($_POST['telephone'] ?? '');
+        $numero_rue  = trim($_POST['numero_rue'] ?? '');
+        $nom_rue     = trim($_POST['nom_rue'] ?? '');
         $code_postal = trim($_POST['code_postal'] ?? '');
-        $id_ville   = trim($_POST['id_ville'] ?? '');
-        $adresse    = trim($_POST['adresse'] ?? '');
-        $email      = trim($_POST['email'] ?? '');
-        $mdp        = $_POST['mdp'] ?? '';
-        $role       = (int) 2;
+        $idVille     = (int)($_POST['id_ville'] ?? 0);
+        $email       = trim($_POST['email'] ?? '');
+        $mdp         = $_POST['mdp'] ?? '';
+        $role        = 2;
 
         // Vérification email existant
         if ($email !== '' && $this->utilisateursRepo->readByEmail($email)) {
             $error = "Cet email est déjà utilisé.";
+            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            return;
+        }
+
+        // Validation ville
+        if ($idVille <= 0) {
+            $error = "Veuillez sélectionner une ville.";
+            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            return;
+        }
+
+        $villeEntity = $this->villesRepo->findById($idVille);
+
+        if (!$villeEntity) {
+            $error = "La ville sélectionnée est introuvable.";
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
@@ -99,19 +116,24 @@ class AdminController
             $numero_rue,
             $nom_rue,
             $code_postal,
-            (int)$id_ville
+            $idVille
         );
 
         if ($this->utilisateursRepo->create($u)) {
 
-            // NOTIFICATION PAR EMAIL
-            $mailService = new MailService();
-            $mailService->envoyerMailCreationCompte(
-                $email,
-                $prenom . ' ' . $nom
-            );
+            try {
+                $mailService = new MailService();
 
-            $success = "Le compte employé a été créé et l'email de notification a été envoyé.";
+                $mailService->envoyerMailCreationCompte(
+                    $email,
+                    $prenom . ' ' . $nom
+                );
+
+                $success = "Le compte employé a été créé et l'email de notification a été envoyé.";
+            } catch (\Exception $e) {
+                $success = "Le compte employé a été créé, mais l'email n'a pas pu être envoyé.";
+            }
+
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
@@ -136,6 +158,20 @@ class AdminController
             $nom,
             $email,
             $estActif
+        );
+
+        //envoyer un mail a chaque utilisateur
+        $mailService = new MailService();
+        $mailService->envoyerMailCreationCompte(
+            $email,
+            $prenom . ' ' . $nom,
+            'employe'
+        );
+
+        $mailService->envoyerMailCreationCompte(
+            $email,
+            $prenom . ' ' . $nom,
+            'utilisateur'
         );
 
         require __DIR__ . '/../../View/Utilisateurs/liste_des_utilisateurs.php';
