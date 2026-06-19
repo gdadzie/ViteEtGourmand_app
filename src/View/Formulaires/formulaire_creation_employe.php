@@ -323,11 +323,40 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                                 </select>
                             </div>
 
-                            <div class="col-12">
-                                <label for="adresse" class="form-label">Adresse</label>
-                                <textarea class="form-control" id="adresse" name="adresse" rows="3"></textarea>
+                            <div class="row g-3">
+
+                                <div class="col-md-3">
+                                    <label class="form-label">N° rue</label>
+                                    <input type="text"
+                                           name="numero_rue"
+                                           class="form-control">
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label class="form-label">Nom rue</label>
+                                    <input type="text"
+                                           name="nom_rue"
+                                           class="form-control">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Code postal</label>
+                                    <input type="text"
+                                           name="code_postal"
+                                           class="form-control">
+                                </div>
+
+                                <select name="id_ville" class="form-select" required>
+                                    <option value="">Choisir une ville</option>
+
+                                    <?php foreach ($villes as $ville): ?>
+                                        <option value="<?= $ville['id_ville'] ?>">
+                                            <?= htmlspecialchars($ville['nom_ville']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
                             </div>
-                        </div>
 
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-4">
 

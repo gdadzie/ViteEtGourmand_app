@@ -86,6 +86,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
         .reçue { background:#fff3cd; color:#856404; }
         .acceptée { background:#e7ddff; color:#5a33b1; }
+        .payée { background: #ffefdd; color: #e89032; }
         .en_preparation { background:#dbeafe; color:#0b5ed7; }
         .en_livraison { background:#d1fae5; color:#198754; }
         .livrée { background:#d1e7dd; color:#146c43; }
@@ -189,7 +190,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                             <!-- MENU -->
                             <td>
-                                <strong>#<?= $e($commande->getIdMenu()) ?></strong>
+                                <strong>#<?= $e($commande->getTitreMenu()) ?></strong>
                             </td>
 
                             <!-- PRIX -->
@@ -215,13 +216,17 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                             <!-- AVIS -->
                             <td>
-                                <?php if ($commande->getStatut() === 'terminée'): ?>
-                                    <a class="btn btn-warning btn-sm rounded-pill"
+                                <?php if ($commande->getStatut() === 'terminee'): ?>
+                                    <a class="btn btn-secondary btn-sm rounded-pill"
                                        href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>">
                                         ⭐ Avis
                                     </a>
-                                <?php else: ?>
-                                    <span class="text-muted small">Non disponible</span>
+                                <?php else: ($avisValide->getEstValide() === '1')?>
+                                <a class="btn btn-warning btn-sm rounded-pill"
+                                   href="index.php?page=detail_avis&id_commande=<?= $commande->getIdCommande() ?>">
+                                    ⭐ Avis
+                                </a>
+
                                 <?php endif; ?>
                             </td>
 

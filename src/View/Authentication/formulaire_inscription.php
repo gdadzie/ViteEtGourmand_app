@@ -131,7 +131,22 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="adresse" class="form-label">Adresse</label>
+                        <label for="numero_rue" class="form-label">N°rue</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nom_rue" class="form-label">Rue</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="code_postale" class="form-label">Code Postale</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_ville" class="form-label">Ville</label>
                         <input type="text" class="form-control" id="adresse" name="adresse">
                     </div>
 

@@ -6,18 +6,21 @@ class Commande
 {
     private int $id_commande, $id_utilisateur, $id_menu, $id_ville, $nombre_personnes;
     private float $prix_total, $frais_livraison, $reduction_appliquee, $pret_materiel;
-    private string $adresse_livraison;
+    private string $adresse_livraison, $titreMenu;
     private ?string $date_livraison = null, $heure_livraison = null;
     private string $mode_reception, $mode_paiement, $statut_paiement;
     private string $statut, $date_creation;
+
 
     public function __construct(
         int $id_commande = 0,
         int $id_utilisateur = 0,
         int $id_menu = 0,
+
         int $id_ville = 0,
         int $nombre_personnes = 0,
         float $prix_total = 0.0,
+        string $titreMenu = '',
         string $adresse_livraison = '',
         ?string $date_livraison = '',
         ?string $heure_livraison = '',
@@ -37,6 +40,7 @@ class Commande
         $this->id_ville = $id_ville;
         $this->nombre_personnes = $nombre_personnes;
         $this->prix_total = $prix_total;
+        $this->titreMenu = $titreMenu;
         $this->adresse_livraison = $adresse_livraison;
         $this->date_livraison = $date_livraison;
         $this->heure_livraison = $heure_livraison;
@@ -58,6 +62,8 @@ class Commande
     public function getIdVille(): int { return $this->id_ville; }
     public function getNombrePersonnes(): int { return $this->nombre_personnes; }
     public function getPrixTotal(): float { return $this->prix_total; }
+
+    public function getTitreMenu(): string { return $this->titreMenu; }
 
     public function getAdresseLivraison(): string { return $this->adresse_livraison; }
     public function getDateLivraison(): ?string { return $this->date_livraison; }
@@ -81,6 +87,7 @@ class Commande
     public function setNombrePersonnes(int $nombre_personnes): self { $this->nombre_personnes = $nombre_personnes; return $this; }
     public function setPrixTotal(float $prix_total): self { $this->prix_total = $prix_total; return $this; }
 
+    public function setTitreMenu(string $titreMenu): self { $this->titreMenu = $titreMenu; return $this; }
     public function setAdresseLivraison(string $adresse_livraison): self { $this->adresse_livraison = $adresse_livraison; return $this; }
 
     public function setDateLivraison(?string $date_livraison): self { $this->date_livraison = $date_livraison; return $this; }

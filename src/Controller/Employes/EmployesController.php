@@ -6,6 +6,7 @@ namespace Controller\Employes;
 use Repository\HorairesRepository;
 use Repository\UtilisateursRepository;
 use Repository\MenusRepository;
+use Service\Authentification\AuthService;
 
 class EmployesController
 {
@@ -24,6 +25,8 @@ class EmployesController
     // Récupérer tous les employés
     public function index(): void
     {
+        AuthService::requireEmploye();
+
         $employes = $this->utilisateursRepo->readByRoleEmploye(); // id_role = 2 pour employé
         require __DIR__ . '/../../View/Authentication/espace_employe.php';
     }
@@ -31,6 +34,7 @@ class EmployesController
     // Récupérer tous les employés
     public function gestionDesMenus(): void
     {
+        AuthService::requireAdminEmploye();
         $employes = $this->utilisateursRepo->readByRole(2); // id_role = 2 pour employé
         require __DIR__ . '/../../View/Admin/gestion_des_menus.php';
     }

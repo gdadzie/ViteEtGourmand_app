@@ -2,8 +2,10 @@
 
 namespace Controller\Commandes;
 
+use Entity\Avis;
 use Entity\Commande;
 use Entity\Villes;
+use Repository\AvisRepository;
 use Repository\CommandesRepository;
 use Repository\CommandeStatutMongoRepository;
 use Repository\MenusRepository;
@@ -16,6 +18,8 @@ class CommandesController
     private MenusRepository $menusRepo;
     private UtilisateursRepository $utilisateursRepo;
     private VillesRepository $villesRepo;
+    private AvisRepository $avisRepo;
+    private Avis $avis;
 
     // =========================================================
     // CONSTRUCTEUR
@@ -24,12 +28,16 @@ class CommandesController
         CommandesRepository $commandeRepo,
         MenusRepository $menusRepo,
         UtilisateursRepository $utilisateursRepo,
-        VillesRepository $villesRepo
+        VillesRepository $villesRepo,
+        AvisRepository $avisRepo,
+        Avis $avis
     ) {
         $this->commandeRepo = $commandeRepo;
         $this->menusRepo = $menusRepo;
         $this->utilisateursRepo = $utilisateursRepo;
         $this->villesRepo = $villesRepo;
+        $this->avisRepo = $avisRepo;
+        $this->avis = $avis;
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -56,6 +64,11 @@ class CommandesController
 
         // Récupération des donnés dans le repository
         $commandes = $this->commandeRepo->readAll();
+        $this->menusRepo->readByTitre((int)$_GET['id']);
+
+
+
+
 
         // Affichage de la vue
         require __DIR__ . '/../../View/Commandes/gestion_des_commandes.php';
@@ -355,32 +368,51 @@ class CommandesController
             exit;
         }
 
+        //Récupére l'id_commande via le formulaire POST
         $id = (int)($_POST['id_commande'] ?? 0);
 
+        //Vérifie si l'id_commande est valide
         if (!$id) {
             $_SESSION['error'] = "ID invalide";
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
 
+        //supprime la commande
         if ($this->commandeRepo->delete($id)) {
             $_SESSION['success'] = "Commande supprimée avec succès";
         } else {
             $_SESSION['error'] = "Commande introuvable";
         }
 
-        header('Location: index.php?page=gestion_des_commandes');
+        // Récupère l'identifiant du rôle de l'utilisateur connecté depuis la session
+        $idRole = (int)($_SESSION['id_role'] ?? 0);
+
+        //Redirection en fonction du role de l'utilisateur
+        if($idRole === 1) {
+            header('Location: index.php?page=espace_utilisateur');
+        }
+        elseif ($idRole === 2) {
+            header('Location: index.php?page=espace_employe');
+        } elseif ($idRole === 3) {
+            header('Location: index.php?page=admin');
+        } else {
+            header('Location: index.php?page=gestion_des_commandes');
+        }
+
         exit;
     }
+
+
     // =========================================================
     // MODIFIER STATUT COMMANDE
     // =========================================================
+    // =========================================================
+    // MODIFICATION STATUT
+    // =========================================================
     public function modifierStatutCommande(): void
     {
-        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-
-        if ($method !== 'POST') {
-            http_response_code(405);
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
@@ -403,13 +435,14 @@ class CommandesController
 
         $ancien = $commande->getStatut();
 
+        // ✅ STATUTS NORMALISÉS
         $map = [
-            'reçue' => 'acceptée',
-            'acceptée' => 'en_preparation',
-            'en_preparation' => 'en_livraison',
-            'en_livraison' => 'livrée',
-            'livrée' => 'attente_retour',
-            'attente_retour' => 'terminée'
+            'recue' => 'acceptee',
+            'acceptee' => 'payee',
+            'payee' => 'en_preparation',
+            'en_preparation' => 'livree',
+            'livree' => 'attente_retour',
+            'attente_retour' => 'terminee'
         ];
 
         if (!isset($map[$ancien])) {
@@ -450,23 +483,14 @@ class CommandesController
 
         $idUtilisateur = (int)$_SESSION['id_utilisateur'];
 
+        $avisValide = $this->avis;
         $commandes = $this->commandeRepo->readAllCommandeByUtilisateur($idUtilisateur);
 
 
         require __DIR__ . '/../../View/Commandes/liste_des_commandes_par_utilisateur.php';
     }
 
-    public function listeDesCommandesParUtilisateur(): void
-    {
-        if (!isset($_SESSION['id_utilisateur'])) {
-            header('Location: index.php?page=connexion');
-            exit;
-        }
 
-        $idUtilisateur = (int)$_SESSION['id_utilisateur'];
-
-        $commandes = $this->commandeRepo->readById();
-    }
 
     // =========================================================
     // VALIDATION PAIEMENT

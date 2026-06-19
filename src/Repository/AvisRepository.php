@@ -136,7 +136,7 @@ class AvisRepository
     // ===============================
     // AVIS VALIDÉS
     // ===============================
-    public function findValides(): array
+    public function findByAvisValide(): array
     {
         $stmt = $this->conn->query("
             SELECT *

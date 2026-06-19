@@ -25,7 +25,7 @@ class HomeController
         // AVIS VALIDÉS
         // =========================
         $avisValides =
-            $this->avisRepo->findValides();
+            $this->avisRepo->findByAvisValide();
 
         View::render('home/home', [
             'currentPage'     => 'home',

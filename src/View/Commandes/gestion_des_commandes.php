@@ -84,24 +84,13 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
             font-size: 0.8rem;
         }
 
-        .reçue { background:#fff3cd; color:#856404; }
-        .acceptée { background:#e7ddff; color:#5a33b1; }
+        .recue { background:#fff3cd; color:#856404; }
+        .acceptee { background:#e7ddff; color:#5a33b1; }
+        .payee { background:#e2e3e5; color:#333; }
         .en_preparation { background:#dbeafe; color:#0b5ed7; }
-        .en_livraison { background:#d1fae5; color:#198754; }
-        .livrée { background:#d1e7dd; color:#146c43; }
-        .terminée { background:#343a40; color:white; }
-
-        .btn-accent {
-            background:#aa6d27;
-            border-color:#aa6d27;
-            color:white;
-        }
-
-        .btn-accent:hover {
-            background:#935f22;
-            border-color:#935f22;
-            color:white;
-        }
+        .livree { background:#d1e7dd; color:#146c43; }
+        .attente_retour { background:#f8d7da; color:#842029; }
+        .terminee { background:#343a40; color:white; }
 
         .actions {
             display: flex;
@@ -120,22 +109,16 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
 <div class="container container-custom my-5">
 
-    <!-- TOPBAR -->
     <div class="topbar mb-4 d-flex justify-content-between align-items-center">
-
         <div>
             <div class="d-flex align-items-center mb-1">
                 <span class="brand-dot"></span>
                 <h1 class="page-title mb-0">Gestion des commandes</h1>
             </div>
-            <div class="muted">
-                Suivi et gestion des commandes clients
-            </div>
+            <div class="muted">Suivi et gestion des commandes clients</div>
         </div>
-
     </div>
 
-    <!-- ALERTS -->
     <?php if ($success): ?>
         <div class="alert alert-success"><?= $e($success) ?></div>
     <?php endif; ?>
@@ -144,7 +127,6 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
         <div class="alert alert-danger"><?= $e($error) ?></div>
     <?php endif; ?>
 
-    <!-- TABLE -->
     <div class="table-card">
         <div class="table-responsive">
 
@@ -153,6 +135,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                 <thead>
                 <tr>
                     <th>Commande</th>
+                    <th>Menus</th>
                     <th>Client</th>
                     <th>Date création</th>
                     <th>Statut</th>
@@ -167,36 +150,42 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                     <?php foreach ($commandes as $commande): ?>
 
+                        <?php
+                        // NORMALISATION ULTRA IMPORTANTE
+                        $statut = strtolower(trim($commande->getStatut()));
+
+                        $statut = str_replace(
+                                ['é','è','ê','à',' '],
+                                ['e','e','e','a','_'],
+                                $statut
+                        );
+                        ?>
+
                         <tr>
 
-                            <!-- ID -->
                             <td><strong>#<?= $e($commande->getIdCommande()) ?></strong></td>
+                            <td><strong>#<?= $e($commande->getTitreMenu()) ?></strong></td>
 
-                            <!-- USER -->
                             <td class="small-text">
                                 <?= $e($commande->getIdUtilisateur()) ?>
                             </td>
 
-                            <!-- DATE -->
                             <td class="small-text">
                                 <?= $e($commande->getDateCreation()) ?>
                             </td>
 
-                            <!-- STATUS -->
                             <td>
-                                <span class="status <?= $commande->getStatut() ?>">
-                                    <?= $e(ucfirst(str_replace('_',' ',$commande->getStatut()))) ?>
+                                <span class="status <?= $statut ?>">
+                                    <?= $e(ucfirst(str_replace('_',' ',$statut))) ?>
                                 </span>
                             </td>
 
-                            <!-- PRICE -->
                             <td>
                                 <strong>
                                     <?= number_format($commande->getPrixTotal(), 2, ',', ' ') ?> €
                                 </strong>
                             </td>
 
-                            <!-- ACTIONS -->
                             <td>
                                 <div class="actions">
 
@@ -205,45 +194,49 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                         <i class="bi bi-eye"></i>
                                     </a>
 
-                                    <?php if ($commande->getStatut() === 'reçue'): ?>
-                                        <form method="POST"
-                                              action="index.php?page=modifier_statut_commande">
+                                    <?php if ($statut === 'recue'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-success">
-                                                Accepter
-                                            </button>
+                                            <button class="btn btn-sm btn-success">Accepter</button>
                                         </form>
                                     <?php endif; ?>
 
-                                    <?php if ($commande->getStatut() === 'acceptée'): ?>
-                                        <form method="POST"
-                                              action="index.php?page=modifier_statut_commande">
+                                    <?php if ($statut === 'acceptee'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-primary">
-                                                Préparer
-                                            </button>
+                                            <button class="btn btn-sm btn-primary">Préparer</button>
                                         </form>
                                     <?php endif; ?>
 
-                                    <?php if ($commande->getStatut() === 'en_preparation'): ?>
-                                        <form method="POST"
-                                              action="index.php?page=modifier_statut_commande">
+                                    <?php if ($statut === 'payee'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-warning">
-                                                Livraison
-                                            </button>
+                                            <button class="btn btn-sm btn-dark">Payée</button>
                                         </form>
                                     <?php endif; ?>
 
-                                    <?php if ($commande->getStatut() === 'en_livraison'): ?>
-                                        <form method="POST"
-                                              action="index.php?page=modifier_statut_commande">
+                                    <?php if ($statut === 'en_preparation'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-dark">
-                                                Livrée
-                                            </button>
+                                            <button class="btn btn-sm btn-warning">En préparation</button>
                                         </form>
                                     <?php endif; ?>
+
+                                    <?php if ($statut === 'livree'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
+                                            <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
+                                            <button class="btn btn-sm btn-dark">Livrée</button>
+                                        </form>
+                                    <?php endif; ?>
+
+                                    <?php if ($statut === 'attente_retour'): ?>
+                                        <form method="POST" action="index.php?page=modifier_statut_commande">
+                                            <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
+                                            <button class="btn btn-sm btn-dark">Retour</button>
+                                        </form>
+                                    <?php endif; ?>
+
+
 
                                 </div>
                             </td>

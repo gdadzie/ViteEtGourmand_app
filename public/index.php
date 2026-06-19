@@ -23,32 +23,40 @@ require_once ROOT . '/vendor/autoload.php';
 // USE - CONTROLLERS, REPOSITORIES, DATABASE
 // ===============================
 use Config\Database;
-
-// Repositories
+use Controller\Admin\AdminController;
+use Controller\Authentification\AuthController;
+use Controller\Avis\AvisController;
+use Controller\Commandes\CommandesController;
+use Controller\Contact\ContactController;
+use Controller\Employes\EmployesController;
+use Controller\Home\HomeController;
+use Controller\Horaires\HorairesController;
+use Controller\Menus\MenusController;
+use Controller\Plats\PlatsController;
+use Controller\Utilisateurs\UtilisateursController;
+use Entity\Avis;
+use Entity\Commande;
+use Entity\Menus;
+use Entity\Plats;
+use Entity\Utilisateurs;
+use Entity\Villes;
 use Repository\AvisRepository;
+use Repository\CommandesRepository;
+use Repository\HorairesRepository;
 use Repository\MenusRepository;
 use Repository\PlatsRepository;
 use Repository\UtilisateursRepository;
-use Repository\HorairesRepository;
-use Repository\CommandesRepository;
 use Repository\VillesRepository;
-
-// Controllers
-use Controller\Admin\AdminController;
-use Controller\Employes\EmployesController;
-use Controller\Horaires\HorairesController;
-use Controller\Home\HomeController;
-use Controller\Utilisateurs\AuthController;
-use Controller\Utilisateurs\UtilisateursController;
-use Controller\Menus\MenusController;
-use Controller\Plats\PlatsController;
-use Controller\Commandes\CommandesController;
-use Controller\Avis\AvisController;
-use Controller\Contact\ContactController;
-
-// Services
 use Service\Avis\AvisService;
 use Service\Menus\MenusService;
+
+// Entities
+
+// Repositories
+
+// Controllers
+
+// Services
 
 // ===============================
 // CONNEXION DB
@@ -64,6 +72,15 @@ if (!$conn) {
     die("Connexion base de données échouée : " . Database::getLastError());
 }
 
+
+
+$avis = new Avis();
+$menus = new Menus();
+$plats = new Plats();
+$utilisateurs = new Utilisateurs();
+
+$commande = new Commande();
+$villes = new Villes();
 // ===============================
 // REPOSITORIES
 // ===============================
@@ -103,7 +120,7 @@ $employesController = new EmployesController(
 
 $horairesController = new HorairesController($horairesRepo);
 
-// 👉 IMPORTANT : controller doit recevoir SERVICE, pas repo
+
 $menusController = new MenusController($menuService);
 
 $platsController = new PlatsController($conn);
@@ -112,7 +129,9 @@ $commandesController = new CommandesController(
     $commandeRepo,
     $menusRepo,
     $utilisateursRepo,
-    $villesRepo
+    $villesRepo,
+    $avisRepo,
+    $avis
 );
 
 $avisController = new AvisController(
@@ -175,6 +194,10 @@ switch ($page) {
         $authController->connexion();
         break;
 
+    case 'reinitialiser_mot_de_passe':
+        $authController->resetPassword();
+        break;
+
     case 'espace_utilisateur':
         $authController->success();
         break;
@@ -213,6 +236,10 @@ switch ($page) {
 
     case'mon_historique_avis':
         $avisController->showAvisByUtilisateur();
+        break;
+
+    case 'detail_avis':
+        $avisController->showAvisByIdCommande();
         break;
 
     case 'enregistrer_avis':

@@ -2,8 +2,10 @@
 
 namespace Repository;
 
+
 use Entity\Commande;
 use PDO;
+use Entity\Menus;
 
 class CommandesRepository
 {
@@ -16,6 +18,8 @@ class CommandesRepository
     public function __construct(PDO $conn)
     {
         $this->conn = $conn;
+
+
     }
 
     // =========================================================
@@ -30,10 +34,13 @@ class CommandesRepository
 
         $commande->setIdCommande((int)$data['id_commande']);
         $commande->setIdUtilisateur((int)$data['id_utilisateur']);
-        $commande->setIdMenu((int)$data['id_menu']);
+
         $commande->setIdVille((int)$data['id_ville']);
         $commande->setNombrePersonnes((int)$data['nombre_personnes']);
         $commande->setPrixTotal((float)$data['prix_total']);
+        if (isset($data['titre_menu'])) {
+            $commande->setTitreMenu($data['titre_menu']);
+        }
         $commande->setAdresseLivraison($data['adresse_livraison']);
         $commande->setDateLivraison($data['date_livraison']);
         $commande->setHeureLivraison($data['heure_livraison']);
@@ -186,10 +193,16 @@ class CommandesRepository
 
     public function readAllCommandeByUtilisateur(int $idUtilisateur): array
     {
-        $sql = "SELECT * 
-            FROM commandes 
-            WHERE id_utilisateur = :id_utilisateur 
-            ORDER BY date_creation DESC";
+        $sql = "
+            SELECT
+                c.*,
+                m.titre AS titre_menu
+            FROM commandes c
+            INNER JOIN menus m
+                ON c.id_menu = m.id_menu
+            WHERE c.id_utilisateur = :id_utilisateur
+            ORDER BY c.date_creation DESC
+        ";
 
         $requete = $this->conn->prepare($sql);
 
@@ -293,5 +306,20 @@ class CommandesRepository
         return $stmt->execute([
             'id_commande' => $id
         ]);
+    }
+
+    public function showCommandeByNomMenu(): array
+    {
+        $sql =
+
+            "SELECT c.*,m.titre AS titre_menu
+                FROM commandes c
+                    JOIN menus m ON c.id_menu = m.id_menu
+                
+            ";
+        $requete = $this->conn->prepare($sql);
+        $requete->execute();
+        $dataList = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $dataList;
     }
 }

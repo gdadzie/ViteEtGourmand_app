@@ -122,6 +122,10 @@
                     <a href="index.php?page=home" class="btn btn-outline-secondary btn-sm mt-2">
                         retour à l'accueil
                     </a>
+
+                    <a href="index.php?page=reinitialiser_mot_de_passe" class="btn btn-outline-secondary btn-sm mt-2">
+                        Mot de passe oublié?
+                    </a>
                 </p>
             </div>
 

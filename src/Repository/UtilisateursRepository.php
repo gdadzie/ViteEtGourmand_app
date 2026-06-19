@@ -99,10 +99,9 @@ class UtilisateursRepository
     public function readByEmail(string $email): ?Utilisateurs
     {
         $stmt = $this->conn->prepare("
-            SELECT u.*, v.nom_ville
+            SELECT *
             FROM utilisateurs u
-            LEFT JOIN villes v ON u.id_ville = v.id_ville
-            WHERE u.email = :email
+            WHERE email = :email
             LIMIT 1
         ");
 
@@ -284,6 +283,21 @@ class UtilisateursRepository
             'id_ville' => $idVille,
             'id' => $id
         ]);
+    }
+
+    Public function updatePassword(string $email, string $mdp): bool
+    {
+        $stmt = $this->conn->prepare("
+            UPDATE utilisateurs 
+            SET mot_de_passe = :mdp 
+            WHERE email = :email
+        ");
+
+        return $stmt->execute([
+            'mdp' => $mdp,
+            'email' => $email
+        ]);
+
     }
 
     // =========================================================

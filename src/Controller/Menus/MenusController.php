@@ -67,6 +67,8 @@ class MenusController
             'cssFiles'    => ['/assets/css/menus/liste.css'],
             'jsFiles'     => ['/assets/js/menus/filters.js'],
         ]);
+
+        //Affiche le nom des menus
     }
 
     // ======================================================
@@ -147,4 +149,6 @@ class MenusController
         header('Location: index.php?page=liste_des_menus');
         exit;
     }
+
+
 }

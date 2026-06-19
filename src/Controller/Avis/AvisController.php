@@ -57,7 +57,7 @@ class AvisController
         if (
             !$commande ||
             $commande->getIdUtilisateur() != $_SESSION['id_utilisateur'] ||
-            $commande->getStatut() !== 'terminée' ||
+            $commande->getStatut() !== 'terminee' ||
 
             $this->avisRepo->existeDeja($idCommande)
 
@@ -131,6 +131,20 @@ class AvisController
         }
 
         $avis = $this->avisRepo->readByUtilisateur($_SESSION['id_utilisateur']);
+
+        require __DIR__ . '/../../View/Avis/historique_avis.php';
+    }
+
+    public function showAvisByIdCommande(): void
+    {
+        $this->requireAuth();
+
+        if (!in_array((int)($_SESSION['id_role'] ?? 0), [1])) {
+            $_SESSION['error'] = "Accès interdit";
+            $this->redirect('home');
+        }
+
+        $avis = $this->avisRepo->findAvisByCommande($_SESSION['id_utilisateur']);
 
         require __DIR__ . '/../../View/Avis/historique_avis.php';
     }

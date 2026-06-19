@@ -77,7 +77,19 @@ class MenusRepository {
     }
 
 
+    public function readByTitre(string $titre): array
+    {
+        $stmt = $this->conn->prepare("
+        SELECT * FROM menus
+        WHERE titre LIKE :titre
+    ");
 
+        $stmt->execute([
+            'titre' => "%$titre%"
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     //=======================================================================

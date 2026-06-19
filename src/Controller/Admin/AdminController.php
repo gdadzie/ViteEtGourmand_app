@@ -9,22 +9,32 @@ use Entity\Utilisateurs;
 use Repository\MenusRepository;
 use Repository\UtilisateursRepository;
 use Repository\HorairesRepository;
+use Repository\VillesRepository;
+use Service\Authentification\AuthService;
 use Service\MailService;
 
 class AdminController
 {
     private UtilisateursRepository $utilisateursRepo;
     private MenusRepository $menusRepo;
+    private PDO $conn;
+    private VillesRepository $villesRepo;
 
     public function __construct(UtilisateursRepository $utilisateursRepo, PDO $conn)
     {
         $this->utilisateursRepo = $utilisateursRepo;
         $this->menusRepo = new MenusRepository($conn);
+        $this->conn = $conn;
+        $this->villesRepo = new VillesRepository($conn);
+
     }
 
     // AFFICHER LE TABLEAU DE BORD ADMIN
     public function index(): void
     {
+
+        AuthService::requireAdmin();
+
         // Empêcher la mise en cache
         header('Cache-Control: no-cache, no-store, must-revalidate');
         header('Pragma: no-cache');
@@ -50,6 +60,8 @@ class AdminController
     // CRÉATION D'UN EMPLOYE
     public function creationEmploye(): void
     {
+        AuthService::requireAdmin();
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
@@ -58,9 +70,14 @@ class AdminController
         $prenom     = trim($_POST['prenom'] ?? '');
         $nom        = trim($_POST['nom'] ?? '');
         $telephone  = trim($_POST['telephone'] ?? '');
+        $numero_rue = trim($_POST['numero_rue'] ?? '');
+        $nom_rue    = trim($_POST['nom_rue'] ?? '');
+        $code_postal = trim($_POST['code_postal'] ?? '');
+        $id_ville   = trim($_POST['id_ville'] ?? '');
         $adresse    = trim($_POST['adresse'] ?? '');
         $email      = trim($_POST['email'] ?? '');
         $mdp        = $_POST['mdp'] ?? '';
+        $role       = (int) 2;
 
         // Vérification email existant
         if ($email !== '' && $this->utilisateursRepo->readByEmail($email)) {
@@ -76,9 +93,13 @@ class AdminController
             $email,
             password_hash($mdp, PASSWORD_BCRYPT),
             $telephone,
-            $adresse,
-            2,      // role employé
-            true    // actif
+            $role,
+            true,
+            null,
+            $numero_rue,
+            $nom_rue,
+            $code_postal,
+            (int)$id_ville
         );
 
         if ($this->utilisateursRepo->create($u)) {
@@ -124,6 +145,8 @@ class AdminController
     // AFFICHER LA LISTE DES EMPLOYÉS (AVEC FILTRES)
     public function listeDesEmployes(): void
     {
+        AuthService::requireAdmin();
+
         $prenom   = trim($_GET['prenom'] ?? '');
         $nom      = trim($_GET['nom'] ?? '');
         $email    = trim($_GET['email'] ?? '');
