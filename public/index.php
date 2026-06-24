@@ -47,16 +47,10 @@ use Repository\MenusRepository;
 use Repository\PlatsRepository;
 use Repository\UtilisateursRepository;
 use Repository\VillesRepository;
+use Service\Authentification\AuthService;
 use Service\Avis\AvisService;
 use Service\Menus\MenusService;
 
-// Entities
-
-// Repositories
-
-// Controllers
-
-// Services
 
 // ===============================
 // CONNEXION DB
@@ -97,13 +91,17 @@ $villesRepo       = new VillesRepository($conn);
 // ===============================
 $menuService = new MenusService($menusRepo);
 $avisService = new AvisService($avisRepo);
+$authService = new AuthService();
 
 // ===============================
 // CONTROLLERS
 // ===============================
 $homeController = new HomeController($avisRepo);
 $ContactController = new ContactController();
-$authController = new AuthController();
+$authController = new AuthController(
+    $authService,
+    $conn
+);
 
 $utilisateursController = new UtilisateursController($conn);
 
@@ -258,7 +256,7 @@ switch ($page) {
 
     case 'supprimer_avis':
         requirePostMethod();
-        $avisController->supprimerAvis();
+        $avisController->delete();
         break;
 
     // ===============================

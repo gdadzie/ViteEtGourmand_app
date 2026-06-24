@@ -264,7 +264,7 @@ class CommandesController
                 (float)$menu->getPrixParPersonne(),
                 $nb,
                 $minimumPersonnes,
-                $villeEntity
+                $villes[(int)$idVille] ?? []
             );
 
             $prixMenus = $detailsPrix['prix_menus'];

@@ -126,9 +126,7 @@
                     <?php foreach ($avisValides as $avis): ?>
 
                         <?php
-                        $nomClient = method_exists($avis, 'getNomUtilisateur')
-                                ? $avis->getNomUtilisateur()
-                                : 'Client';
+                        $nomClient = $avis->getNomUtilisateur() ?: 'Client';
 
                         $initiale = strtoupper(substr($nomClient, 0, 1));
                         ?>

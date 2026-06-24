@@ -17,6 +17,8 @@ class Avis
     private bool $est_valide = false;
     private string $dateCreation;
 
+    private string $nom_utilisateur;
+
     // =========================
     // GETTERS
     // =========================
@@ -55,6 +57,10 @@ class Avis
     {
         return $this->dateCreation;
     }
+     public function getNomUtilisateur(): string
+     {
+         return $this->nom_utilisateur;
+     }
 
     // =========================
     // SETTERS
@@ -99,5 +105,10 @@ class Avis
     public function setDateCreation(string $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
+    }
+
+    public function setNomUtilisateur(string $nom_utilisateur): void
+    {
+        $this->nom_utilisateur = $nom_utilisateur;
     }
 }

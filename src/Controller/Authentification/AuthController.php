@@ -4,14 +4,21 @@ declare(strict_types=1);
 namespace Controller\Authentification;
 
 use Service\Authentification\AuthService;
+use Repository\VillesRepository;
+use PDO;
 
 class AuthController
 {
     private AuthService $authService;
+    private VillesRepository $villesRepo;
+    private PDO $conn;
 
-    public function __construct()
+    public function __construct(AuthService $authService, PDO $conn)
     {
         $this->authService = new AuthService();
+        $this->villesRepo = new VillesRepository($conn);
+
+
     }
 
     public function connexion(): void
@@ -38,12 +45,29 @@ class AuthController
 
     public function inscription(): void
     {
+        $villes = $this->villesRepo->findAll();
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
             return;
         }
 
-        $result = $this->authService->register($_POST);
+        // =========================
+        // RGPD CHECK
+        // =========================
+        if (!isset($_POST['rgpd'])) {
+            $error = "Vous devez accepter la politique de confidentialité.";
+            require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
+            return;
+        }
+
+        // =========================
+        // INSCRIPTION
+        // =========================
+        $result = $this->authService->register(
+            $_POST,
+            isset($_POST['rgpd'])
+        );
 
         if (!$result['success']) {
             $error = $result['message'];

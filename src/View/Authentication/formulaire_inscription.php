@@ -146,8 +146,42 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="id_ville" class="form-label">Ville</label>
-                        <input type="text" class="form-control" id="adresse" name="adresse">
+                        <label class="form-label">Ville de livraison</label>
+                        <select name="id_ville" id="id_ville" class="form-select">
+
+                            <?php foreach ($villes as $ville): ?>
+
+                                <option value="<?= $ville['id_ville'] ?>">
+
+                                    <?= htmlspecialchars($ville['nom_ville']) ?>
+
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select></div>
+
+                    <!-- ========================= -->
+                    <!-- RGPD CHECKBOX -->
+                    <!-- ========================= -->
+                    <div class="form-check mb-3">
+
+                        <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="rgpd"
+                                id="rgpd"
+                                required
+                        >
+
+                        <label class="form-check-label" for="rgpd">
+                            J’accepte la
+                            <a href="index.php?page=rgpd" target="_blank">
+                                politique de confidentialité
+                            </a>
+                            et le traitement de mes données personnelles.
+                        </label>
+
                     </div>
 
                     <button type="submit" class="btn btn-custom w-100">S’inscrire</button>

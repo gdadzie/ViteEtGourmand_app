@@ -6,10 +6,12 @@ namespace Service\Authentification;
 use Config\Database;
 use Entity\Utilisateurs;
 use Repository\UtilisateursRepository;
+use Repository\VillesRepository;
 
 class AuthService
 {
     private UtilisateursRepository $userRepo;
+    private $villesRepo;
 
     public function __construct()
     {
@@ -20,10 +22,13 @@ class AuthService
         }
 
         $this->userRepo = new UtilisateursRepository($pdo);
+        $this->villesRepo = new VillesRepository($pdo);
     }
 
     /**
-     * Connexion utilisateur
+     * =========================
+     * CONNEXION
+     * =========================
      */
     public function login(string $email, string $mdp): array
     {
@@ -62,10 +67,22 @@ class AuthService
     }
 
     /**
-     * Inscription utilisateur
+     * =========================
+     * INSCRIPTION (RGPD AJOUTÉ)
+     * =========================
      */
-    public function register(array $data): array
+    public function register(array $data, bool $rgpd): array
     {
+        // =========================
+        // RGPD CHECK
+        // =========================
+        if (!$rgpd) {
+            return [
+                'success' => false,
+                'message' => 'Vous devez accepter la politique de confidentialité.'
+            ];
+        }
+
         $prenom = trim($data['prenom'] ?? '');
         $nom = trim($data['nom'] ?? '');
         $telephone = trim($data['telephone'] ?? '');
@@ -75,6 +92,9 @@ class AuthService
         $email = trim($data['email'] ?? '');
         $mdp = $data['mdp'] ?? '';
 
+        // =========================
+        // EMAIL CHECK
+        // =========================
         if ($this->userRepo->readByEmail($email)) {
             return [
                 'success' => false,
@@ -82,6 +102,9 @@ class AuthService
             ];
         }
 
+        // =========================
+        // VILLE CHECK
+        // =========================
         $idVille = (int)($data['id_ville'] ?? 0);
 
         if ($idVille <= 0) {
@@ -91,6 +114,9 @@ class AuthService
             ];
         }
 
+        // =========================
+        // CREATE USER
+        // =========================
         $user = new Utilisateurs();
 
         $user->setPrenom($prenom);
@@ -101,9 +127,13 @@ class AuthService
         $user->setNumeroRue($numeroRue);
         $user->setNomRue($nomRue);
         $user->setCodePostal($codePostal);
+        $user->setIdVille($idVille);
         $user->setIdRole(1);
         $user->setEstActif(true);
 
+        // =========================
+        // INSERT DB
+        // =========================
         if (!$this->userRepo->create($user)) {
             return [
                 'success' => false,
@@ -116,9 +146,10 @@ class AuthService
             'message' => 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.'
         ];
     }
-
     /**
-     * Déconnexion utilisateur
+     * =========================
+     * DECONNEXION
+     * =========================
      */
     public function logout(): void
     {
@@ -145,6 +176,11 @@ class AuthService
         session_destroy();
     }
 
+    /**
+     * =========================
+     * RESET MOT DE PASSE
+     * =========================
+     */
     public function resetMotDePasse(string $email, string $nouveauMotDePasse): array
     {
         $user = $this->userRepo->readByEmail($email);
@@ -155,9 +191,6 @@ class AuthService
                 'message' => 'Aucun compte trouvé avec cet email.'
             ];
         }
-        $user = $this->userRepo->readByEmail($email);
-
-
 
         $hash = password_hash($nouveauMotDePasse, PASSWORD_BCRYPT);
 
@@ -179,7 +212,11 @@ class AuthService
         ];
     }
 
-
+    /**
+     * =========================
+     * ROLES CHECK
+     * =========================
+     */
     public static function requireAdmin(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -218,7 +255,7 @@ class AuthService
 
         if (
             !isset($_SESSION['id_utilisateur']) ||
-            $_SESSION['id_role'] !== 2
+            $_SESSION['id_role'] !== 1
         ) {
             header('Location: index.php?page=connexion');
             exit;
@@ -233,7 +270,7 @@ class AuthService
 
         if (
             !isset($_SESSION['id_utilisateur']) ||
-            $_SESSION['id_role'] !== [2,3]
+            !in_array($_SESSION['id_role'], [2, 3])
         ) {
             header('Location: index.php?page=connexion');
             exit;

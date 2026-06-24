@@ -33,6 +33,7 @@ class AvisRepository
 
         $avis->setEstValide((bool)$data['est_valide']);
         $avis->setDateCreation((int)$data['date_creation']);
+        $avis->setNomUtilisateur($data['nom_utilisateur'] ?? '');
 
         return $avis;
     }
@@ -139,18 +140,21 @@ class AvisRepository
     public function findByAvisValide(): array
     {
         $stmt = $this->conn->query("
-            SELECT *
-            FROM avis
-            WHERE est_valide = 1
-            ORDER BY id_avis DESC
-        ");
+    SELECT
+        a.*,
+        u.nom AS nom_utilisateur
+    FROM avis a
+    INNER JOIN utilisateurs u
+        ON a.id_utilisateur = u.id_utilisateur
+    WHERE a.est_valide = 1
+    ORDER BY a.id_avis DESC
+");
 
         $dataList = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $avisList = [];
 
         foreach ($dataList as $data) {
-
             $avisList[] = $this->hydrate($data);
         }
 
@@ -240,5 +244,23 @@ class AvisRepository
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return (int)$result['total'] > 0;
+    }
+
+    public function findByNomUtilisateur(): array
+    {
+        $stmt = $this->conn->prepare("
+    SELECT
+        a.*,
+        u.nom,
+        u.prenom
+    FROM avis a
+    INNER JOIN utilisateurs u
+        ON a.id_utilisateur = u.id_utilisateur
+    ORDER BY a.date_creation DESC
+");
+
+        $stmt->execute();
+
+       return $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

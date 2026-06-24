@@ -19,6 +19,9 @@ class MailService
             // ======================
             // CONFIG SMTP
             // ======================
+
+            $mail = new PHPMailer(true);
+            $mail->CharSet = 'UTF-8';
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
@@ -42,7 +45,7 @@ class MailService
             // SUJET SELON TYPE
             // ======================
             if ($type === 'employe') {
-                $mail->Subject = 'Création de votre compte employé';
+                $mail->Subject = 'Création de votre compte employé Vite & Gourmand';
             } else {
                 $mail->Subject = 'Bienvenue sur Vite & Gourmand';
             }
@@ -51,9 +54,9 @@ class MailService
             // CONTENU HTML
             // ======================
             $mail->Body = "
-                <h2>Bonjour {$nomComplet}</h2>
+                <h2 style='color: #8c5a20'>Bonjour {$nomComplet}</h2>
 
-                <p>Votre compte a été créé avec succès sur <strong>Vite & Gourmand</strong>.</p>
+                <p>Félicitation, votre compte a été créé avec succès sur <strong>Vite & Gourmand</strong>.</p>
 
                 <p>
                     Pour des raisons de sécurité, votre mot de passe ne vous est pas communiqué par email.<br>
@@ -61,7 +64,7 @@ class MailService
                 </p>
 
                 <p>
-                    <a href='https://vite-et-gourmand-35a20c0f19db.herokuapp.com/index.php?page=connexion'>
+                    <a href='https://vite-et-gourmand-2026-5c40281b04d6.herokuapp.com/?page=connexion'>
                         Se connecter
                     </a>
                 </p>
