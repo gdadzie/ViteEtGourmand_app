@@ -62,9 +62,10 @@ class CommandesController
             exit;
         }
 
+
         // Récupération des donnés dans le repository
         $commandes = $this->commandeRepo->readAll();
-        $this->menusRepo->readByTitre((int)$_GET['id']);
+        $this->menusRepo->readByTitre($_POST['titre'] ?? '');
 
 
 

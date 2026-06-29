@@ -11,7 +11,7 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
 
         <a class="navbar-brand" href="?page=home" aria-label="Retour à l'accueil">
             <span class="brand-dot"></span>
-            Vite &amp; Gourmand
+            <img src="assets/images/logo/logok.svg" alt="Logo Vite et Gourmand" class="img-fluid w-100">
         </a>
 
         <button class="navbar-toggler" type="button"

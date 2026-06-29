@@ -1,0 +1,107 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container-custom { max-width: 1400px; }
+
+.topbar {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.brand-dot {
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    background: #aa6d27;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.page-title { font-size: 1.7rem; font-weight: 700; }
+.muted { color: #6c757d; }
+
+.table-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+thead th {
+    background-color: #aa6d27 !important;
+    color: white !important;
+    font-weight: 600;
+    border: none !important;
+    padding: 16px 14px !important;
+    text-align: center;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 14px !important;
+    text-align: center;
+    vertical-align: middle;
+    border-color: #f1f1f1;
+    font-size: 0.92rem;
+}
+
+tbody tr:hover { background-color: #fcfaf7; }
+
+.status {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-block;
+    font-size: 0.8rem;
+}
+
+.reçue { background:#fff3cd; color:#856404; }
+.acceptée { background:#e7ddff; color:#5a33b1; }
+.payée { background: #ffefdd; color: #e89032; }
+.en_preparation { background:#dbeafe; color:#0b5ed7; }
+.en_livraison { background:#d1fae5; color:#198754; }
+.livrée { background:#d1e7dd; color:#146c43; }
+.terminée { background:#343a40; color:white; }
+
+.btn-accent {
+    background:#aa6d27;
+    border-color:#aa6d27;
+    color:white;
+}
+
+.btn-accent:hover {
+    background:#935f22;
+    border-color:#935f22;
+    color:white;
+}
+
+.btn-soft {
+    border-radius:12px;
+    padding:8px 14px;
+    font-size:0.88rem;
+}
+
+.empty-state {
+    padding:50px 20px;
+    text-align:center;
+}
+
+.empty-state i {
+    font-size:3rem;
+    color:#aa6d27;
+    opacity:0.7;
+}
+
+.empty-state h5 { margin-top:16px; font-weight:600; }
+
+.empty-state p { color:#6c757d; }
+
+.titre_menu{
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e67f07;
+}
+
