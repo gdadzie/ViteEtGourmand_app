@@ -183,7 +183,7 @@ class MenusService
 
         return $this->menusRepo->update($menu);
 
-        return $this->menusRepo->update($menu);
+
     }
 
     //=======================================================================
