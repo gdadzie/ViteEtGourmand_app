@@ -308,6 +308,15 @@ switch ($page) {
         $employesController->gestionDesMenusEmployes();
         break;
 
+    case 'modifier_menu':
+        $menusController->editMenu();
+        break;
+
+    case 'valider_modification_menu':
+        requirePostMethod();
+        $menusController->updateMenu();
+        break;
+
     case 'gestion_des_commandes':
         $commandesController->listeDesCommandes();
         break;

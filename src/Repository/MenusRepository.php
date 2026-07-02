@@ -182,21 +182,11 @@ class MenusRepository {
     //=======================================================================
     // 5 - UPDATE
     //=======================================================================
-    public function update(
-        $id_menu,
-        $titre,
-        $description,
-        $image,
-        $theme,
-        $regime,
-        $nb_min_personne,
-        $prix_par_personne,
-        $conditions,
-        $stock_disponible,
-        $date_modification
-    ) {
+    public function update(Menus $menu): bool
+    {
         $sql = "
-        UPDATE menus SET
+        UPDATE menus
+        SET
             titre = ?,
             description = ?,
             image = ?,
@@ -213,20 +203,19 @@ class MenusRepository {
         $stmt = $this->conn->prepare($sql);
 
         return $stmt->execute([
-            $titre,
-            $description,
-            $image,
-            $theme,
-            $regime,
-            $nb_min_personne,
-            $prix_par_personne,
-            $conditions,
-            $stock_disponible,
-            $date_modification,
-            $id_menu
+            $menu->getTitre(),
+            $menu->getDescription(),
+            $menu->getImage(),
+            $menu->getTheme(),
+            $menu->getRegime(),
+            $menu->getNbMinPersonne(),
+            $menu->getPrixParPersonne(),
+            $menu->getConditions(),
+            $menu->getStockDisponible(),
+            $menu->getDateModification(),
+            $menu->getIdMenu()
         ]);
     }
-
 
     //=======================================================================
     // 6 - DELETE
