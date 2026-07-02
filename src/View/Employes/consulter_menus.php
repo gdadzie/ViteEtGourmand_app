@@ -158,10 +158,13 @@ unset($_SESSION['success'], $_SESSION['error']);
                                         <i class="bi bi-trash"></i> Supprimer
                                     </button>
                                 </form>
-                                <form method="post" action="?page=supprimer_menu" onsubmit="return confirm('Supprimer ce menu ?');">
+                                <form method="get">
+                                    <input type="hidden" name="page" value="modifier_menu">
                                     <input type="hidden" name="id" value="<?= $menu->getIdMenu() ?>">
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        <i class="bi bi-trash"></i> Modifier
+
+                                    <button type="submit" class="btn btn-outline-warning">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Modifier
                                     </button>
                                 </form>
                             </div>
