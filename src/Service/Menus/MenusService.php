@@ -129,6 +129,7 @@ class MenusService
         }
 
         $menu = new Menus();
+
         $menu->setIdMenu($id);
         $menu->setTitre(trim($data['titre'] ?? ''));
         $menu->setDescription(trim($data['description'] ?? ''));
@@ -141,11 +142,14 @@ class MenusService
 
         $dossierUploads = ROOT . '/public/uploads/';
 
-        $imageNom = $currentMenu->getImage();
+        if (!is_dir($dossierUploads)) {
+            mkdir($dossierUploads, 0755, true);
+        }
 
-        // =========================
-        // CHECK UPLOAD PROPRE
-        // =========================
+        // On garde l'image actuelle par défaut
+        $imageNom = $currentMenu->getImage() ?? '';
+
+        // Une nouvelle image a été envoyée
         if (
             isset($files['image_menu']) &&
             $files['image_menu']['error'] === UPLOAD_ERR_OK &&
@@ -157,7 +161,6 @@ class MenusService
 
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime = finfo_file($finfo, $tmp);
-            finfo_close($finfo);
 
             $allowedMimes = [
                 'image/jpeg' => 'jpg',
@@ -166,24 +169,29 @@ class MenusService
                 'image/webp' => 'webp',
             ];
 
-            if (!isset($allowedMimes[$mime]) || $size > 5 * 1024 * 1024) {
-                throw new \Exception("Format ou taille d'image invalide");
+            if (!isset($allowedMimes[$mime])) {
+                throw new \Exception("Format d'image invalide.");
             }
 
-            $ext = $allowedMimes[$mime];
-            $imageNom = uniqid('menu_', true) . '.' . $ext;
+            if ($size > 5 * 1024 * 1024) {
+                throw new \Exception("L'image dépasse 5 Mo.");
+            }
+
+            $extension = $allowedMimes[$mime];
+            $imageNom = uniqid('menu_', true) . '.' . $extension;
 
             $cheminFinal = $dossierUploads . $imageNom;
 
             if (!move_uploaded_file($tmp, $cheminFinal)) {
-                throw new \Exception("Erreur upload image");
+                throw new \Exception("Impossible d'enregistrer l'image.");
             }
 
-            // delete old image
-            if ($currentMenu->getImage()) {
-                $oldPath = $dossierUploads . $currentMenu->getImage();
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
+            // Suppression de l'ancienne image
+            if (!empty($currentMenu->getImage())) {
+                $ancienneImage = $dossierUploads . $currentMenu->getImage();
+
+                if (file_exists($ancienneImage)) {
+                    unlink($ancienneImage);
                 }
             }
         }
