@@ -29,21 +29,7 @@ class MenusController
         }
 
         try {
-            echo '<pre>';
-            echo '<pre>';
 
-            echo "PHP version : " . PHP_VERSION . "\n";
-            echo "upload_max_filesize : " . ini_get('upload_max_filesize') . "\n";
-            echo "post_max_size : " . ini_get('post_max_size') . "\n";
-            echo "file_uploads : " . ini_get('file_uploads') . "\n";
-
-            print_r($_FILES);
-
-            echo '</pre>';
-            exit;
-            print_r($_FILES);
-            echo '</pre>';
-            exit;
 
             $this->menuService->createMenu($_POST, $_FILES);
 
