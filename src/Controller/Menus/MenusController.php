@@ -29,6 +29,11 @@ class MenusController
         }
 
         try {
+            echo '<pre>';
+            print_r($_FILES);
+            echo '</pre>';
+            exit;
+
             $this->menuService->createMenu($_POST, $_FILES);
 
             $_SESSION['success'] = "Menu créé avec succès !";
