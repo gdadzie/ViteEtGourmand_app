@@ -89,6 +89,13 @@ class AuthController
 
     public function success(): void
     {
+
+
+        if ((int)($_SESSION['id_role'] ?? 0) !== 1) {
+            $_SESSION['error'] = "Accès interdit";
+            header('Location: index.php?page=home');
+            exit;
+        }
         require __DIR__ . '/../../View/Authentication/espace_utilisateur.php';
     }
 

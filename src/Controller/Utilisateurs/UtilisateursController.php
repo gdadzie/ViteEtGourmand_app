@@ -23,6 +23,13 @@ class UtilisateursController
     // =========================================================
     public function readAllUtilisateurs()
     {
+        $this->requireAuth();
+
+        if (!in_array((int)($_SESSION['id_role'] ?? 0), [2, 3])) {
+            $_SESSION['error'] = "Accès interdit";
+            $this->redirect('home');
+        }
+
         $utilisateurs = $this->repo->readAll();
 
         require __DIR__ . '/../../View/Utilisateurs/liste_des_utilisateurs.php';
