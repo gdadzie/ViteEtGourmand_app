@@ -148,6 +148,7 @@ class AvisRepository
         ON a.id_utilisateur = u.id_utilisateur
     WHERE a.est_valide = 1
     ORDER BY a.id_avis DESC
+    LIMIT 5
 ");
 
         $dataList = $stmt->fetchAll(PDO::FETCH_ASSOC);
