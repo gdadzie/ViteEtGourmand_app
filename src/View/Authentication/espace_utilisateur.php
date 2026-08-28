@@ -8,24 +8,7 @@
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; }
-        .container { max-width: 1200px; }
-        .card-tile { border: 0; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); transition: transform .12s ease, box-shadow .12s ease; }
-        .card-tile:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.10); }
-        .icon-badge { width: 46px; height: 46px; border-radius: 14px; display:flex; align-items:center; justify-content:center; background:#fdf2e7; }
-        .page-title { font-size: 1.6rem; }
-        .muted { color:#6c757d; }
-        .stat-chip { border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; background:#fff; border:1px solid rgba(0,0,0,.08); }
-        .quick-link { text-decoration:none; color:inherit; }
-        .quick-link:focus { outline: none; }
-        .topbar { background: #fff; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
-        .brand-dot { width:10px; height:10px; border-radius:99px; background:#aa6d27; display:inline-block; margin-right:8px; }
-        .accent { color:#aa6d27; }
-        .btn-accent { background:#aa6d27; border-color:#aa6d27; }
-        .btn-accent:hover { background:#935f22; border-color:#935f22; }
-    </style>
+    <link rel="stylesheet" href="assets/css/dashboard/dashboard_client.css">
 </head>
 
 <body>

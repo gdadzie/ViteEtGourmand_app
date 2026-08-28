@@ -134,7 +134,7 @@ class AdminController
                 $success = "Le compte employé a été créé, mais l'email n'a pas pu être envoyé.";
             }
 
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Authentication/espace_administrateur.php';
             return;
         }
 
