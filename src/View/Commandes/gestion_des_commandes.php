@@ -193,7 +193,11 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                        class="btn btn-sm btn-outline-dark">
                                         <i class="bi bi-eye"></i>
                                     </a>
+                                    <pre>
+STATUT ORIGINAL : <?= $e($commande->getStatut()) ?>
 
+STATUT NORMALISÉ : <?= $e($statut) ?>
+</pre>
                                     <?php if ($statut === 'recue'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">

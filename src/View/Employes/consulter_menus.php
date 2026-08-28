@@ -22,68 +22,7 @@ unset($_SESSION['success'], $_SESSION['error']);
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .card-menu {
-            border-radius: 12px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-menu:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .card-text {
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        .btn-orange {
-            background-color: #aa6d27;
-            color: white;
-        }
-
-        .btn-orange:hover {
-            background-color: #944f1e;
-            color: white;
-        }
-
-        .breadcrumb-custom a {
-            color: #aa6d27;
-            text-decoration: none;
-        }
-
-        .breadcrumb-custom a:hover {
-            text-decoration: underline;
-        }
-
-        .alert {
-            margin-top: 1rem;
-        }
-
-        .card-img-top {
-            height: 180px;
-            object-fit: cover;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            margin-bottom: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/menu/employe_gestion_menus.css">
 </head>
 <body>
 

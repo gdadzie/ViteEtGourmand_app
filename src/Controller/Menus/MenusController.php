@@ -24,7 +24,7 @@ class MenusController
         header('Expires: 0');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            View::render('Menus/creer_un_menu');
+            View::render('Menus/creer_un_menu', [], 'Layout/main', false);
             return;
         }
 
