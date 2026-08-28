@@ -4,7 +4,7 @@ namespace View;
 
 class View
 {
-    public static function render(string $viewPath, array $data = [], string $layout = 'Layout/main'): void
+    public static function render(string $viewPath, array $data = [], string $layout = 'Layout/main', bool $showMenu = true): void
     {
         $viewFile = ROOT . '/src/View/' . $viewPath . '.php';
         $layoutFile = ROOT . '/src/View/' . $layout . '.php';
@@ -22,6 +22,7 @@ class View
             'metaDescription' => '',
             'cssFiles' => [],
             'jsFiles' => [],
+            'showMenu' => $showMenu,
         ], $data);
 
         ob_start();

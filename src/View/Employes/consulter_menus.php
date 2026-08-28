@@ -104,6 +104,11 @@ unset($_SESSION['success'], $_SESSION['error']);
 
         <h1 class="mb-4 text-center">Gestion des menus</h1>
 
+        <div class="text-center mb-4">
+            <a href="?page=creer_un_menu" title="Ajouter un menu">
+                <i class="bi bi-plus-circle fs-2"></i>
+            </a>
+        </div>
 
 
 

@@ -14,7 +14,7 @@
 
 <body>
 
-<?php include __DIR__ . '/../partials/menu.php'; ?>
+
 
 <div class="container-fluid px-2 px-md-4 my-4 my-md-5">
 
