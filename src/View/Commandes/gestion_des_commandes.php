@@ -152,13 +152,17 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                         <?php
                         // NORMALISATION ULTRA IMPORTANTE
-                        $statut = strtolower(trim($commande->getStatut()));
+                        $statutOriginal = trim($commande->getStatut());
+
+                        $statut = strtolower($statutOriginal);
 
                         $statut = str_replace(
-                                ['é','è','ê','à',' '],
-                                ['e','e','e','a','_'],
+                                ['é', 'è', 'ê', 'ë', 'à', 'â', 'ä', 'ù', 'û', 'ü', 'ô', 'ö', 'î', 'ï', 'ç', ' '],
+                                ['e', 'e', 'e', 'e', 'a', 'a', 'a', 'u', 'u', 'u', 'o', 'o', 'i', 'i', 'c', '_'],
                                 $statut
                         );
+
+                        $statut = trim($statut, '_');
                         ?>
 
                         <tr>
