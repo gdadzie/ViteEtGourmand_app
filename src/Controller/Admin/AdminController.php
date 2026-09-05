@@ -54,7 +54,7 @@ class AdminController
         }
 
         $admins = $this->utilisateursRepo->readByRole(3);
-        require __DIR__ . '/../../View/Authentication/espace_administrateur.php';
+        require __DIR__ . '/../../View/Admin/espace_administrateur.php';
     }
 
     // CRÉATION D'UN EMPLOYE
@@ -134,7 +134,7 @@ class AdminController
                 $success = "Le compte employé a été créé, mais l'email n'a pas pu être envoyé.";
             }
 
-            require __DIR__ . '/../../View/Authentication/espace_administrateur.php';
+            require __DIR__ . '/../../View/Admin/espace_administrateur.php';
             return;
         }
 
@@ -232,6 +232,6 @@ class AdminController
     public function gestionDesMenus(): void
     {
         $menus = $this->menusRepo->readAll();
-        require __DIR__ . '/../../View/Employes/gestion_menus.php';
+        require __DIR__ . '/../../View/Fonctionalites/gestion_menus.php';
     }
 }

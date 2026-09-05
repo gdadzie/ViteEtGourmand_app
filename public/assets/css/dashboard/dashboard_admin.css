@@ -115,7 +115,7 @@ a.card-link:focus-visible{
     color:var(--muted);
     margin:.25rem 0 0 0;
 }
-
+.topbar { background: #fff; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
 /* Petit chevron “entrée” */
 .card-cta{
     margin-top:14px;

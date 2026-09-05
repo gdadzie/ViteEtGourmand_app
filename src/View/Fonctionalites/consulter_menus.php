@@ -22,7 +22,7 @@ unset($_SESSION['success'], $_SESSION['error']);
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/menu/employe_gestion_menus.css">
+    <link rel="stylesheet" href="../../../public/assets/css/menu/employe_gestion_menus.css">
 </head>
 <body>
 
