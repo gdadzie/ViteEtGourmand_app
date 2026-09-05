@@ -89,7 +89,7 @@ $stats = $stats ?? [
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bag-check fs-4 accent"></i>
+                                <i class="bi bi-person-plus fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Créer un compte employé</h5>
@@ -101,7 +101,7 @@ $stats = $stats ?? [
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-accent text-white w-100">
+                        <span class="btn btn-accent  w-100">
                             Ouvrir <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
@@ -116,7 +116,7 @@ $stats = $stats ?? [
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bag-check fs-4 accent"></i>
+                                <i class="bi bi-people fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Gestion des employés</h5>
@@ -128,7 +128,7 @@ $stats = $stats ?? [
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-accent text-white w-100">
+                        <span class="btn btn-accent  w-100">
                             Accèder <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
@@ -143,7 +143,7 @@ $stats = $stats ?? [
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-person-gear fs-4 accent"></i>
+                                <i class="bi bi-menu-button-wide fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Gestion des menus</h5>
@@ -155,7 +155,7 @@ $stats = $stats ?? [
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-outline-secondary w-100">
+                        <span class="btn btn-accent w-100">
                             Accèder <i class="bi bi-pencil-square ms-1"></i>
                         </span>
                     </div>
@@ -163,60 +163,117 @@ $stats = $stats ?? [
             </a>
         </div>
 
-        <!-- Suivi des commandes (info) -->
+        <!-- Gestion des commandes  -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=mes_commandes&statut=acceptee">
+            <a class="quick-link" href="?page=gestion_des_commandes">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-truck fs-4 accent"></i>
+                                <i class="bi bi-clock fs-4 accent"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Suivi de commande</h5>
-                                <div class="muted small">Disponible après acceptation</div>
+                                <h5 class="card-title mb-0">Gestion des commandes</h5>
+                                <div class="muted small">Accèder à liste des commandes des clients.</div>
                             </div>
                         </div>
                         <p class="card-text muted mb-0">
-                            Une fois acceptée, votre commande affiche toutes les étapes avec la date et l’heure.
+                            Accepte et termine les commandes des clients.
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-outline-secondary w-100">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-arrow-right ms-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des horaires  -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=modification_horaire">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-clock fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Modifier les horaires</h5>
+                                <div class="muted small">Accèder aux horaires d'ouverture et fermerture.</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">
+                            Mettez à jour les horaires du service traiteur.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
                             Voir les commandes acceptées <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
                 </div>
             </a>
         </div>
-
-        <!-- Règles (info) -->
+        <!-- Statistiques/CA -->
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-tile h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="icon-badge">
-                            <i class="bi bi-info-circle fs-4 accent"></i>
+            <a class="quick-link" href="?page=gestion_des_menus">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Gestion des statistiques et du chiffre d'affaire</h5>
+                                <div class="muted small">Accèder au statistique de ventes des menus .</div>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="card-title mb-0">Rappels</h5>
-                            <div class="muted small">Annulation / modification</div>
-                        </div>
+                        <p class="card-text muted mb-0">
+                            Consulter les statistiques et le chiffre d'affaire de votre entreprise.
+                        </p>
                     </div>
-
-                    <ul class="mb-0 muted">
-                        <li>Annulation possible tant que la commande n’est pas <strong>acceptée</strong>.</li>
-                        <li>Modification possible tant que la commande n’est pas <strong>acceptée</strong>.</li>
-                        <li>Le <strong>menu</strong> n’est pas modifiable, le reste oui.</li>
-                        <li>À la fin (“terminée”), vous recevez un mail pour laisser un avis.</li>
-                    </ul>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-pencil-square ms-1"></i>
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </a>
+        </div>
+
+
+
+        <!-- Site web -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=home">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-globe2 fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Site web</h5>
+                                <div class="muted small">Accèder au site web .</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">
+                            Naviguer sur le site web de Vite & Gourmand.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-pencil-square ms-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <!-- Déconnexion -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=deconnexion">
+            <a class="quick-link" href="?page=deconnexion">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
