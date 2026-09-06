@@ -1,4 +1,8 @@
 /* Shared responsive behaviour for every back-office table. */
+/* On iOS, the elastic scroll can reveal the document background after the footer. */
+html { background-color: #0f0f0f; }
+body { min-height: 100vh; background-color: #fff; overscroll-behavior-y: none; }
+
 .table-responsive { -webkit-overflow-scrolling: touch; }
 
 /* The order form is a standalone page: use the full available width on phones. */
