@@ -13,10 +13,10 @@ final class MailService
         $mail = new PHPMailer(true);
         $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
-        $mail->Host = $_ENV['SMTP_HOST'] ?? '';
+        $mail->Host = $_ENV['SMTP_HOST'] ?? 'smtp.gmail.com';
         $mail->Port = (int) ($_ENV['SMTP_PORT'] ?? 587);
         $mail->SMTPAuth = true;
-        $mail->Username = $_ENV['SMTP_USER'] ?? '';
+        $mail->Username = $_ENV['SMTP_USER'] ?? 'egsdigitalagency@gmail.com';
         $mail->Password = $_ENV['SMTP_PASSWORD'] ?? '';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->setFrom($_ENV['SMTP_FROM'] ?? $mail->Username, $_ENV['SMTP_NAME'] ?? 'Vite & Gourmand');
