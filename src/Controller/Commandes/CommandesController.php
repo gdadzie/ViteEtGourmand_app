@@ -315,6 +315,7 @@ class CommandesController
             // =================================================
             // SAUVEGARDE
             // =================================================
+            $commandeCreee = false;
             if ($this->commandeRepo->create($commande)) {
 
                 $mailEnvoye = $this->mailService->envoyerMailConfirmationCommande(
@@ -331,6 +332,7 @@ class CommandesController
                     $prixTotal
                 );
 
+                $commandeCreee = true;
                 $_SESSION['success'] =
                     "Commande créée avec succès";
 
@@ -338,6 +340,10 @@ class CommandesController
 
                 $_SESSION['error'] =
                     "Erreur lors de la crÃ©ation de la commande";
+            }
+
+            if ($commandeCreee) {
+                $_SESSION['success'] = 'Commande créée avec succès.';
             }
 
             header('Location: index.php?page=espace_utilisateur');
