@@ -1,6 +1,39 @@
 /* Shared responsive behaviour for every back-office table. */
 .table-responsive { -webkit-overflow-scrolling: touch; }
 
+/* The order form is a standalone page: use the full available width on phones. */
+.order-page .form-control,
+.order-page .form-select,
+.order-page textarea,
+.order-page .btn {
+  max-width: 100%;
+}
+
+@media (max-width: 575.98px) {
+  .order-page {
+    width: 100%;
+    max-width: none;
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+  .order-page .card {
+    border-radius: .75rem;
+  }
+  .order-page .card-body {
+    padding: 1rem !important;
+  }
+  .order-page h1 {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    overflow-wrap: anywhere;
+  }
+  .order-page .order-summary .d-flex {
+    gap: .75rem;
+  }
+  .order-page .order-summary strong {
+    text-align: right;
+  }
+}
+
 @media (max-width: 767.98px) {
   .table-responsive:not(.footer-table-wrapper) { overflow: visible; }
   .table-responsive:not(.footer-table-wrapper) table { width: 100%; min-width: 0; }

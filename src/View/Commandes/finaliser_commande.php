@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         Commander : <?= htmlspecialchars($menu->getTitre()) ?>
     </title>
@@ -12,15 +13,15 @@
 
 <body class="bg-light">
 
-<div class="container my-5">
+<div class="container order-page my-3 my-md-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-10">
+        <div class="col-12 col-xl-10">
 
             <div class="card shadow border-0">
 
-                <div class="card-body p-5">
+                <div class="card-body p-3 p-md-5">
 
                     <h1 class="mb-4 text-center">
                         Commander : <?= htmlspecialchars($menu->getTitre()) ?>
@@ -30,7 +31,7 @@
                     <!-- MENU -->
                     <!-- ========================= -->
 
-                    <div class="card mb-5 bg-light border-0">
+                    <div class="card mb-4 mb-md-5 bg-light border-0">
                         <div class="card-body">
 
                             <h3 class="mb-3">
@@ -41,7 +42,7 @@
                                 <?= nl2br(htmlspecialchars($menu->getDescription())) ?>
                             </p>
 
-                            <div class="row">
+                            <div class="row g-3">
 
                                 <div class="col-md-4">
                                     <strong>Prix / personne :</strong><br>
@@ -74,7 +75,7 @@
                         <!-- CLIENT -->
                         <h4 class="mb-3">Informations du client</h4>
 
-                        <div class="row">
+                        <div class="row g-3">
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nom</label>
@@ -90,7 +91,7 @@
 
                         </div>
 
-                        <div class="row">
+                        <div class="row g-3">
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Email</label>
@@ -195,7 +196,7 @@
                         <hr>
 
                         <!-- RESUME -->
-                        <div class="alert alert-info">
+                        <div class="alert alert-info order-summary">
 
                             <div class="d-flex justify-content-between">
                                 <span>Menu</span>
