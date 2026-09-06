@@ -129,14 +129,14 @@ unset($_SESSION['success'], $_SESSION['error']);
 
                     <div class="col-12 col-lg-2 d-flex align-items-end">
                         <button type="button" id="resetFilters" class="btn-reset w-100">
-                            <i class="bi bi-arrow-counterclockwise"></i> RÃ©initialiser
+                            <i class="bi bi-arrow-counterclockwise"></i> R&eacute;initialiser
                         </button>
                     </div>
 
                 </div>
 
                 <div class="result-count">
-                    <strong id="resultCount">0</strong> menu(s) affichÃ©(s)
+                    <strong id="resultCount">0</strong> menu(s) affich&eacute;(s)
                 </div>
 
             </form>
@@ -224,7 +224,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
     <div id="noFilterResult" class="no-filter-result text-center py-5" hidden>
         <i class="bi bi-search fs-3 d-block mb-2"></i>
-        Aucun menu ne correspond aux critÃ¨res sÃ©lectionnÃ©s.
+        Aucun menu ne correspond aux crit&egrave;res s&eacute;lectionn&eacute;s.
     </div>
 
 </main>
