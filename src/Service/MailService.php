@@ -26,15 +26,25 @@ final class MailService
     public function envoyerMailCreationCompte(string $email, string $nomComplet, string $type = 'employe'): bool
     {
         $subject = $type === 'employe' ? 'Création de votre compte employé Vite & Gourmand' : 'Bienvenue chez Vite & Gourmand';
-        $body = '<h2>Bonjour ' . htmlspecialchars($nomComplet, ENT_QUOTES, 'UTF-8') . '</h2><p>Votre compte a été créé. Pour des raisons de sécurité, votre mot de passe n’est jamais communiqué par e-mail.</p>';
-        return $this->send($email, $nomComplet, $subject, $body);
+        return $this->send($email, $nomComplet, $subject, '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2><p>Votre compte a été créé avec succès.</p>');
     }
 
     public function envoyerMailReinitialisation(string $email, string $nomComplet, string $token): bool
     {
         $url = rtrim($_ENV['APP_URL'] ?? '', '/') . '/index.php?page=reinitialiser_mot_de_passe&token=' . urlencode($token);
-        $body = '<h2>Bonjour ' . htmlspecialchars($nomComplet, ENT_QUOTES, 'UTF-8') . '</h2><p>Pour définir un nouveau mot de passe, utilisez ce lien valable une heure :</p><p><a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '">Réinitialiser mon mot de passe</a></p><p>Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail.</p>';
+        $body = '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2><p>Utilisez ce lien valable une heure :</p><p><a href="' . $this->escape($url) . '">Réinitialiser mon mot de passe</a></p>';
         return $this->send($email, $nomComplet, 'Réinitialisation de votre mot de passe', $body);
+    }
+
+    public function envoyerMailConfirmationCommande(string $email, string $nomComplet, string $nomMenu, int $nombrePersonnes, string $dateLivraison, string $heureLivraison, string $adresseLivraison, float $prixMenu, float $reduction, float $fraisLivraison, float $prixTotal): bool
+    {
+        $money = static fn (float $amount): string => number_format($amount, 2, ',', ' ') . ' €';
+        $body = '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2><p>Votre commande a bien été enregistrée.</p><ul>'
+            . '<li><strong>Menu :</strong> ' . $this->escape($nomMenu) . '</li><li><strong>Personnes :</strong> ' . $nombrePersonnes . '</li>'
+            . '<li><strong>Livraison :</strong> ' . $this->escape($dateLivraison) . ' à ' . $this->escape($heureLivraison) . '</li>'
+            . '<li><strong>Adresse :</strong> ' . $this->escape($adresseLivraison) . '</li></ul>'
+            . '<p>Menu : ' . $money($prixMenu) . '<br>Réduction : -' . $money($reduction) . '<br>Livraison : ' . $money($fraisLivraison) . '<br><strong>Total : ' . $money($prixTotal) . '</strong></p>';
+        return $this->send($email, $nomComplet, 'Confirmation de votre commande — Vite & Gourmand', $body);
     }
 
     private function send(string $email, string $name, string $subject, string $body): bool
@@ -51,5 +61,10 @@ final class MailService
             error_log('Email delivery failed: ' . $exception->getMessage());
             return false;
         }
+    }
+
+    private function escape(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 }

@@ -10,6 +10,7 @@ use Repository\CommandesRepository;
 use Repository\CommandeStatutMongoRepository;
 use Repository\MenusRepository;
 use Repository\UtilisateursRepository;
+use Service\MailService;
 Use Repository\VillesRepository;
 
 class CommandesController
@@ -20,6 +21,7 @@ class CommandesController
     private VillesRepository $villesRepo;
     private AvisRepository $avisRepo;
     private Avis $avis;
+    private MailService $mailService;
 
     // =========================================================
     // CONSTRUCTEUR
@@ -38,6 +40,7 @@ class CommandesController
         $this->villesRepo = $villesRepo;
         $this->avisRepo = $avisRepo;
         $this->avis = $avis;
+        $this->mailService = new MailService();
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -314,8 +317,22 @@ class CommandesController
             // =================================================
             if ($this->commandeRepo->create($commande)) {
 
+                $mailEnvoye = $this->mailService->envoyerMailConfirmationCommande(
+                    $client->getEmail(),
+                    trim($client->getPrenom() . ' ' . $client->getNom()),
+                    $menu->getTitre(),
+                    $nb,
+                    $date,
+                    $heure,
+                    $adresse,
+                    $prixMenus,
+                    $reduction,
+                    $fraisLivraison,
+                    $prixTotal
+                );
+
                 $_SESSION['success'] =
-                    "Commande crÃ©Ã©e avec succÃ¨s";
+                    "Commande créée avec succès";
 
             } else {
 
