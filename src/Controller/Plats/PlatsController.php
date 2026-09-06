@@ -2,83 +2,86 @@
 
 namespace Controller\Plats;
 
+use PDO;
+use Repository\MenusRepository;
 use Repository\PlatsRepository;
 use Service\Plats\PlatsService;
-use PDO;
+use View\View;
 
 class PlatsController
 {
     private PlatsService $service;
+    private MenusRepository $menusRepository;
 
     public function __construct(PDO $conn)
     {
-        $repo = new PlatsRepository($conn);
-        $this->service = new PlatsService($repo);
+        $this->service = new PlatsService(new PlatsRepository($conn));
+        $this->menusRepository = new MenusRepository($conn);
     }
 
-    /**
-     * Créer un plat
-     */
     public function creerUnPlat(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            require __DIR__ . '/../../View/Plats/creer_un_plat.php';
+            $this->renderCreateForm();
             return;
         }
 
         try {
-            $this->service->createPlat(
-                $_POST,
-                $_FILES
-            );
-
-            $success = "Le plat a été créé avec succès !";
-
+            $this->service->createPlat($_POST, $_FILES);
+            $_SESSION['success'] = 'Le plat a ete cree avec succes.';
+            header('Location: index.php?page=liste_des_plats');
+            exit;
         } catch (\Exception $e) {
-
-            $error = $e->getMessage();
+            $_SESSION['error'] = $e->getMessage();
+            $_SESSION['old_plat'] = [
+                'nom_plat' => trim((string) ($_POST['nom_plat'] ?? '')),
+                'type_plat' => trim((string) ($_POST['type_plat'] ?? '')),
+                'id_menu' => (int) ($_POST['id_menu'] ?? 0),
+            ];
+            header('Location: index.php?page=creer_un_plat');
+            exit;
         }
-
-        require __DIR__ . '/../../View/Plats/creer_un_plat.php';
     }
 
-    /**
-     * Liste des plats
-     */
     public function listeDesPlats(): void
     {
-        $plats = $this->service->readPlats();
-
-        require __DIR__ . '/../../View/Plats/liste_des_plats.php';
+        View::render('Plats/liste_des_plats', [
+            'plats' => $this->service->readPlats(),
+            'pageTitle' => 'Nos plats | Vite & Gourmand',
+            'cssFiles' => ['/assets/css/liste_des_plats.css'],
+        ]);
     }
 
-    /**
-     * Supprimer un plat
-     */
     public function supprimerUnPlat(): void
     {
-        $id = (int)($_GET['id'] ?? 0);
-
-        if ($id <= 0) {
-            $error = "Plat invalide.";
-            require __DIR__ . '/../../View/Plats/liste_des_plats.php';
-            return;
-        }
+        $id = (int) ($_GET['id'] ?? 0);
 
         try {
-            if ($this->service->deletePlat($id)) {
-                $success = "Le plat a été supprimé avec succès.";
+            if ($id <= 0 || !$this->service->deletePlat($id)) {
+                $_SESSION['error'] = 'Impossible de supprimer ce plat.';
             } else {
-                $error = "Impossible de supprimer le plat.";
+                $_SESSION['success'] = 'Le plat a ete supprime avec succes.';
             }
-
         } catch (\Exception $e) {
-
-            $error = $e->getMessage();
+            $_SESSION['error'] = $e->getMessage();
         }
 
-        $plats = $this->service->readPlats();
+        header('Location: index.php?page=liste_des_plats');
+        exit;
+    }
 
-        require __DIR__ . '/../../View/Plats/liste_des_plats.php';
+    private function renderCreateForm(): void
+    {
+        $oldPlat = $_SESSION['old_plat'] ?? [];
+        unset($_SESSION['old_plat']);
+
+        View::render('Plats/creer_un_plat', [
+            'menus' => $this->menusRepository->readAll(),
+            'oldPlat' => $oldPlat,
+            'pageTitle' => 'Creer un plat | Vite & Gourmand',
+            'metaDescription' => 'Ajoutez un plat au catalogue Vite & Gourmand.',
+            'cssFiles' => ['/assets/css/plats/creer-un-plat.css'],
+            'jsFiles' => ['/assets/js/plats/creer-un-plat.js'],
+        ]);
     }
 }

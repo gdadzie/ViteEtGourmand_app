@@ -34,6 +34,10 @@ class PlatsService
             trim($data['nom_plat'] ?? '')
         );
 
+        if ($plat->getNomPlat() === '') {
+            throw new \Exception('Veuillez renseigner le nom du plat.');
+        }
+
         // Type
         $plat->setTypePlat(
             trim($data['type_plat'] ?? '')
@@ -119,7 +123,11 @@ class PlatsService
         // ENREGISTREMENT EN BASE
         //===================================================================
 
-        return $this->platsRepo->createPlat($plat);
+        if (!$this->platsRepo->createPlat($plat)) {
+            throw new \Exception('Impossible de creer le plat.');
+        }
+
+        return $this->platsRepo->attachToMenu($idMenu, (int) $plat->getIdPlat());
     }
 
     //=======================================================================

@@ -17,14 +17,15 @@ class PlatsRepository
     public function createPlat(Plats $plat): bool
     {
         $stmt = $this->conn->prepare("
-            INSERT INTO plats (nom_plat, type_plat, id_menu)
-            VALUES (:nom_plat, :type_plat, :id_menu)
+            INSERT INTO plats (nom_plat, type_plat, id_menu, image_plat)
+            VALUES (:nom_plat, :type_plat, :id_menu, :image_plat)
         ");
 
         $success = $stmt->execute([
             'nom_plat' => $plat->getNomPlat(),
             'type_plat' => $plat->getTypePlat(),
             'id_menu' => $plat->getIdMenu(),
+            'image_plat' => $plat->getImagePlat(),
         ]);
 
         if ($success) {
@@ -77,8 +78,20 @@ class PlatsRepository
         ]);
     }
 
+    public function findById(int $id): ?Plats
+    {
+        $stmt = $this->conn->prepare('SELECT * FROM plats WHERE id_plat = :id_plat');
+        $stmt->execute(['id_plat' => $id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, Plats::class);
+
+        return $stmt->fetch() ?: null;
+    }
+
     public function delete(int $id_plat): bool
     {
+        $unlink = $this->conn->prepare('DELETE FROM menus_plats WHERE id_plat = :id_plat');
+        $unlink->execute(['id_plat' => $id_plat]);
+
         $stmt = $this->conn->prepare("
         DELETE FROM plats
         WHERE id_plat = :id_plat

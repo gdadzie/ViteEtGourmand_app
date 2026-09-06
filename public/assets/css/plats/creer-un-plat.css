@@ -1,0 +1,17 @@
+.plat-form-page { background: #f7f4f1; min-height: 70vh; }
+.back-link { color: #8a541d; font-weight: 600; text-decoration: none; }
+.back-link:hover { color: #5f3611; text-decoration: underline; }
+.plat-form-card { background: #fff; border: 0; border-radius: 1.25rem; box-shadow: 0 .75rem 2rem rgba(48, 31, 14, .10); padding: clamp(1.5rem, 4vw, 3rem); }
+.plat-form-header { align-items: center; border-bottom: 1px solid #eee4da; display: flex; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.5rem; }
+.plat-form-header h1 { color: #2c1a0d; font-size: clamp(1.55rem, 4vw, 2.15rem); font-weight: 700; margin: 0; }
+.plat-form-header p { color: #6b625b; margin: .25rem 0 0; }
+.plat-form-icon { align-items: center; background: #fff1df; border-radius: .85rem; color: #a9661f; display: inline-flex; font-size: 1.6rem; height: 3.25rem; justify-content: center; width: 3.25rem; }
+.plat-form-card .form-label { color: #392817; font-weight: 650; }
+.plat-form-card .form-control, .plat-form-card .form-select { border-color: #d9cbbb; min-height: 2.8rem; }
+.plat-form-card .form-control:focus, .plat-form-card .form-select:focus { border-color: #b67327; box-shadow: 0 0 0 .25rem rgba(182, 115, 39, .16); }
+.image-upload-box { background: #fcfaf8; border: 1px dashed #c9a779; border-radius: .85rem; padding: 1rem; }
+.image-upload-box p { color: #75695f; font-size: .9rem; margin-top: .6rem; }
+.image-preview { border-radius: .6rem; display: block; margin-top: 1rem; max-height: 220px; max-width: 100%; object-fit: cover; }
+.plat-form-card .btn-primary { background: #a9661f; border-color: #a9661f; font-weight: 650; }
+.plat-form-card .btn-primary:hover { background: #875018; border-color: #875018; }
+@media (max-width: 575.98px) { .plat-form-header { align-items: flex-start; } .plat-form-icon { flex: 0 0 auto; } }

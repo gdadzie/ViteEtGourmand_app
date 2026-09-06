@@ -9,11 +9,6 @@ $error   = $_SESSION['error'] ?? '';
 unset($_SESSION['success'], $_SESSION['error']);
 ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-<link rel="stylesheet" href="/assets/css/liste_des_plats.css">
-
 <main class="container my-4 my-md-5" role="main">
 
     <!-- HEADER -->
@@ -65,7 +60,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                         <?php if ($plat->getImagePlat()): ?>
 
                             <img
-                                    src="<?= htmlspecialchars($plat->getImagePlat()) ?>"
+                                    src="/uploads/<?= rawurlencode($plat->getImagePlat()) ?>"
                                     alt="Image du plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
                             >
 
@@ -144,6 +139,3 @@ unset($_SESSION['success'], $_SESSION['error']);
     </div>
 
 </main>
-
-<script src="/assets/js/liste-des-menus.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
