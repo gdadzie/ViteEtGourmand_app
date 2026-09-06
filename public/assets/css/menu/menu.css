@@ -9,6 +9,9 @@
 .navbar{
     padding: 14px 0;
 
+    position: relative;
+    z-index: 1030;
+
     background: rgba(170, 109, 39, 0.85);
 
     backdrop-filter: blur(10px);
@@ -127,6 +130,7 @@
 ========================= */
 
 .dropdown-menu-vg{
+    z-index: 1050;
     border-radius: 16px;
 
     border: 1px solid rgba(0,0,0,.08);
