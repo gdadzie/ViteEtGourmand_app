@@ -26,18 +26,32 @@ class MenusService
         return $this->menusRepo->readAll();
     }
 
+    public function getPlatsDisponibles(): array
+    {
+        return $this->platsRepo->findAll();
+    }
+
     //=======================================================================
     // 1 - CREATE
     //=======================================================================
     public function createMenu(array $data, array $files)
     {
-        $composition = [
+        $compositionNouveaux = [
             'entree'  => trim((string)($data['composition']['entree'] ?? '')),
             'plat'    => trim((string)($data['composition']['plat'] ?? '')),
             'dessert' => trim((string)($data['composition']['dessert'] ?? '')),
         ];
 
-        if (in_array('', $composition, true)) {
+        $platsExistants = $this->platsRepo->findByIds($data['plats_existants'] ?? []);
+        $typesSelectionnes = [];
+        foreach ($platsExistants as $platExistant) {
+            $typesSelectionnes[$platExistant->getTypePlat()] = true;
+        }
+        foreach ($compositionNouveaux as $type => $nom) {
+            if ($nom !== '') $typesSelectionnes[$type] = true;
+        }
+
+        if (!isset($typesSelectionnes['entree'], $typesSelectionnes['plat'], $typesSelectionnes['dessert'])) {
             throw new \Exception('La composition doit contenir une entree, un plat et un dessert.');
         }
 
@@ -100,7 +114,15 @@ class MenusService
             return false;
         }
 
-        foreach ($composition as $type => $nom) {
+        foreach ($platsExistants as $platExistant) {
+            if (!$this->platsRepo->attachToMenu($menu->getIdMenu(), (int) $platExistant->getIdPlat())) {
+                throw new \Exception('Impossible d\'ajouter un plat existant au menu.');
+            }
+        }
+
+        foreach ($compositionNouveaux as $type => $nom) {
+            if ($nom === '') continue;
+
             $plat = new Plats();
             $plat->setNomPlat($nom);
             $plat->setTypePlat($type);
@@ -108,6 +130,10 @@ class MenusService
 
             if (!$this->platsRepo->createPlat($plat)) {
                 throw new \Exception('Impossible d\'enregistrer la composition du menu.');
+            }
+
+            if (!$this->platsRepo->attachToMenu($menu->getIdMenu(), (int) $plat->getIdPlat())) {
+                throw new \Exception('Impossible d\'ajouter le nouveau plat au menu.');
             }
         }
 

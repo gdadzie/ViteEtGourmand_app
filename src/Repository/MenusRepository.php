@@ -82,9 +82,10 @@ class MenusRepository {
     public function findPlatsByMenuId(int $idMenu): array
     {
         $stmt = $this->conn->prepare(
-            'SELECT nom_plat, type_plat
-             FROM plats
-             WHERE id_menu = :id_menu
+            'SELECT p.nom_plat, p.type_plat
+             FROM menus_plats mp
+             INNER JOIN plats p ON p.id_plat = mp.id_plat
+             WHERE mp.id_menu = :id_menu
              ORDER BY CASE type_plat
                 WHEN "entree" THEN 1
                 WHEN "plat" THEN 2

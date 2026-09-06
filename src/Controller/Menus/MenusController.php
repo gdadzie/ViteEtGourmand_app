@@ -24,7 +24,9 @@ class MenusController
         header('Expires: 0');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            View::render('Menus/creer_un_menu', [], 'Layout/main', false);
+            View::render('Menus/creer_un_menu', [
+                'platsDisponibles' => $this->menuService->getPlatsDisponibles(),
+            ], 'Layout/main', false);
             return;
         }
 

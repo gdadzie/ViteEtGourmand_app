@@ -61,18 +61,34 @@
                             </legend>
                             <p class="form-text mt-0 mb-3">Indiquez au minimum une entr&eacute;e, un plat et un dessert.</p>
 
+                            <label class="form-label" for="plats-existants">Ajouter des plats existants</label>
+                            <select id="plats-existants" name="plats_existants[]" class="form-select mb-2" multiple size="6" aria-describedby="aide-plats-existants">
+                                <?php if (empty($platsDisponibles)): ?>
+                                    <option disabled>Aucun plat existant pour le moment</option>
+                                <?php else: ?>
+                                    <?php foreach ($platsDisponibles as $platDisponible): ?>
+                                        <option value="<?= (int) $platDisponible->getIdPlat() ?>">
+                                            [<?= htmlspecialchars($platDisponible->getTypePlat() ?? '') ?>] <?= htmlspecialchars($platDisponible->getNomPlat() ?? '') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                            <p id="aide-plats-existants" class="form-text mb-3">Maintenez Ctrl (Windows) ou Cmd (Mac) pour s&eacute;lectionner plusieurs plats.</p>
+
+                            <p class="form-text mb-2">Ou cr&eacute;ez de nouveaux plats :</p>
+
                             <div class="row g-3">
                                 <div class="col-12 col-md-4">
                                     <label class="form-label" for="composition-entree">Entr&eacute;e</label>
-                                    <input type="text" id="composition-entree" name="composition[entree]" class="form-control" placeholder="Ex : Velout&eacute; de saison" required>
+                                    <input type="text" id="composition-entree" name="composition[entree]" class="form-control" placeholder="Ex : Velout&eacute; de saison">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label" for="composition-plat">Plat</label>
-                                    <input type="text" id="composition-plat" name="composition[plat]" class="form-control" placeholder="Ex : Filet de saumon" required>
+                                    <input type="text" id="composition-plat" name="composition[plat]" class="form-control" placeholder="Ex : Filet de saumon">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label" for="composition-dessert">Dessert</label>
-                                    <input type="text" id="composition-dessert" name="composition[dessert]" class="form-control" placeholder="Ex : Tarte aux fruits" required>
+                                    <input type="text" id="composition-dessert" name="composition[dessert]" class="form-control" placeholder="Ex : Tarte aux fruits">
                                 </div>
                             </div>
                         </fieldset>

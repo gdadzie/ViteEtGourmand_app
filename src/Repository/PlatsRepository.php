@@ -45,6 +45,38 @@ class PlatsRepository
         return $stmt->fetchAll(PDO::FETCH_CLASS, Plats::class);
     }
 
+    public function findByIds(array $ids): array
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
+        if ($ids === []) return [];
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM plats WHERE id_plat IN ({$placeholders}) ORDER BY type_plat, nom_plat"
+        );
+        $stmt->execute($ids);
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Plats::class);
+    }
+
+    public function attachToMenu(int $idMenu, int $idPlat): bool
+    {
+        $stmt = $this->conn->prepare(
+            'INSERT INTO menus_plats (id_menu, id_plat)
+             SELECT :id_menu, :id_plat
+             WHERE NOT EXISTS (
+                SELECT 1 FROM menus_plats WHERE id_menu = :id_menu_check AND id_plat = :id_plat_check
+             )'
+        );
+
+        return $stmt->execute([
+            'id_menu' => $idMenu,
+            'id_plat' => $idPlat,
+            'id_menu_check' => $idMenu,
+            'id_plat_check' => $idPlat,
+        ]);
+    }
+
     public function delete(int $id_plat): bool
     {
         $stmt = $this->conn->prepare("
