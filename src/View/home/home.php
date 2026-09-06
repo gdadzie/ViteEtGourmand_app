@@ -1,10 +1,3 @@
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact — Vite & Gourmand</title>
-
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <header class="hero">
     <div class="hero-content">
         <div class="mb-2 d-flex align-items-center justify-content-center">
@@ -194,39 +187,3 @@
     </section>
 
 </main>
-<style>
-
-    .avatar-letter{
-        width:55px;
-        height:55px;
-        min-width:55px;
-        border-radius:50%;
-        background:#aa6d27;
-        color:white;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:1.3rem;
-        font-weight:700;
-        text-transform:uppercase;
-        box-shadow:0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    .review-card{
-        background:white;
-        border-radius:18px;
-        padding:20px;
-        height:100%;
-        box-shadow:0 4px 15px rgba(0,0,0,0.06);
-        transition:0.2s ease;
-    }
-
-    .review-card:hover{
-        transform:translateY(-4px);
-    }
-
-    .stars{
-        color:#f4b400;
-    }
-
-</style>

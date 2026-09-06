@@ -25,7 +25,7 @@ class ContactController
 
             // CSS spécifiques page contact
             'cssFiles' => [
-                '/assets/css/contact/contact.css',
+                '/assets/css/contact.css',
             ],
 
             // JS éventuel (validation, etc.)

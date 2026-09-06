@@ -17,6 +17,11 @@
     --radius:18px;
 }
 
+.avatar-letter { align-items: center; background: #aa6d27; border-radius: 50%; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); color: #fff; display: flex; font-size: 1.3rem; font-weight: 700; height: 55px; justify-content: center; min-width: 55px; text-transform: uppercase; width: 55px; }
+.review-card { background: #fff; border-radius: 18px; box-shadow: 0 4px 15px rgba(0, 0, 0, .06); height: 100%; padding: 20px; transition: .2s ease; }
+.review-card:hover { transform: translateY(-4px); }
+.stars { color: #f4b400; }
+
 /* =========================
    GLOBAL
 ========================= */
