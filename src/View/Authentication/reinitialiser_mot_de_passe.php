@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion — Vite & Gourmand</title>
+    <title>Connexion â€” Vite & Gourmand</title>
 
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
                     <i class="bi bi-person-circle login-icon"></i>
                 </div>
 
-                <h1 class="text-center mb-4">Réinitialiser le mot de passe</h1>
+                <h1 class="text-center mb-4">RÃ©initialiser le mot de passe</h1>
                 <?php if (isset($success)) : ?>
                     <p style="color:green;">
                         <?= htmlspecialchars($success) ?>
@@ -36,7 +36,7 @@
                     </p>
                 <?php endif; ?>
 
-                <!-- Message d’erreur -->
+                <!-- Message dâ€™erreur -->
                 <?php if (!empty($error)) : ?>
                     <div class="alert alert-danger text-center">
                         <?= htmlspecialchars($error) ?>
@@ -47,6 +47,11 @@
 
                 <form action="index.php?page=reinitialiser_mot_de_passe" method="POST">
 
+                    <?php if (!empty($token)) : ?>
+                        <input type="hidden" name="token" value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8') ?>">
+                    <?php endif; ?>
+
+                    <?php if (empty($token)) : ?>
                     <div class="mb-3">
                         <label for="email" class="form-label">Adresse email</label>
                         <input
@@ -58,7 +63,9 @@
                             required
                         >
                     </div>
+                    <?php endif; ?>
 
+                    <?php if (!empty($token)) : ?>
                     <div class="mb-3">
                         <label for="mdp" class="form-label">Mot de passe</label>
                         <input
@@ -66,13 +73,14 @@
                             class="form-control"
                             id="mdp"
                             name="mdp"
-                            placeholder="••••••••"
-                            required
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            required minlength="10" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{10,}"
                         >
                     </div>
+                    <?php endif; ?>
 
                     <button type="submit" class="btn btn-primary w-100 mt-2">
-                        réinitialiser mon mot de passe
+                        <?= !empty($token) ? 'Définir mon nouveau mot de passe' : 'Envoyer le lien de réinitialisation' ?>
                     </button>
                 </form>
 
@@ -81,7 +89,7 @@
                 <p class="text-center mb-0">
                     <br>
                     <a href="index.php?page=connexion" class="btn btn-outline-secondary btn-sm mt-2">
-                        retour à la connexion
+                        retour Ã  la connexion
                     </a>
 
                 </p>

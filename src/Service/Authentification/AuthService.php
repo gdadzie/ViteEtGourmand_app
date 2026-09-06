@@ -7,11 +7,14 @@ use Config\Database;
 use Entity\Utilisateurs;
 use Repository\UtilisateursRepository;
 use Repository\VillesRepository;
+use Repository\PasswordResetRepository;
+use Service\MailService;
 
 class AuthService
 {
     private UtilisateursRepository $userRepo;
     private $villesRepo;
+    private PasswordResetRepository $passwordResetRepo;
 
     public function __construct()
     {
@@ -23,6 +26,7 @@ class AuthService
 
         $this->userRepo = new UtilisateursRepository($pdo);
         $this->villesRepo = new VillesRepository($pdo);
+        $this->passwordResetRepo = new PasswordResetRepository($pdo);
     }
 
     /**
@@ -39,6 +43,10 @@ class AuthService
                 'success' => false,
                 'message' => 'Email ou mot de passe incorrect.'
             ];
+        }
+
+        if (!$user->getEstActif()) {
+            return ['success' => false, 'message' => 'Ce compte est désactivé. Contactez l’entreprise.'];
         }
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -68,7 +76,7 @@ class AuthService
 
     /**
      * =========================
-     * INSCRIPTION (RGPD AJOUTÉ)
+     * INSCRIPTION (RGPD AJOUTÃ‰)
      * =========================
      */
     public function register(array $data, bool $rgpd): array
@@ -79,7 +87,7 @@ class AuthService
         if (!$rgpd) {
             return [
                 'success' => false,
-                'message' => 'Vous devez accepter la politique de confidentialité.'
+                'message' => 'Vous devez accepter la politique de confidentialitÃ©.'
             ];
         }
 
@@ -92,13 +100,17 @@ class AuthService
         $email = trim($data['email'] ?? '');
         $mdp = $data['mdp'] ?? '';
 
+        if (!self::isStrongPassword($mdp)) {
+            return ['success' => false, 'message' => 'Le mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.'];
+        }
+
         // =========================
         // EMAIL CHECK
         // =========================
         if ($this->userRepo->readByEmail($email)) {
             return [
                 'success' => false,
-                'message' => 'Cet email est déjà utilisé.'
+                'message' => 'Cet email est dÃ©jÃ  utilisÃ©.'
             ];
         }
 
@@ -110,7 +122,7 @@ class AuthService
         if ($idVille <= 0) {
             return [
                 'success' => false,
-                'message' => 'Veuillez sélectionner une ville.'
+                'message' => 'Veuillez sÃ©lectionner une ville.'
             ];
         }
 
@@ -137,13 +149,13 @@ class AuthService
         if (!$this->userRepo->create($user)) {
             return [
                 'success' => false,
-                'message' => 'Une erreur est survenue lors de la création du compte.'
+                'message' => 'Une erreur est survenue lors de la crÃ©ation du compte.'
             ];
         }
 
         return [
             'success' => true,
-            'message' => 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.'
+            'message' => 'Votre compte a Ã©tÃ© crÃ©Ã© avec succÃ¨s ! Vous pouvez maintenant vous connecter.'
         ];
     }
     /**
@@ -181,18 +193,31 @@ class AuthService
      * RESET MOT DE PASSE
      * =========================
      */
-    public function resetMotDePasse(string $email, string $nouveauMotDePasse): array
+    public function requestPasswordReset(string $email): array
     {
         $user = $this->userRepo->readByEmail($email);
+        if ($user && $user->getEstActif()) {
+            $token = bin2hex(random_bytes(32));
+            $this->passwordResetRepo->create($user->getIdUtilisateur(), hash('sha256', $token));
+            (new MailService())->envoyerMailReinitialisation($user->getEmail(), $user->getPrenom() . ' ' . $user->getNom(), $token);
+        }
+        // Prevent account enumeration: always return this same response.
+        return ['success' => true, 'message' => 'Si cette adresse correspond à un compte, un lien de réinitialisation vient d’être envoyé.'];
+    }
 
-        if (!$user) {
-            return [
-                'success' => false,
-                'message' => 'Aucun compte trouvé avec cet email.'
-            ];
+    public function resetMotDePasse(string $token, string $nouveauMotDePasse): array
+    {
+        if (!self::isStrongPassword($nouveauMotDePasse)) {
+            return ['success' => false, 'message' => 'Le mot de passe ne respecte pas les exigences de sécurité.'];
         }
 
-        $hash = password_hash($nouveauMotDePasse, PASSWORD_BCRYPT);
+        $userId = $this->passwordResetRepo->consume(hash('sha256', $token));
+        if (!$userId) return ['success' => false, 'message' => 'Ce lien est invalide ou expiré.'];
+
+        $user = $this->userRepo->readById($userId);
+        if (!$user) return ['success' => false, 'message' => 'Compte introuvable.'];
+
+        $hash = password_hash($nouveauMotDePasse, PASSWORD_DEFAULT);
 
         $success = $this->userRepo->updatePassword(
             $user->getEmail(),
@@ -202,7 +227,7 @@ class AuthService
         if (!$success) {
             return [
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour du mot de passe.'
+                'message' => 'Erreur lors de la mise Ã  jour du mot de passe.'
             ];
         }
 
@@ -210,6 +235,11 @@ class AuthService
             'success' => true,
             'message' => 'Mot de passe modifié avec succès.'
         ];
+    }
+
+    private static function isStrongPassword(string $password): bool
+    {
+        return (bool) preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{10,}$/', $password);
     }
 
     /**

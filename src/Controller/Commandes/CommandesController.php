@@ -45,25 +45,25 @@ class CommandesController
     }
 
     // =========================================================
-    // LISTE DES COMMANDES (ADMIN / EMPLOYÉ)
+    // LISTE DES COMMANDES (ADMIN / EMPLOYÃ‰)
     // =========================================================
     public function listeDesCommandes(): void
     {
-        //Vérification de la session
+        //VÃ©rification de la session
         if (!isset($_SESSION['id_utilisateur'])) {
             header('Location: index.php?page=connexion');
             exit;
         }
 
-        //Vérification des roles
+        //VÃ©rification des roles
         if (!isset($_SESSION['id_role']) || !in_array((int)$_SESSION['id_role'], [2, 3])) {
-            $_SESSION['error'] = "Accès interdit";
+            $_SESSION['error'] = "AccÃ¨s interdit";
             header('Location: index.php?page=home');
             exit;
         }
 
 
-        // Récupération des donnés dans le repository
+        // RÃ©cupÃ©ration des donnÃ©s dans le repository
         $commandes = $this->commandeRepo->readAll();
         $this->menusRepo->readByTitre($_POST['titre'] ?? '');
 
@@ -88,7 +88,7 @@ class CommandesController
         }
 
         // =====================================================
-        // MÉTHODE HTTP
+        // MÃ‰THODE HTTP
         // =====================================================
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
@@ -96,14 +96,14 @@ class CommandesController
 
             http_response_code(405);
 
-            $_SESSION['error'] = "Méthode non autorisée";
+            $_SESSION['error'] = "MÃ©thode non autorisÃ©e";
 
             header('Location: index.php?page=liste_des_menus');
 
             exit;
         }
 
-        //Vérification de la session
+        //VÃ©rification de la session
         $idUtilisateur = $_SESSION['id_utilisateur'] ?? null;
 
         if (!$idUtilisateur) {
@@ -115,11 +115,11 @@ class CommandesController
             exit;
         }
 
-        //Récupération des données dans le repository
+        //RÃ©cupÃ©ration des donnÃ©es dans le repository
         $client = $this->utilisateursRepo->readById((int)$idUtilisateur);
 
         // =====================================================
-        // ÉTAPE 1 : AFFICHAGE FORMULAIRE
+        // Ã‰TAPE 1 : AFFICHAGE FORMULAIRE
         // =====================================================
         if (isset($_POST['id'])) {
 
@@ -146,7 +146,7 @@ class CommandesController
             }
 
             // =================================================
-            // DONNÉES CLIENT
+            // DONNÃ‰ES CLIENT
             // =================================================
             $numeroRue = $client?->getNumeroRue() ?? '';
             $nomRue = $client?->getNomRue() ?? '';
@@ -158,7 +158,7 @@ class CommandesController
             $email = $client?->getEmail() ?? '';
 
             // =================================================
-            // DONNÉES MENU
+            // DONNÃ‰ES MENU
             // =================================================
             $minimumPersonnes = (int)$menu->getNbMinPersonne();
 
@@ -178,12 +178,12 @@ class CommandesController
         }
 
         // =====================================================
-        // ÉTAPE 2 : ENREGISTRER COMMANDE
+        // Ã‰TAPE 2 : ENREGISTRER COMMANDE
         // =====================================================
         if (isset($_POST['id_menu'])) {
 
             // =================================================
-            // RÉCUPÉRATION DES DONNÉES
+            // RÃ‰CUPÃ‰RATION DES DONNÃ‰ES
             // =================================================
             $idMenu = (int)($_POST['id_menu'] ?? 0);
 
@@ -277,7 +277,7 @@ class CommandesController
             $prixTotal = $detailsPrix['total'];
 
             // =================================================
-            // CRÉATION COMMANDE
+            // CRÃ‰ATION COMMANDE
             // =================================================
             $commande = new Commande();
 
@@ -299,7 +299,7 @@ class CommandesController
 
             $commande->setHeureLivraison($heure);
 
-            $commande->setStatut('reçue');
+            $commande->setStatut('reÃ§ue');
 
             $commande->setDateCreation(date('Y-m-d H:i:s'));
 
@@ -315,12 +315,12 @@ class CommandesController
             if ($this->commandeRepo->create($commande)) {
 
                 $_SESSION['success'] =
-                    "Commande créée avec succès";
+                    "Commande crÃ©Ã©e avec succÃ¨s";
 
             } else {
 
                 $_SESSION['error'] =
-                    "Erreur lors de la création de la commande";
+                    "Erreur lors de la crÃ©ation de la commande";
             }
 
             header('Location: index.php?page=espace_utilisateur');
@@ -331,7 +331,7 @@ class CommandesController
         // =====================================================
         // FALLBACK
         // =====================================================
-        $_SESSION['error'] = "Requête invalide";
+        $_SESSION['error'] = "RequÃªte invalide";
 
         header('Location: index.php?page=liste_des_menus');
 
@@ -348,24 +348,47 @@ class CommandesController
             exit;
         }
 
-        //Récupére l'id_commande via le formulaire POST
+        if (!isset($_SESSION['id_utilisateur'])) {
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+
+        //RÃ©cupÃ©re l'id_commande via le formulaire POST
         $id = (int)($_POST['id_commande'] ?? 0);
 
-        //Vérifie si l'id_commande est valide
+        //VÃ©rifie si l'id_commande est valide
         if (!$id) {
             $_SESSION['error'] = "ID invalide";
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
 
+        $commande = $this->commandeRepo->readById($id);
+        $role = (int) ($_SESSION['id_role'] ?? 0);
+        if (!$commande || ($role === 1 && $commande->getIdUtilisateur() !== (int) $_SESSION['id_utilisateur'])) {
+            http_response_code(403);
+            $_SESSION['error'] = "Accès interdit";
+            header('Location: index.php?page=espace_utilisateur');
+            exit;
+        }
+        if ($role === 1 && $commande->getStatut() !== 'recue') {
+            $_SESSION['error'] = "Cette commande ne peut plus être annulée.";
+            header('Location: index.php?page=mes_commandes');
+            exit;
+        }
+        if (!in_array($role, [1, 2, 3], true)) {
+            http_response_code(403);
+            exit;
+        }
+
         //supprime la commande
         if ($this->commandeRepo->delete($id)) {
-            $_SESSION['success'] = "Commande supprimée avec succès";
+            $_SESSION['success'] = "Commande supprimÃ©e avec succÃ¨s";
         } else {
             $_SESSION['error'] = "Commande introuvable";
         }
 
-        // Récupère l'identifiant du rôle de l'utilisateur connecté depuis la session
+        // RÃ©cupÃ¨re l'identifiant du rÃ´le de l'utilisateur connectÃ© depuis la session
         $idRole = (int)($_SESSION['id_role'] ?? 0);
 
         //Redirection en fonction du role de l'utilisateur
@@ -397,6 +420,13 @@ class CommandesController
             exit;
         }
 
+        if (!isset($_SESSION['id_utilisateur']) || !in_array((int) ($_SESSION['id_role'] ?? 0), [2, 3], true)) {
+            http_response_code(403);
+            $_SESSION['error'] = "Accès réservé à l’équipe.";
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+
         $id = (int)($_POST['id'] ?? 0);
 
         if (!$id) {
@@ -415,7 +445,7 @@ class CommandesController
 
         $ancien = $commande->getStatut();
 
-        // ✅ STATUTS NORMALISÉS
+        // âœ… STATUTS NORMALISÃ‰S
         $map = [
             'recue' => 'acceptee',
             'acceptee' => 'payee',
@@ -445,7 +475,7 @@ class CommandesController
             $_SESSION['id_role'] ?? null
         );
 
-        $_SESSION['success'] = "Statut mis à jour";
+        $_SESSION['success'] = "Statut mis Ã  jour";
 
         header('Location: index.php?page=gestion_des_commandes');
         exit;
@@ -508,13 +538,13 @@ class CommandesController
         }
 
         if ($commande->getStatutPaiement() === 'paid') {
-            $_SESSION['error'] = "Déjà payé";
+            $_SESSION['error'] = "DÃ©jÃ  payÃ©";
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
 
         if ($this->commandeRepo->validerPaiement($idCommande)) {
-            $_SESSION['success'] = "Paiement validé";
+            $_SESSION['success'] = "Paiement validÃ©";
         } else {
             $_SESSION['error'] = "Erreur paiement";
         }
@@ -538,7 +568,7 @@ class CommandesController
         return round(5 + ($distance * 0.59), 2);
     }
 // =========================================================
-// CALCUL DE LA RÉDUCTION
+// CALCUL DE LA RÃ‰DUCTION
 // =========================================================
     private function calculerReduction(
         float $prixMenus,

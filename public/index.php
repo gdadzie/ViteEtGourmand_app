@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', getenv('APP_ENV') === 'local' ? '1' : '0');
+ini_set('display_startup_errors', getenv('APP_ENV') === 'local' ? '1' : '0');
 error_reporting(E_ALL);
 
 // ===============================
@@ -12,7 +12,9 @@ define('VIEW_PATH', ROOT . '/src/View');
 // ===============================
 // SESSION
 // ===============================
-session_start();
+require_once ROOT . '/src/Core/Security.php';
+\Core\Security::startSession();
+ob_start([\Core\Security::class, 'injectCsrfFields']);
 
 // ===============================
 // AUTOLOADER
@@ -55,15 +57,16 @@ use Service\Menus\MenusService;
 // ===============================
 // CONNEXION DB
 // ===============================
-$env = $_ENV['APP_ENV'] ?? 'local';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../', ".env.$env");
-$dotenv->load();
+$env = getenv('APP_ENV') ?: 'local';
+$envFile = ROOT . "/.env.$env";
+if (is_file($envFile)) {
+    Dotenv\Dotenv::createImmutable(ROOT, ".env.$env")->safeLoad();
+}
 
 $conn = Database::getConnection();
 
 if (!$conn) {
-    die("Connexion base de données échouée : " . Database::getLastError());
+    die("Connexion base de donnÃ©es Ã©chouÃ©e : " . Database::getLastError());
 }
 
 
@@ -139,7 +142,7 @@ $avisController = new AvisController(
 );
 
 // ===============================
-// DONNÉES GLOBALES
+// DONNÃ‰ES GLOBALES
 // ===============================
 $horaires = $horairesRepo->readAll();
 
@@ -148,8 +151,12 @@ $horaires = $horairesRepo->readAll();
 // ===============================
 $page = $_GET['page'] ?? 'home';
 
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    \Core\Security::verifyPost();
+}
+
 // ===============================
-// PROTECTION MÉTHODE POST
+// PROTECTION MÃ‰THODE POST
 // ===============================
 function requirePostMethod()
 {
@@ -162,7 +169,7 @@ function requirePostMethod()
 
     if ($method !== 'POST') {
         http_response_code(405);
-        $_SESSION['error'] = "Méthode non autorisée";
+        $_SESSION['error'] = "MÃ©thode non autorisÃ©e";
         header('Location: index.php?page=liste_des_menus');
         exit;
     }
@@ -313,7 +320,7 @@ switch ($page) {
         break;
 
     // ===============================
-    // EMPLOYÉ
+    // EMPLOYÃ‰
     // ===============================
     case 'espace_employe':
         $employesController->index();
@@ -344,7 +351,7 @@ switch ($page) {
         break;
 
     case 'creer_un_menu':
-        // ❌ requirePostMethod supprimé (controller gère POST)
+        // âŒ requirePostMethod supprimÃ© (controller gÃ¨re POST)
         $menusController->createMenu();
         break;
 
@@ -392,6 +399,6 @@ switch ($page) {
     // ===============================
     default:
         http_response_code(404);
-        echo "<h1>Page non trouvée</h1>";
+        echo "<h1>Page non trouvÃ©e</h1>";
         break;
 }
