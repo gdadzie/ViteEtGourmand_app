@@ -129,6 +129,11 @@ class UtilisateursController
     // =========================================================
     public function activateUtilisateur()
     {
+        if ((int) ($_SESSION['id_role'] ?? 0) !== 3) {
+            http_response_code(403);
+            exit('Accès interdit');
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: index.php?page=liste_des_utilisateurs');
             exit;
@@ -162,6 +167,11 @@ class UtilisateursController
     // =========================================================
     public function deleteUtilisateurById()
     {
+        if ((int) ($_SESSION['id_role'] ?? 0) !== 3) {
+            http_response_code(403);
+            exit('Accès interdit');
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: index.php?page=liste_des_utilisateurs');
             exit;

@@ -35,20 +35,20 @@ class AdminController
 
         AuthService::requireAdmin();
 
-        // Empêcher la mise en cache
+        // EmpÃªcher la mise en cache
         header('Cache-Control: no-cache, no-store, must-revalidate');
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        // Vérifier si l'utilisateur est connecté
+        // VÃ©rifier si l'utilisateur est connectÃ©
         if (!isset($_SESSION['id_utilisateur'])) {
             header('Location: index.php?page=connexion');
             exit;
         }
 
-        // Vérifier le rôle : seuls les admins (3) peuvent accéder
+        // VÃ©rifier le rÃ´le : seuls les admins (3) peuvent accÃ©der
         if (($_SESSION['id_role'] ?? null) !== 3) {
-            $_SESSION['error'] = 'Accès interdit !';
+            $_SESSION['error'] = 'AccÃ¨s interdit !';
             header('Location: index.php?page=connexion');
             exit;
         }
@@ -57,7 +57,7 @@ class AdminController
         require __DIR__ . '/../../View/Admin/espace_administrateur.php';
     }
 
-    // CRÉATION D'UN EMPLOYE
+    // CRÃ‰ATION D'UN EMPLOYE
     public function creationEmploye(): void
     {
         AuthService::requireAdmin();
@@ -81,16 +81,16 @@ class AdminController
         $mdp         = $_POST['mdp'] ?? '';
         $role        = 2;
 
-        // Vérification email existant
+        // VÃ©rification email existant
         if ($email !== '' && $this->utilisateursRepo->readByEmail($email)) {
-            $error = "Cet email est déjà utilisé.";
+            $error = "Cet email est dÃ©jÃ  utilisÃ©.";
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
 
         // Validation ville
         if ($idVille <= 0) {
-            $error = "Veuillez sélectionner une ville.";
+            $error = "Veuillez sÃ©lectionner une ville.";
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
@@ -98,12 +98,12 @@ class AdminController
         $villeEntity = $this->villesRepo->findById($idVille);
 
         if (!$villeEntity) {
-            $error = "La ville sélectionnée est introuvable.";
+            $error = "La ville sÃ©lectionnÃ©e est introuvable.";
             require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
             return;
         }
 
-        // Création de l'employé
+        // CrÃ©ation de l'employÃ©
         $u = new Utilisateurs(
             $prenom,
             $nom,
@@ -129,22 +129,23 @@ class AdminController
                     $prenom . ' ' . $nom
                 );
 
-                $success = "Le compte employé a été créé et l'email de notification a été envoyé.";
+                $success = "Le compte employÃ© a Ã©tÃ© crÃ©Ã© et l'email de notification a Ã©tÃ© envoyÃ©.";
             } catch (\Exception $e) {
-                $success = "Le compte employé a été créé, mais l'email n'a pas pu être envoyé.";
+                $success = "Le compte employÃ© a Ã©tÃ© crÃ©Ã©, mais l'email n'a pas pu Ãªtre envoyÃ©.";
             }
 
             require __DIR__ . '/../../View/Admin/espace_administrateur.php';
             return;
         }
 
-        $error = "Erreur lors de la création du compte.";
+        $error = "Erreur lors de la crÃ©ation du compte.";
         require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
     }
 
     // AFFICHER LA LISTE DES UTILISATEURS
     public function listeDesUtilisateurs(): void
     {
+        AuthService::requireAdmin();
         $prenom   = trim($_GET['prenom'] ?? '');
         $nom      = trim($_GET['nom'] ?? '');
         $email    = trim($_GET['email'] ?? '');
@@ -152,7 +153,7 @@ class AdminController
             ? (int) $_GET['est_actif']
             : null;
 
-        // ✅ on passe les paramètres, et on n'écrase plus ensuite
+        // âœ… on passe les paramÃ¨tres, et on n'Ã©crase plus ensuite
         $utilisateurs = $this->utilisateursRepo->readByRoleEmploye(
             $prenom,
             $nom,
@@ -160,25 +161,11 @@ class AdminController
             $estActif
         );
 
-        //envoyer un mail a chaque utilisateur
-        $mailService = new MailService();
-        $mailService->envoyerMailCreationCompte(
-            $email,
-            $prenom . ' ' . $nom,
-            'employe'
-        );
-
-        $mailService->envoyerMailCreationCompte(
-            $email,
-            $prenom . ' ' . $nom,
-            'utilisateur'
-        );
-
         require __DIR__ . '/../../View/Utilisateurs/liste_des_utilisateurs.php';
     }
 
 
-    // AFFICHER LA LISTE DES EMPLOYÉS (AVEC FILTRES)
+    // AFFICHER LA LISTE DES EMPLOYÃ‰S (AVEC FILTRES)
     public function listeDesEmployes(): void
     {
         AuthService::requireAdmin();
@@ -190,7 +177,7 @@ class AdminController
             ? (int) $_GET['est_actif']
             : null;
 
-        // IMPORTANT : ne pas écraser $utilisateurs après
+        // IMPORTANT : ne pas Ã©craser $utilisateurs aprÃ¨s
         $utilisateurs = $this->utilisateursRepo->readByRoleEmploye($prenom, $nom, $email, $estActif);
 
         require __DIR__ . '/../../View/Utilisateurs/liste_des_employes.php';
@@ -198,6 +185,7 @@ class AdminController
 
     public function modificationHoraires(): void
     {
+        AuthService::requireAdminEmploye();
         $pdo = Database::getConnection();
         if (!$pdo) {
             die('Erreur DB');
@@ -231,6 +219,7 @@ class AdminController
 
     public function gestionDesMenus(): void
     {
+        AuthService::requireAdminEmploye();
         $menus = $this->menusRepo->readAll();
         require __DIR__ . '/../../View/Fonctionalites/gestion_menus.php';
     }

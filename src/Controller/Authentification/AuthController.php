@@ -56,7 +56,7 @@ class AuthController
         // RGPD CHECK
         // =========================
         if (!isset($_POST['rgpd'])) {
-            $error = "Vous devez accepter la politique de confidentialité.";
+            $error = "Vous devez accepter la politique de confidentialitÃ©.";
             require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
             return;
         }
@@ -92,7 +92,7 @@ class AuthController
 
 
         if ((int)($_SESSION['id_role'] ?? 0) !== 1) {
-            $_SESSION['error'] = "Accès interdit";
+            $_SESSION['error'] = "AccÃ¨s interdit";
             header('Location: index.php?page=home');
             exit;
         }
@@ -102,14 +102,18 @@ class AuthController
     public function resetPassword(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $token = trim($_GET['token'] ?? '');
             require __DIR__ . '/../../View/Authentication/reinitialiser_mot_de_passe.php';
             return;
         }
 
         $email = trim($_POST['email'] ?? '');
+        $token = trim($_POST['token'] ?? '');
         $mdp = $_POST['mdp'] ?? '';
 
-        $result = $this->authService->resetMotDePasse($email, $mdp);
+        $result = $token !== ''
+            ? $this->authService->resetMotDePasse($token, $mdp)
+            : $this->authService->requestPasswordReset($email);
 
         if (!$result['success']) {
             $error = $result['message'];
@@ -117,7 +121,7 @@ class AuthController
             return;
         }
 
-        // ✅ message succès
+        // âœ… message succÃ¨s
         $success = $result['message'];
 
         require __DIR__ . '/../../View/Authentication/reinitialiser_mot_de_passe.php';
