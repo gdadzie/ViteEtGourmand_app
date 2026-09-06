@@ -29,6 +29,10 @@ unset($_SESSION['success'], $_SESSION['error']);
 
             <form id="filterForm" class="filters-card">
 
+                <div class="filter-title">
+                    <i class="bi bi-funnel me-1"></i> Filtrer les menus
+                </div>
+
                 <div class="row g-3">
 
                     <!-- Prix max -->
@@ -123,6 +127,16 @@ unset($_SESSION['success'], $_SESSION['error']);
                                placeholder="2">
                     </div>
 
+                    <div class="col-12 col-lg-2 d-flex align-items-end">
+                        <button type="button" id="resetFilters" class="btn-reset w-100">
+                            <i class="bi bi-arrow-counterclockwise"></i> RÃ©initialiser
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="result-count">
+                    <strong id="resultCount">0</strong> menu(s) affichÃ©(s)
                 </div>
 
             </form>
@@ -149,7 +163,11 @@ unset($_SESSION['success'], $_SESSION['error']);
     <div class="row g-4 menu-grid">
 
         <?php foreach ($menus as $menu): ?>
-            <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="col-sm-6 col-md-4 col-lg-3 menu-item"
+                 data-price="<?= htmlspecialchars((string) $menu->getPrixParPersonne()) ?>"
+                 data-theme="<?= htmlspecialchars($menu->getTheme()) ?>"
+                 data-regime="<?= htmlspecialchars($menu->getRegime()) ?>"
+                 data-personnes="<?= (int) $menu->getNbMinPersonne() ?>">
 
                 <article class="card-menu">
 
@@ -204,6 +222,11 @@ unset($_SESSION['success'], $_SESSION['error']);
 
     </div>
 
+    <div id="noFilterResult" class="no-filter-result text-center py-5" hidden>
+        <i class="bi bi-search fs-3 d-block mb-2"></i>
+        Aucun menu ne correspond aux critÃ¨res sÃ©lectionnÃ©s.
+    </div>
+
 </main>
 
-<script src="/assets/js/liste-des-menus.js"></script>
+<script src="/assets/js/liste-des-menus.js?v=2"></script>

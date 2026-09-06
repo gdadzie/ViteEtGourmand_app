@@ -372,31 +372,62 @@ h5{
 
    .filters-card {
        background: #ffffff;
-       border-radius: 20px;
-       padding: 1.5rem;
-       box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-       border: 1px solid #f1f1f1;
+       border-radius: 18px;
+       padding: 20px;
+       box-shadow: 0 6px 18px rgba(0,0,0,.05);
+       border: 0;
    }
+
+.filter-title {
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.filter-title i { color: var(--brand); }
 
 .filters-card .form-label {
     font-weight: 600;
-    color: #2d2d2d;
-    margin-bottom: 0.4rem;
+    color: #495057;
+    font-size: .82rem;
+    margin-bottom: 6px;
 }
 
 .filters-card .form-control,
 .filters-card .form-select {
-    border-radius: 12px;
-    border: 1px solid #dcdcdc;
-    min-height: 48px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    min-height: 42px;
+    font-size: .9rem;
     transition: all 0.2s ease;
 }
 
 .filters-card .form-control:focus,
 .filters-card .form-select:focus {
-    border-color: #c59d5f;
-    box-shadow: 0 0 0 0.2rem rgba(197,157,95,0.15);
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(170,109,39,.12);
 }
+
+.btn-reset {
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid var(--brand);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.btn-reset:hover { background: var(--tint); color: var(--brand-dark); }
+
+.result-count {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.result-count strong { color: var(--brand); }
+
+.no-filter-result { color: var(--muted); }
 
 .filters-wrapper {
     animation: fadeIn 0.4s ease;

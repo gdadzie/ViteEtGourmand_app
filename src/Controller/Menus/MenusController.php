@@ -67,7 +67,7 @@ class MenusController
             'menus'       => $menus,
             'filters'     => $filters,
             'cssFiles'    => ['/assets/css/menus/liste.css'],
-            'jsFiles'     => ['/assets/js/menus/filters.js'],
+            'jsFiles'     => [],
         ]);
 
         //Affiche le nom des menus
