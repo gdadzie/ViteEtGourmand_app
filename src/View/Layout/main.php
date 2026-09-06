@@ -37,6 +37,8 @@
 
 <?php require ROOT . '/src/View/partials/footer.php'; ?>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Page JS -->
 <?php foreach ($jsFiles ?? [] as $js): ?>
     <script src="<?= htmlspecialchars($js) ?>" defer></script>

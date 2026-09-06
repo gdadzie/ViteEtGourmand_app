@@ -122,7 +122,7 @@ class MenusController
             'imagePath'        => $imagePath,
             'menu'             => $menu,
             'horaires'         => $horaires ?? [],
-            'cssFiles'         => ['/assets/css/menus/detail.css'],
+            'cssFiles'         => ['/assets/css/menu/detail_menus.css'],
             'jsFiles'          => [],
         ]);
     }
