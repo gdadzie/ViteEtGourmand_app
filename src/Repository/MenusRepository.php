@@ -76,6 +76,27 @@ class MenusRepository {
         return $menu;
     }
 
+    /**
+     * Retourne les plats qui composent un menu, classÃ©s par service.
+     */
+    public function findPlatsByMenuId(int $idMenu): array
+    {
+        $stmt = $this->conn->prepare(
+            'SELECT nom_plat, type_plat
+             FROM plats
+             WHERE id_menu = :id_menu
+             ORDER BY CASE type_plat
+                WHEN "entree" THEN 1
+                WHEN "plat" THEN 2
+                WHEN "dessert" THEN 3
+                ELSE 4
+             END, nom_plat'
+        );
+        $stmt->execute(['id_menu' => $idMenu]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function readByTitre(string $titre): array
     {

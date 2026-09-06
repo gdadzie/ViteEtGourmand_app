@@ -167,6 +167,8 @@ class CommandesController
 
             $prixParPersonne = (float)$menu->getPrixParPersonne();
 
+            $platsDuMenu = $this->menusRepo->findPlatsByMenuId($idMenu);
+
             $aujourdhui = new \DateTime();
 
             $maxDate = (new \DateTime())->modify('+1 year');

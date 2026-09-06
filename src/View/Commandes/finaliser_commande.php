@@ -64,6 +64,32 @@
                         </div>
                     </div>
 
+                    <section class="card mb-4 bg-light border-0" aria-labelledby="composition-menu">
+                        <div class="card-body">
+                            <h2 id="composition-menu" class="h4 mb-3">
+                                <i class="bi bi-card-checklist me-2"></i>Composition du menu
+                            </h2>
+
+                            <?php if (!empty($platsDuMenu)): ?>
+                                <div class="row g-2">
+                                    <?php foreach ($platsDuMenu as $plat): ?>
+                                        <?php $typePlat = strtolower((string) $plat['type_plat']); ?>
+                                        <div class="col-12 col-md-4">
+                                            <div class="border rounded-3 bg-white p-3 h-100">
+                                                <div class="text-muted small text-capitalize mb-1">
+                                                    <?= $typePlat === 'entree' ? 'Entr&eacute;e' : htmlspecialchars($typePlat) ?>
+                                                </div>
+                                                <strong><?= htmlspecialchars($plat['nom_plat']) ?></strong>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-muted mb-0">La composition d&eacute;taill&eacute;e de ce menu sera confirm&eacute;e avec l&apos;&eacute;quipe.</p>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+
                     <!-- ========================= -->
                     <!-- FORMULAIRE -->
                     <!-- ========================= -->
