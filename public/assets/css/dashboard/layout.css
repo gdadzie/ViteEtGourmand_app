@@ -1,0 +1,291 @@
+
+    /* ================================
+       VARIABLES
+       ================================ */
+
+:root {
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #212529;
+    --muted: #6c757d;
+
+    --brand: #aa6d27;
+    --brand-dark: #935f22;
+    --tint: #fdf2e7;
+
+    --border: rgba(0, 0, 0, 0.08);
+
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.10);
+
+    --radius: 16px;
+}
+
+
+/* ================================
+   BODY
+   ================================ */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
+/* ================================
+   CONTAINER
+   ================================ */
+
+.container {
+    max-width: 1200px;
+}
+
+
+/* ================================
+   BARRE DU HAUT
+   ================================ */
+
+.topbar {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+
+/* ================================
+   CARTES
+   ================================ */
+
+.card-tile {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+
+    box-shadow: var(--shadow);
+
+    transition:
+            transform 0.18s ease,
+            box-shadow 0.18s ease,
+            border-color 0.18s ease;
+}
+
+.card-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(170, 109, 39, 0.25);
+}
+
+
+/* ================================
+   BADGE ICÔNE
+   ================================ */
+
+.icon-badge {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--tint);
+
+    flex: 0 0 auto;
+}
+
+.icon-badge i {
+    color: var(--brand);
+    font-size: 1.35rem;
+}
+
+
+/* ================================
+   TITRE DE PAGE
+   ================================ */
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+
+/* ================================
+   TEXTE SECONDAIRE
+   ================================ */
+
+.muted {
+    color: var(--muted);
+}
+
+
+/* ================================
+   STATISTIQUES
+   ================================ */
+
+.stat-chip {
+    border-radius: 999px;
+
+    padding: 0.25rem 0.6rem;
+
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    color: var(--text);
+
+    display: inline-flex;
+    align-items: center;
+}
+
+
+/* ================================
+   LIENS RAPIDES
+   ================================ */
+
+.quick-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.quick-link:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.quick-link:focus-visible {
+    outline: 3px solid rgba(170, 109, 39, 0.35);
+    outline-offset: 4px;
+    border-radius: var(--radius);
+}
+
+
+/* ================================
+   POINT DE COULEUR
+   ================================ */
+
+.brand-dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 99px;
+
+    background: var(--brand);
+
+    display: inline-block;
+
+    margin-right: 8px;
+}
+
+
+/* ================================
+   COULEUR PRINCIPALE
+   ================================ */
+
+.accent {
+    color: var(--brand);
+}
+
+
+/* ================================
+   BOUTON PRINCIPAL
+   ================================ */
+
+    .btn-accent {
+        background: none;
+        border: none;
+        padding: 0;
+
+        color: var(--brand);
+        font-size: 0.95rem;
+        font-weight: 600;
+
+        text-decoration: none;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        cursor: pointer;
+
+        transition:
+                color 0.2s ease,
+                gap 0.2s ease;
+    }
+
+    .btn-accent:hover {
+        background: none;
+        border: none;
+
+        color: var(--brand-dark);
+        gap: 9px;
+
+        text-decoration: none;
+    }
+
+    .btn-accent i {
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-accent:hover i {
+        transform: translateX(3px);
+    }
+
+    .btn-accent:focus-visible {
+        outline: 2px solid rgba(170, 109, 39, 0.35);
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 767px) {
+
+    .container {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+
+    .card-tile {
+        border-radius: 14px;
+    }
+
+    .topbar {
+        border-radius: 14px;
+    }
+}
+
+
+/* ================================
+   ACCESSIBILITÉ
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .card-tile,
+    .btn-accent {
+        transition: none;
+    }
+
+    .card-tile:hover {
+        transform: none;
+    }
+}

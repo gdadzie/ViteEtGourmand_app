@@ -1,71 +1,149 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Vite & Gourmand — Traiteur à Bordeaux. Menus pour événements, commandes en ligne." />
-    <title>Vite &amp; Gourmand — Accueil</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous" defer></script>
+$success = $_SESSION['success'] ?? '';
+$error   = $_SESSION['error'] ?? '';
 
-    <link rel="stylesheet" href="assets/css/home/home.css" />
-    <link rel="stylesheet" href="assets/css/media_queries_page_accueil.css?v=2">
-    <meta name="robots" content="index, follow">
-</head>
+unset($_SESSION['success'], $_SESSION['error']);
+?>
 
-<div class="container my-5">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Titre -->
-    <div class="text-center mb-5">
-        <h1 class="h3 fw-bold">
-            <i class="bi bi-journal-text me-2"></i>Nos Plats
-        </h1>
-        <p class="text-muted">
-            Découvrez notre sélection de plats
+<link rel="stylesheet" href="/assets/css/liste_des_plats.css">
+
+<main class="container my-4 my-md-5" role="main">
+
+    <!-- HEADER -->
+    <div class="page-header mb-4">
+
+        <div class="d-flex align-items-center gap-2">
+            <span class="brand-dot"></span>
+            <h1 class="m-0">Nos plats</h1>
+        </div>
+
+        <p class="page-sub">
+            Découvrez notre sélection de plats.
         </p>
+
     </div>
 
-    <!-- Liste des plats -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+    <!-- ALERTS -->
+    <?php if ($success): ?>
+
+        <div class="alert alert-success" role="alert">
+            <?= htmlspecialchars($success) ?>
+        </div>
+
+    <?php endif; ?>
+
+
+    <?php if ($error): ?>
+
+        <div class="alert alert-danger" role="alert">
+            <?= htmlspecialchars($error) ?>
+        </div>
+
+    <?php endif; ?>
+
+
+    <!-- PLATS -->
+    <div class="row g-4 menu-grid">
 
         <?php foreach ($plats as $plat): ?>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm">
 
-                    <div class="card-body d-flex flex-column">
+            <div class="col-sm-6 col-md-4 col-lg-3">
 
-                        <h5 class="card-title fw-semibold mb-2">
-                            <?= htmlspecialchars($plat->getNomPlat()) ?>
-                        </h5>
+                <article class="card-menu">
 
-                        <!-- Type de plat -->
-                        <span class="badge
+                    <!-- IMAGE -->
+                    <div class="menu-media">
+
+                        <?php if ($plat->getImagePlat()): ?>
+
+                            <img
+                                    src="<?= htmlspecialchars($plat->getImagePlat()) ?>"
+                                    alt="Image du plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
+                            >
+
+                        <?php else: ?>
+
+                            <div class="image-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+
+                        <?php endif; ?>
+
+
+                        <!-- TYPE -->
+                        <div class="price-badge">
+
                             <?php
-                        echo match ($plat->getTypePlat()) {
-                            'entree'  => 'bg-success',
-                            'plat'    => 'bg-primary',
-                            'dessert' => 'bg-warning text-dark',
-                            default   => 'bg-secondary'
-                        };
-                        ?>
-                        ">
-                            <?= ucfirst(htmlspecialchars($plat->getTypePlat())) ?>
-                        </span>
+                            $type = $plat->getTypePlat();
 
-                        <div class="mt-auto pt-3 text-end">
-                            <i class="bi bi-arrow-right-circle text-muted"></i>
+                            echo match ($type) {
+                                'entree'  => 'Entrée',
+                                'plat'    => 'Plat',
+                                'dessert' => 'Dessert',
+                                default   => ucfirst($type)
+                            };
+                            ?>
+
                         </div>
 
                     </div>
-                </div>
+
+
+                    <!-- CONTENU -->
+                    <div class="card-body">
+
+                        <h2 class="menu-title">
+                            <?= htmlspecialchars($plat->getNomPlat()) ?>
+                        </h2>
+
+
+                        <!-- FOOTER -->
+                        <div class="menu-footer">
+
+                            <span class="pill">
+
+                                <?php
+                                echo match ($plat->getTypePlat()) {
+                                    'entree'  => 'Entrée',
+                                    'plat'    => 'Plat',
+                                    'dessert' => 'Dessert',
+                                    default   => 'Plat'
+                                };
+                                ?>
+
+                            </span>
+
+
+                            <a
+                                    href="index.php?page=detail_plat&id=<?= $plat->getIdPlat() ?>"
+                                    class="btn-eye"
+                                    title="Voir le plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
+                                    aria-label="Voir le plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
             </div>
+
         <?php endforeach; ?>
 
     </div>
 
-</div>
+</main>
 
-</body>
-</html>
+<script src="/assets/js/liste-des-menus.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

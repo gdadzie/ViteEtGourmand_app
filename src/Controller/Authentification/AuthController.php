@@ -96,7 +96,7 @@ class AuthController
             header('Location: index.php?page=home');
             exit;
         }
-        require __DIR__ . '/../../View/Authentication/espace_utilisateur.php';
+        require __DIR__ . '/../../View/Client/espace_client.php';
     }
 
     public function resetPassword(): void

@@ -156,13 +156,8 @@ unset($_SESSION['success'], $_SESSION['error']);
                     <!-- IMAGE -->
                     <div class="menu-media">
 
-                        <?php if ($menu->getImage() && file_exists('uploads/' . $menu->getImage())): ?>
-                            <img src="uploads/<?= htmlspecialchars($menu->getImage()) ?>"
-                                 alt="Image du menu <?= htmlspecialchars($menu->getTitre()) ?>">
-                        <?php else: ?>
-                            <img src="uploads/default.png"
-                                 alt="Image par défaut du menu <?= htmlspecialchars($menu->getTitre()) ?>">
-                        <?php endif; ?>
+                        <img src="<?= $menu->getImagePath() ?>"
+                             alt="Image du menu <?= htmlspecialchars($menu->getTitre()) ?>">
 
                         <div class="price-badge">
                             <?= number_format($menu->getPrixParPersonne(), 2, ',', ' ') ?> €
@@ -212,3 +207,4 @@ unset($_SESSION['success'], $_SESSION['error']);
 </main>
 
 <script src="/assets/js/liste-des-menus.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

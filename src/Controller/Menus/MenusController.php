@@ -24,11 +24,13 @@ class MenusController
         header('Expires: 0');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            View::render('Menus/creer_un_menu');
+            View::render('Menus/creer_un_menu', [], 'Layout/main', false);
             return;
         }
 
         try {
+
+
             $this->menuService->createMenu($_POST, $_FILES);
 
             $_SESSION['success'] = "Menu créé avec succès !";
@@ -148,6 +150,52 @@ class MenusController
         $_SESSION['success'] = "Menu supprimé avec succès";
         header('Location: index.php?page=liste_des_menus');
         exit;
+    }
+
+    public function updateMenu(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?page=liste_des_menus');
+            exit;
+        }
+
+        $id = (int) ($_POST['id'] ?? 0);
+
+        if ($id <= 0) {
+            $_SESSION['error'] = "ID invalide.";
+            header('Location: index.php?page=liste_des_menus');
+            exit;
+        }
+
+        $this->menuService->updateMenu($id, $_POST, $_FILES);
+
+        $_SESSION['success'] = "Le menu a été modifié avec succès.";
+
+        header('Location: index.php?page=liste_des_menus');
+        exit;
+    }
+
+    public function editMenu(): void
+    {
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
+
+        if ($id <= 0) {
+            $_SESSION['error'] = "Menu introuvable.";
+            header('Location: index.php?page=liste_des_menus');
+            exit;
+        }
+
+        $menu = $this->menuService->readDetailMenu($id);
+
+        if (!$menu) {
+            $_SESSION['error'] = "Menu introuvable.";
+            header('Location: index.php?page=liste_des_menus');
+            exit;
+        }
+
+        View::render('Menus/modifier_menu', [
+            'menu' => $menu
+        ]);
     }
 
 

@@ -169,14 +169,9 @@ class Menus
 
     public function getImagePath(): string
     {
-        if (
-            $this->image &&
-            file_exists('uploads/' . $this->image)
-        ) {
-            return 'uploads/' . $this->image;
-        }
-
-        return 'uploads/default.png';
+        return $this->image
+            ? '/uploads/' . $this->image
+            : '/uploads/default.png';
     }
 
 

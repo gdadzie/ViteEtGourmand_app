@@ -3,29 +3,12 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta charset="UTF-8">
-    <title>Espace utilisateur</title>
+    <title>Espace administrateur</title>
 
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; }
-        .container { max-width: 1200px; }
-        .card-tile { border: 0; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); transition: transform .12s ease, box-shadow .12s ease; }
-        .card-tile:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.10); }
-        .icon-badge { width: 46px; height: 46px; border-radius: 14px; display:flex; align-items:center; justify-content:center; background:#fdf2e7; }
-        .page-title { font-size: 1.6rem; }
-        .muted { color:#6c757d; }
-        .stat-chip { border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; background:#fff; border:1px solid rgba(0,0,0,.08); }
-        .quick-link { text-decoration:none; color:inherit; }
-        .quick-link:focus { outline: none; }
-        .topbar { background: #fff; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
-        .brand-dot { width:10px; height:10px; border-radius:99px; background:#aa6d27; display:inline-block; margin-right:8px; }
-        .accent { color:#aa6d27; }
-        .btn-accent { background:#aa6d27; border-color:#aa6d27; }
-        .btn-accent:hover { background:#935f22; border-color:#935f22; }
-    </style>
+    <link rel="stylesheet" href="assets/css/dashboard/layout.css">
 </head>
 
 <body>
@@ -47,12 +30,12 @@ $stats = $stats ?? [
 
 <div class="container my-5">
 
-    <!-- Topbar -->
+    <!-- En-tête du tableau de bord -->
     <div class="topbar p-4 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
         <div>
             <div class="d-flex align-items-center mb-1">
                 <span class="brand-dot"></span>
-                <h1 class="page-title mb-0">Mon espace utilisateur</h1>
+                <h1 class="page-title mb-0">Mon espace admin</h1>
             </div>
             <div class="muted">
                 Bonjour <?= $e(trim($prenom . ' ' . $nom)) ?: '👋' ?> — gérez vos commandes, votre profil et vos avis.
@@ -99,26 +82,26 @@ $stats = $stats ?? [
     <!-- Cartes principales -->
     <div class="row g-4">
 
-        <!-- Voir les menus -->
+        <!-- Créer un nouvel employé -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=liste_des_menus">
+            <a class="quick-link" href="?page=creation_employe">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bag-check fs-4 accent"></i>
+                                <i class="bi bi-person-plus fs-4 accent"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Consulter les menus</h5>
-                                <div class="muted small">Voir toutes les menus disponibles + détails</div>
+                                <h5 class="card-title mb-0">Créer un compte employé</h5>
+                                <div class="muted small">Accèder au formulaire de création d'un nouvel employé.</div>
                             </div>
                         </div>
                         <p class="card-text muted mb-0">
-                            Accédez à l’intégralité complet de nos menus et au détail.
+                            Ajoutez un nouvel employé et créer ses identifiants de connexions.
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-accent text-white w-100">
+                        <span class="btn btn-accent  w-100">
                             Ouvrir <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
@@ -126,116 +109,171 @@ $stats = $stats ?? [
             </a>
         </div>
 
-
-        <!-- Mes commandes -->
+        <!-- Gestion des employé -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=mes_commandes">
+            <a class="quick-link" href="?page=liste_des_utilisateurs">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bag-check fs-4 accent"></i>
+                                <i class="bi bi-people fs-4 accent"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Mes commandes</h5>
-                                <div class="muted small">Voir toutes vos commandes + détails</div>
+                                <h5 class="card-title mb-0">Gestion des employés</h5>
+                                <div class="muted small">Accèder à la liste de tous vos employés.</div>
                             </div>
                         </div>
                         <p class="card-text muted mb-0">
-                            Accédez à l’historique complet de vos commandes, au détail, et aux actions disponibles.
+                           Recherchez un employé et activez ou désactivez son compte.
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-accent text-white w-100">
-                            Ouvrir <i class="bi bi-arrow-right ms-1"></i>
+                        <span class="btn btn-accent  w-100">
+                            Accèder <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
                 </div>
             </a>
         </div>
 
-        <!-- Modifier mon profil -->
+        <!-- Gestion des menus -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=profil">
+            <a class="quick-link" href="?page=gestion_des_menus">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-person-gear fs-4 accent"></i>
+                                <i class="bi bi-menu-button-wide fs-4 accent"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Mes informations</h5>
-                                <div class="muted small">Modifier vos infos personnelles</div>
+                                <h5 class="card-title mb-0">Gestion des menus</h5>
+                                <div class="muted small">Accèder a la liste intégrale des menus de Vite & Gourmand.</div>
                             </div>
                         </div>
                         <p class="card-text muted mb-0">
-                            Mettez à jour votre prénom, nom, email, téléphone, adresse et autres informations.
+                           Créer un nouveau menu, consulter et modifier les menus existants.
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-outline-secondary w-100">
-                            Modifier <i class="bi bi-pencil-square ms-1"></i>
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-pencil-square ms-1"></i>
                         </span>
                     </div>
                 </div>
             </a>
         </div>
 
-
-        <!-- Suivi des commandes (info) -->
+        <!-- Gestion des commandes  -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=mes_commandes&statut=acceptee">
+            <a class="quick-link" href="?page=gestion_des_commandes">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-truck fs-4 accent"></i>
+                                <i class="bi bi-clock fs-4 accent"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Suivi de commande</h5>
-                                <div class="muted small">Disponible après acceptation</div>
+                                <h5 class="card-title mb-0">Gestion des commandes</h5>
+                                <div class="muted small">Accèder à liste des commandes des clients.</div>
                             </div>
                         </div>
                         <p class="card-text muted mb-0">
-                            Une fois acceptée, votre commande affiche toutes les étapes avec la date et l’heure.
+                            Accepte et termine les commandes des clients.
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-outline-secondary w-100">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-arrow-right ms-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Gestion des horaires  -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=modification_horaire">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-clock fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Modifier les horaires</h5>
+                                <div class="muted small">Accèder aux horaires d'ouverture et fermerture.</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">
+                            Mettez à jour les horaires du service traiteur.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
                             Voir les commandes acceptées <i class="bi bi-arrow-right ms-1"></i>
                         </span>
                     </div>
                 </div>
             </a>
         </div>
-
-        <!-- Règles (info) -->
+        <!-- Statistiques/CA -->
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-tile h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="icon-badge">
-                            <i class="bi bi-info-circle fs-4 accent"></i>
+            <a class="quick-link" href="?page=gestion_des_menus">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Gestion des statistiques et du chiffre d'affaire</h5>
+                                <div class="muted small">Accèder au statistique de ventes des menus .</div>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="card-title mb-0">Rappels</h5>
-                            <div class="muted small">Annulation / modification</div>
-                        </div>
+                        <p class="card-text muted mb-0">
+                            Consulter les statistiques et le chiffre d'affaire de votre entreprise.
+                        </p>
                     </div>
-
-                    <ul class="mb-0 muted">
-                        <li>Annulation possible tant que la commande n’est pas <strong>acceptée</strong>.</li>
-                        <li>Modification possible tant que la commande n’est pas <strong>acceptée</strong>.</li>
-                        <li>Le <strong>menu</strong> n’est pas modifiable, le reste oui.</li>
-                        <li>À la fin (“terminée”), vous recevez un mail pour laisser un avis.</li>
-                    </ul>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-pencil-square ms-1"></i>
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </a>
+        </div>
+
+
+
+        <!-- Site web -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=home">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-globe2 fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Site web</h5>
+                                <div class="muted small">Accèder au site web .</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">
+                            Naviguer sur le site web de Vite & Gourmand.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
+                            Accèder <i class="bi bi-pencil-square ms-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <!-- Déconnexion -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="index.php?page=deconnexion">
+            <a class="quick-link" href="?page=deconnexion">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">

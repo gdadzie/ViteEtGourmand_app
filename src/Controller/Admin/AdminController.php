@@ -54,7 +54,7 @@ class AdminController
         }
 
         $admins = $this->utilisateursRepo->readByRole(3);
-        require __DIR__ . '/../../View/Authentication/espace_administrateur.php';
+        require __DIR__ . '/../../View/Admin/espace_administrateur.php';
     }
 
     // CRÃ‰ATION D'UN EMPLOYE
@@ -134,7 +134,7 @@ class AdminController
                 $success = "Le compte employÃ© a Ã©tÃ© crÃ©Ã©, mais l'email n'a pas pu Ãªtre envoyÃ©.";
             }
 
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Admin/espace_administrateur.php';
             return;
         }
 
@@ -221,6 +221,6 @@ class AdminController
     {
         AuthService::requireAdminEmploye();
         $menus = $this->menusRepo->readAll();
-        require __DIR__ . '/../../View/Employes/gestion_menus.php';
+        require __DIR__ . '/../../View/Fonctionalites/gestion_menus.php';
     }
 }

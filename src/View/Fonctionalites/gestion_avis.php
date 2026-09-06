@@ -20,7 +20,89 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/fonctionalites/gestion_des_avis.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container-custom { max-width: 1400px; }
+
+        .topbar {
+            background: #fff;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        .brand-dot {
+            width: 10px; height: 10px;
+            border-radius: 999px;
+            background: #aa6d27;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .page-title { font-size: 1.7rem; font-weight: 700; }
+        .muted { color: #6c757d; }
+
+        .table-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        thead th {
+            background-color: #aa6d27 !important;
+            color: white !important;
+            font-weight: 600;
+            border: none !important;
+            padding: 16px 14px !important;
+            text-align: center;
+        }
+
+        tbody td {
+            padding: 14px !important;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        tbody tr:hover {
+            background-color: #fcfaf7;
+        }
+
+        .badge-valid {
+            background: #d1e7dd;
+            color: #146c43;
+            font-weight: 600;
+        }
+
+        .badge-invalid {
+            background: #f8d7da;
+            color: #842029;
+            font-weight: 600;
+        }
+
+        .note-stars {
+            color: #f5a623;
+            font-weight: bold;
+        }
+
+        .btn-accent {
+            background:#aa6d27;
+            border-color:#aa6d27;
+            color:white;
+        }
+
+        .btn-accent:hover {
+            background:#935f22;
+            border-color:#935f22;
+            color:white;
+        }
+    </style>
 </head>
 
 <body>

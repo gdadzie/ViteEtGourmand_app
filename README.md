@@ -120,3 +120,9 @@ Ce projet a été réalisé dans le cadre du TP Développeur Web & Web Mobile.
 
 https://vite-et-gourmand-2026-5c40281b04d6.herokuapp.com/index.php?page=home
 username: gdadzie
+
+* Utilisateur : qxrf1n0vk8zidlny
+* Mot de passe : h92q60tuw0eweci1
+* Serveur     : i943okdfa47xqzpy.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
+* Port        : 3306
+* Base        : s7q9nxx2ltnznznc

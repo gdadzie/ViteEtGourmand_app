@@ -74,7 +74,7 @@ class EmployesController
     public function gestionDesMenusEmployes(): void
     {
         $menus = $this->menusRepo->readAll();
-        require __DIR__ . '/../../View/Employes/consulter_menus.php';
+        require __DIR__ . '/../../View/Fonctionalites/consulter_menus.php';
     }
 
 

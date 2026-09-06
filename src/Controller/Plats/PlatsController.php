@@ -2,18 +2,23 @@
 
 namespace Controller\Plats;
 
-use App\Entity\Plats;
 use Repository\PlatsRepository;
+use Service\Plats\PlatsService;
 use PDO;
-
 
 class PlatsController
 {
-    private PlatsRepository $repo;
-    public function __construct( PDO $conn) {
-        $this->repo = new platsRepository($conn);
+    private PlatsService $service;
+
+    public function __construct(PDO $conn)
+    {
+        $repo = new PlatsRepository($conn);
+        $this->service = new PlatsService($repo);
     }
 
+    /**
+     * Créer un plat
+     */
     public function creerUnPlat(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -21,29 +26,59 @@ class PlatsController
             return;
         }
 
-        $plat = new Plats();
-        $plat->setNomPlat(trim($_POST['nom_plat'] ?? ''));
-        $plat->setTypePlat(trim($_POST['type_plat'] ?? ''));
+        try {
+            $this->service->createPlat(
+                $_POST,
+                $_FILES
+            );
 
-        if ($this->repo->createPlat($plat)) {
-            // Compte créé avec succès
-            $success = "Votre menu a été créé avec succès ! Vous pouvez maintenant vous connecter.";
-            require __DIR__ . '/../../View/Menus/creer_un_menu.php';
-            return;
-        } else {
-            // Erreur lors de la création
-            $error = "Une erreur est survenue, impossible de créer le menu.";
-            require __DIR__ . '/../../View/Menus/creer_un_menu.php';
-            return;
+            $success = "Le plat a été créé avec succès !";
+
+        } catch (\Exception $e) {
+
+            $error = $e->getMessage();
         }
 
-
+        require __DIR__ . '/../../View/Plats/creer_un_plat.php';
     }
 
+    /**
+     * Liste des plats
+     */
     public function listeDesPlats(): void
     {
-        $plats = $this->repo->findAll();
+        $plats = $this->service->readPlats();
+
         require __DIR__ . '/../../View/Plats/liste_des_plats.php';
     }
 
+    /**
+     * Supprimer un plat
+     */
+    public function supprimerUnPlat(): void
+    {
+        $id = (int)($_GET['id'] ?? 0);
+
+        if ($id <= 0) {
+            $error = "Plat invalide.";
+            require __DIR__ . '/../../View/Plats/liste_des_plats.php';
+            return;
+        }
+
+        try {
+            if ($this->service->deletePlat($id)) {
+                $success = "Le plat a été supprimé avec succès.";
+            } else {
+                $error = "Impossible de supprimer le plat.";
+            }
+
+        } catch (\Exception $e) {
+
+            $error = $e->getMessage();
+        }
+
+        $plats = $this->service->readPlats();
+
+        require __DIR__ . '/../../View/Plats/liste_des_plats.php';
+    }
 }
