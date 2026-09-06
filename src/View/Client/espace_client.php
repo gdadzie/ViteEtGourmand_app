@@ -84,7 +84,7 @@ $stats = $stats ?? [
 
         <!-- Voir les menus -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=liste_des_menus">
+            <a class="quick-link" href="?page=liste_des_menus">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
@@ -112,7 +112,7 @@ $stats = $stats ?? [
 
         <!-- Mes commandes -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=mes_commandes">
+            <a class="quick-link" href="?page=mes_commandes">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
@@ -139,7 +139,7 @@ $stats = $stats ?? [
 
         <!-- Modifier mon profil -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=profil">
+            <a class="quick-link" href="?page=profil">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
@@ -167,7 +167,7 @@ $stats = $stats ?? [
 
         <!-- Suivi des commandes (info) -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=mes_commandes&statut=acceptee">
+            <a class="quick-link" href="?page=mes_commandes&statut=acceptee">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
@@ -218,7 +218,7 @@ $stats = $stats ?? [
 
         <!-- Déconnexion -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="../../../public/index.php?page=deconnexion">
+            <a class="quick-link" href="?page=deconnexion">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">

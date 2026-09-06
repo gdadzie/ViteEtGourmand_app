@@ -1,0 +1,92 @@
+.menu-grid {
+    margin-top: 20px;
+}
+
+.card-menu {
+    height: 100%;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-menu:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.menu-media {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.menu-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f1;
+    color: #999;
+    font-size: 3rem;
+}
+
+.price-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.menu-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.menu-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.pill {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #f1f1f1;
+    font-size: 13px;
+}
+
+.btn-eye {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f1f1f1;
+    color: #333;
+    text-decoration: none;
+}
+
+.btn-eye:hover {
+    background: #ddd;
+    color: #000;
+}

@@ -8,6 +8,7 @@ class Plats
     private ?string $nom_plat = null;
     private ?string $type_plat = null;
     private ?int $id_menu = null;
+    private ?string $image_plat = null;
 
     // ===== GETTERS =====
 
@@ -31,6 +32,11 @@ class Plats
         return $this->id_menu;
     }
 
+    public function getImagePlat(): ?string
+    {
+        return $this->image_plat;
+    }
+
     // ===== SETTERS =====
 
     public function setIdPlat(int $id_plat): self
@@ -48,6 +54,7 @@ class Plats
     public function setTypePlat(string $type_plat): self
     {
         $typesAutorises = ['entree', 'plat', 'dessert'];
+
         if (!in_array($type_plat, $typesAutorises, true)) {
             throw new \InvalidArgumentException('Type de plat invalide');
         }
@@ -59,6 +66,12 @@ class Plats
     public function setIdMenu(int $id_menu): self
     {
         $this->id_menu = $id_menu;
+        return $this;
+    }
+
+    public function setImagePlat(string $image_plat): self
+    {
+        $this->image_plat = $image_plat;
         return $this;
     }
 }

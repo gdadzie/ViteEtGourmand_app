@@ -49,6 +49,7 @@ use Repository\UtilisateursRepository;
 use Repository\VillesRepository;
 use Service\Authentification\AuthService;
 use Service\Avis\AvisService;
+use Service\MailService;
 use Service\Menus\MenusService;
 
 
@@ -92,6 +93,7 @@ $villesRepo       = new VillesRepository($conn);
 $menuService = new MenusService($menusRepo);
 $avisService = new AvisService($avisRepo);
 $authService = new AuthService();
+$mailService = new MailService();
 
 // ===============================
 // CONTROLLERS
@@ -129,7 +131,8 @@ $commandesController = new CommandesController(
     $utilisateursRepo,
     $villesRepo,
     $avisRepo,
-    $avis
+    $avis,
+    $mailService
 );
 
 $avisController = new AvisController(
@@ -369,7 +372,7 @@ switch ($page) {
         break;
 
     case 'creer_un_plat':
-        requirePostMethod();
+
         $platsController->creerUnPlat();
         break;
 
