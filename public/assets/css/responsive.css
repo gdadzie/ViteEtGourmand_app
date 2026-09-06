@@ -1,0 +1,43 @@
+/* Shared responsive behaviour for every back-office table. */
+.table-responsive { -webkit-overflow-scrolling: touch; }
+
+@media (max-width: 767.98px) {
+  .table-responsive:not(.footer-table-wrapper) { overflow: visible; }
+  .table-responsive:not(.footer-table-wrapper) table { width: 100%; min-width: 0; }
+  .table-responsive:not(.footer-table-wrapper) thead { display: none; }
+  .table-responsive:not(.footer-table-wrapper) tbody,
+  .table-responsive:not(.footer-table-wrapper) tr,
+  .table-responsive:not(.footer-table-wrapper) td { display: block; width: 100%; }
+  .table-responsive:not(.footer-table-wrapper) tr {
+    margin: 0 0 1rem;
+    padding: .35rem .9rem;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: .75rem;
+    background: #fff;
+    box-shadow: 0 .15rem .45rem rgba(0,0,0,.06);
+  }
+  .table-responsive:not(.footer-table-wrapper) td {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .7rem 0 !important;
+    text-align: right !important;
+    border: 0 !important;
+    white-space: normal;
+  }
+  .table-responsive:not(.footer-table-wrapper) td::before {
+    content: attr(data-label);
+    flex: 0 0 42%;
+    color: #495057;
+    font-weight: 700;
+    text-align: left;
+  }
+  .table-responsive:not(.footer-table-wrapper) td[colspan] { display: block; text-align: center !important; }
+  .table-responsive:not(.footer-table-wrapper) td[colspan]::before { display: none; }
+  .table-responsive .actions { justify-content: flex-end; }
+  .table-responsive .actions form, .table-responsive .actions .btn { width: 100%; }
+  .table-responsive .actions { display: grid; grid-template-columns: 1fr; }
+  .container, .container-fluid { padding-left: .9rem; padding-right: .9rem; }
+  .btn, input, select, textarea { min-height: 44px; }
+}

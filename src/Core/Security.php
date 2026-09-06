@@ -32,6 +32,8 @@ final class Security
     public static function injectCsrfFields(string $html): string
     {
         $field = '<input type="hidden" name="_csrf" value="' . htmlspecialchars(self::token(), ENT_QUOTES, 'UTF-8') . '">';
-        return preg_replace('/<form\\b(?=[^>]*\\bmethod\\s*=\\s*["\']?post\\b)[^>]*>/i', '$0' . $field, $html) ?? $html;
+        $html = preg_replace('/<form\\b(?=[^>]*\\bmethod\\s*=\\s*["\']?post\\b)[^>]*>/i', '$0' . $field, $html) ?? $html;
+        $html = str_ireplace('</head>', '<link rel="stylesheet" href="assets/css/responsive.css"></head>', $html);
+        return str_ireplace('</body>', '<script src="assets/js/responsive-tables.js"></script></body>', $html);
     }
 }
