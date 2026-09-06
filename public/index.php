@@ -93,7 +93,7 @@ $villesRepo       = new VillesRepository($conn);
 // ===============================
 // SERVICES
 // ===============================
-$menuService = new MenusService($menusRepo);
+$menuService = new MenusService($menusRepo, $platsRepo);
 $avisService = new AvisService($avisRepo);
 $authService = new AuthService();
 $mailService = new MailService();

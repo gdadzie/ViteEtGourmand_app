@@ -55,6 +55,28 @@
                             <textarea name="description" class="form-control" rows="3" placeholder="Décrivez le menu..." required></textarea>
                         </div>
 
+                        <fieldset class="border rounded-3 p-3 mb-3">
+                            <legend class="float-none w-auto px-2 fs-6 fw-semibold mb-0">
+                                <i class="bi bi-card-checklist me-1"></i> Composition du menu
+                            </legend>
+                            <p class="form-text mt-0 mb-3">Indiquez au minimum une entr&eacute;e, un plat et un dessert.</p>
+
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label" for="composition-entree">Entr&eacute;e</label>
+                                    <input type="text" id="composition-entree" name="composition[entree]" class="form-control" placeholder="Ex : Velout&eacute; de saison" required>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label" for="composition-plat">Plat</label>
+                                    <input type="text" id="composition-plat" name="composition[plat]" class="form-control" placeholder="Ex : Filet de saumon" required>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label" for="composition-dessert">Dessert</label>
+                                    <input type="text" id="composition-dessert" name="composition[dessert]" class="form-control" placeholder="Ex : Tarte aux fruits" required>
+                                </div>
+                            </div>
+                        </fieldset>
+
                         <div class="row">
                             <!-- Thème -->
                             <div class="col-md-6 mb-3">

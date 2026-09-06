@@ -3,15 +3,19 @@
 namespace Service\Menus;
 
 use Entity\Menus;
+use Entity\Plats;
 use Repository\MenusRepository;
+use Repository\PlatsRepository;
 
 class MenusService
 {
     private MenusRepository $menusRepo;
+    private PlatsRepository $platsRepo;
 
-    public function __construct(MenusRepository $menusRepo)
+    public function __construct(MenusRepository $menusRepo, PlatsRepository $platsRepo)
     {
         $this->menusRepo = $menusRepo;
+        $this->platsRepo = $platsRepo;
     }
 
     //=======================================================================
@@ -27,6 +31,16 @@ class MenusService
     //=======================================================================
     public function createMenu(array $data, array $files)
     {
+        $composition = [
+            'entree'  => trim((string)($data['composition']['entree'] ?? '')),
+            'plat'    => trim((string)($data['composition']['plat'] ?? '')),
+            'dessert' => trim((string)($data['composition']['dessert'] ?? '')),
+        ];
+
+        if (in_array('', $composition, true)) {
+            throw new \Exception('La composition doit contenir une entree, un plat et un dessert.');
+        }
+
         $menu = new Menus();
         $menu->setTitre(trim($data['titre'] ?? ''));
         $menu->setDescription(trim($data['description'] ?? ''));
@@ -82,7 +96,22 @@ class MenusService
 
         $menu->setImage($imageNom);
 
-        return $this->menusRepo->create($menu);
+        if (!$this->menusRepo->create($menu)) {
+            return false;
+        }
+
+        foreach ($composition as $type => $nom) {
+            $plat = new Plats();
+            $plat->setNomPlat($nom);
+            $plat->setTypePlat($type);
+            $plat->setIdMenu($menu->getIdMenu());
+
+            if (!$this->platsRepo->createPlat($plat)) {
+                throw new \Exception('Impossible d\'enregistrer la composition du menu.');
+            }
+        }
+
+        return true;
     }
 
     //=======================================================================
