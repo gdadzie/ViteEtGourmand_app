@@ -85,6 +85,22 @@ class AvisController
     {
         $this->requireAuth();
 
+        $idCommande = (int) ($_POST['id_commande'] ?? 0);
+        $commande = $this->commandeRepo->readById($idCommande);
+        $note = (int) ($_POST['note'] ?? 0);
+        $commentaire = trim((string) ($_POST['commentaire'] ?? ''));
+
+        if (
+            !$commande ||
+            $commande->getIdUtilisateur() !== (int) $_SESSION['id_utilisateur'] ||
+            $commande->getStatut() !== 'terminee' ||
+            $this->avisRepo->existeDeja($idCommande) ||
+            $note < 1 || $note > 5 || mb_strlen($commentaire) < 3
+        ) {
+            $_SESSION['error'] = 'Cet avis ne peut pas être enregistré.';
+            $this->redirect('mes_commandes');
+        }
+
         try {
             $this->avisService->createAvis(
                 $_POST,

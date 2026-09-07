@@ -365,6 +365,14 @@ class CommandesController
                 (new CommandeStatutMongoRepository())->synchroniserCommandes(
                     $this->commandeRepo->readAnalyticsRows()
                 );
+                (new CommandeStatutMongoRepository())->ajouterHistorique(
+                    $commande->getIdCommande(),
+                    '',
+                    'recue',
+                    (int) $idUtilisateur,
+                    (int) ($_SESSION['id_role'] ?? 1),
+                    'Commande créée'
+                );
                 $_SESSION['success'] =
                     "Commande créée avec succès";
 
@@ -461,6 +469,105 @@ class CommandesController
         exit;
     }
 
+    /** Annule une commande cliente avant son acceptation, sans la supprimer. */
+    public function annulerCommande(): void
+    {
+        $this->requireClientPost();
+        $idCommande = (int) ($_POST['id_commande'] ?? 0);
+        $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
+
+        if (!$commande || $commande->getStatut() !== 'recue') {
+            $_SESSION['error'] = 'Cette commande ne peut plus être annulée.';
+            $this->redirectMesCommandes();
+        }
+
+        if (!$this->commandeRepo->updateStatut($idCommande, 'annulee')) {
+            $_SESSION['error'] = 'L’annulation a échoué. Réessayez.';
+            $this->redirectMesCommandes();
+        }
+
+        $mongo = new CommandeStatutMongoRepository();
+        $mongo->ajouterHistorique($idCommande, 'recue', 'annulee', (int) $_SESSION['id_utilisateur'], 1, 'Commande annulée par le client');
+        $mongo->synchroniserCommandes($this->commandeRepo->readAnalyticsRows());
+        $_SESSION['success'] = 'Votre commande a bien été annulée.';
+        $this->redirectMesCommandes();
+    }
+
+    /** Formulaire de modification, disponible avant acceptation. */
+    public function modifierCommande(): void
+    {
+        $this->requireClient();
+        $idCommande = (int) ($_GET['id'] ?? 0);
+        $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
+
+        if (!$commande || $commande->getStatut() !== 'recue') {
+            $_SESSION['error'] = 'Seules les commandes en attente peuvent être modifiées.';
+            $this->redirectMesCommandes();
+        }
+
+        $menu = $this->menusRepo->readById($commande->getIdMenu());
+        $villes = $this->villesRepo->findAll();
+        if (!$menu) {
+            $_SESSION['error'] = 'Le menu associé est introuvable.';
+            $this->redirectMesCommandes();
+        }
+
+        require __DIR__ . '/../../View/Commandes/modifier_commande.php';
+    }
+
+    /** Enregistre une modification avec recalcul du total côté serveur. */
+    public function enregistrerModificationCommande(): void
+    {
+        $this->requireClientPost();
+        $idCommande = (int) ($_POST['id_commande'] ?? 0);
+        $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
+
+        if (!$commande || $commande->getStatut() !== 'recue') {
+            $_SESSION['error'] = 'Cette commande ne peut plus être modifiée.';
+            $this->redirectMesCommandes();
+        }
+
+        $menu = $this->menusRepo->readById($commande->getIdMenu());
+        $idVille = (int) ($_POST['id_ville'] ?? 0);
+        $ville = $this->villesRepo->findById($idVille);
+        $nombrePersonnes = (int) ($_POST['nombre_personnes'] ?? 0);
+        $date = trim((string) ($_POST['date_livraison'] ?? ''));
+        $heure = trim((string) ($_POST['heure_livraison'] ?? ''));
+        $modeReception = trim((string) ($_POST['mode_reception'] ?? 'livraison'));
+        $modePaiement = trim((string) ($_POST['mode_paiement'] ?? 'paiement_livraison'));
+        $adresse = trim((string) ($_POST['adresse_livraison'] ?? ''));
+
+        $dateLivraison = \DateTime::createFromFormat('Y-m-d', $date);
+        $valide = $menu && $ville && $nombrePersonnes >= (int) $menu->getNbMinPersonne()
+            && $nombrePersonnes <= (int) $menu->getStockDisponible()
+            && $dateLivraison && $dateLivraison >= new \DateTime('today') && $heure !== ''
+            && in_array($modeReception, ['livraison', 'sur_place'], true)
+            && in_array($modePaiement, ['paiement_livraison', 'paiement_sur_place'], true)
+            && ($modeReception === 'sur_place' || $adresse !== '');
+
+        if (!$valide) {
+            $_SESSION['error'] = 'Vérifiez les informations de livraison et le nombre de personnes.';
+            header('Location: index.php?page=modifier_commande&id=' . $idCommande);
+            exit;
+        }
+
+        $prix = $this->calculerPrixTotal((float) $menu->getPrixParPersonne(), $nombrePersonnes, (int) $menu->getNbMinPersonne(), $ville, $modeReception);
+        $commande->setNombrePersonnes($nombrePersonnes)->setPrixTotal($prix['total'])->setIdVille($idVille)
+            ->setDateLivraison($date)->setHeureLivraison($heure)->setModeReception($modeReception)
+            ->setModePaiement($modePaiement)->setAdresseLivraison($modeReception === 'sur_place' ? 'Retrait sur place' : $adresse);
+
+        if (!$this->commandeRepo->updateClientOrder($commande)) {
+            $_SESSION['error'] = 'La commande a été acceptée entre-temps : elle ne peut plus être modifiée.';
+            $this->redirectMesCommandes();
+        }
+
+        $mongo = new CommandeStatutMongoRepository();
+        $mongo->ajouterHistorique($idCommande, 'recue', 'recue', (int) $_SESSION['id_utilisateur'], 1, 'Commande modifiée par le client');
+        $mongo->synchroniserCommandes($this->commandeRepo->readAnalyticsRows());
+        $_SESSION['success'] = 'Votre commande a bien été mise à jour.';
+        $this->redirectMesCommandes();
+    }
+
 
     // =========================================================
     // MODIFIER STATUT COMMANDE
@@ -549,11 +656,36 @@ class CommandesController
 
         $idUtilisateur = (int)$_SESSION['id_utilisateur'];
 
-        $avisValide = $this->avis;
         $commandes = $this->commandeRepo->readAllCommandeByUtilisateur($idUtilisateur);
+        $avisParCommande = [];
+        foreach ($commandes as $commande) {
+            $avisParCommande[$commande->getIdCommande()] = $this->avisRepo->findAvisByCommande($commande->getIdCommande());
+        }
 
 
         require __DIR__ . '/../../View/Commandes/liste_des_commandes_par_utilisateur.php';
+    }
+
+    /** Historique d'une commande, accessible uniquement à son propriétaire ou à l'équipe. */
+    public function historiqueCommande(): void
+    {
+        if (!isset($_SESSION['id_utilisateur'])) {
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+
+        $idCommande = (int) ($_GET['id'] ?? 0);
+        $commande = $this->commandeRepo->readById($idCommande);
+        $role = (int) ($_SESSION['id_role'] ?? 0);
+        $estProprietaire = $commande && $commande->getIdUtilisateur() === (int) $_SESSION['id_utilisateur'];
+        if (!$commande || (!$estProprietaire && !in_array($role, [2, 3], true))) {
+            http_response_code(403);
+            $_SESSION['error'] = 'Accès interdit à cet historique.';
+            $this->redirectMesCommandes();
+        }
+
+        $historique = (new CommandeStatutMongoRepository())->getHistoriqueParCommande($idCommande);
+        require __DIR__ . '/../../View/Commandes/historique_commande.php';
     }
 
 
@@ -696,5 +828,29 @@ class CommandesController
         }
 
         require __DIR__ . '/../../View/Commandes/detail_commande.php';
+    }
+
+    private function requireClient(): void
+    {
+        if (!isset($_SESSION['id_utilisateur']) || (int) ($_SESSION['id_role'] ?? 0) !== 1) {
+            $_SESSION['error'] = 'Connexion client requise.';
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+    }
+
+    private function requireClientPost(): void
+    {
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+            http_response_code(405);
+            $this->redirectMesCommandes();
+        }
+        $this->requireClient();
+    }
+
+    private function redirectMesCommandes(): void
+    {
+        header('Location: index.php?page=mes_commandes');
+        exit;
     }
 }

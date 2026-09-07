@@ -113,17 +113,16 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                             <!-- AVIS -->
                             <td>
-                                <?php if ($commande->getStatut() === 'terminee'): ?>
+                                <?php $avisCommande = $avisParCommande[$commande->getIdCommande()] ?? null; ?>
+                                <?php if ($commande->getStatut() === 'terminee' && !$avisCommande): ?>
                                     <a class="btn btn-secondary btn-sm rounded-pill"
                                        href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>">
-                                        ⭐ Avis
+                                        <i class="bi bi-star me-1"></i>Laisser un avis
                                     </a>
-                                <?php else: ($avisValide->getEstValide() === '1')?>
-                                <a class="btn btn-warning btn-sm rounded-pill"
-                                   href="index.php?page=detail_avis&id_commande=<?= $commande->getIdCommande() ?>">
-                                    ⭐ Avis
-                                </a>
-
+                                <?php elseif ($avisCommande): ?>
+                                    <span class="badge text-bg-success"><i class="bi bi-check2 me-1"></i>Avis envoyé</span>
+                                <?php else: ?>
+                                    <span class="text-muted small">Disponible après la commande</span>
                                 <?php endif; ?>
                             </td>
 
@@ -137,19 +136,22 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                         <i class="bi bi-eye"></i>
                                     </a>
 
-                                    <!-- SUPPRIMER -->
-                                    <?php if ($commande->getStatut() === 'reçue'): ?>
+                                    <?php if ($commande->getStatut() === 'recue'): ?>
+                                        <a href="index.php?page=modifier_commande&id=<?= $commande->getIdCommande() ?>"
+                                           class="btn btn-sm btn-outline-primary" title="Modifier la commande">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
                                         <form method="POST"
-                                              action="index.php?page=supprimer_commande&id_commande=<?= $commande->getIdCommande() ?>"
-                                              onsubmit="return confirm('Voulez-vous vraiment supprimer cette commande ?');">
+                                              action="index.php?page=annuler_commande"
+                                              onsubmit="return confirm('Voulez-vous vraiment annuler cette commande ?');">
 
                                             <input type="hidden"
                                                    name="id_commande"
                                                    value="<?= $commande->getIdCommande() ?>">
 
                                             <button type="submit"
-                                                    class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i>
+                                                    class="btn btn-sm btn-outline-danger" title="Annuler la commande">
+                                                <i class="bi bi-x-circle"></i>
                                             </button>
 
                                         </form>

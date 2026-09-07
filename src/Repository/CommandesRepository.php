@@ -271,6 +271,40 @@ class CommandesRepository
         ]);
     }
 
+    /** Met à jour une commande du client tant qu'elle n'a pas été acceptée. */
+    public function updateClientOrder(Commande $commande): bool
+    {
+        $stmt = $this->conn->prepare(
+            'UPDATE commandes
+             SET nombre_personnes = :nombre_personnes,
+                 prix_total = :prix_total,
+                 adresse_livraison = :adresse_livraison,
+                 id_ville = :id_ville,
+                 date_livraison = :date_livraison,
+                 heure_livraison = :heure_livraison,
+                 mode_reception = :mode_reception,
+                 mode_paiement = :mode_paiement
+             WHERE id_commande = :id_commande
+               AND id_utilisateur = :id_utilisateur
+               AND statut = \'recue\''
+        );
+
+        $stmt->execute([
+            'nombre_personnes' => $commande->getNombrePersonnes(),
+            'prix_total' => $commande->getPrixTotal(),
+            'adresse_livraison' => $commande->getAdresseLivraison(),
+            'id_ville' => $commande->getIdVille(),
+            'date_livraison' => $commande->getDateLivraison(),
+            'heure_livraison' => $commande->getHeureLivraison(),
+            'mode_reception' => $commande->getModeReception(),
+            'mode_paiement' => $commande->getModePaiement(),
+            'id_commande' => $commande->getIdCommande(),
+            'id_utilisateur' => $commande->getIdUtilisateur(),
+        ]);
+
+        return $stmt->rowCount() === 1;
+    }
+
     // =========================================================
     // 9. UPDATE - VALIDATION PAIEMENT
     // =========================================================

@@ -51,7 +51,8 @@ class CommandeStatutMongoRepository
         string $ancienStatut,
         string $nouveauStatut,
         ?int $idUtilisateur = null,
-        ?int $role = null
+        ?int $role = null,
+        string $action = 'Changement de statut'
     ): void {
         if ($this->historyCollection === null) {
             return;
@@ -64,6 +65,7 @@ class CommandeStatutMongoRepository
                 'nouveau_statut' => $nouveauStatut,
                 'modifie_par' => $idUtilisateur,
                 'role' => $role,
+                'action' => $action,
                 'date_modification' => new UTCDateTime(),
             ]);
         } catch (Throwable $exception) {
@@ -205,6 +207,7 @@ class CommandeStatutMongoRepository
                     'nouveau_statut' => $doc['nouveau_statut'] ?? 'Inconnu',
                     'modifie_par' => $doc['modifie_par'] ?? 'Inconnu',
                     'role' => $doc['role'] ?? 'Inconnu',
+                    'action' => $doc['action'] ?? 'Changement de statut',
                 ];
             }
             return $historique;

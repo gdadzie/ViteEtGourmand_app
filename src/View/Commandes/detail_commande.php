@@ -211,7 +211,12 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                     <div class="d-flex gap-2 flex-wrap">
 
-                        <?php if ($commande->getStatut()==='reçue'): ?>
+                        <?php if ($commande->getStatut()==='recue'): ?>
+
+                            <a href="index.php?page=modifier_commande&id=<?= $commande->getIdCommande() ?>"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-pencil me-1"></i>Modifier
+                            </a>
 
                             <form method="POST"
                                   action="index.php?page=annuler_commande"
@@ -229,9 +234,9 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                         <?php endif; ?>
 
-                        <?php if ($commande->getStatut()==='terminée'): ?>
+                        <?php if ($commande->getStatut()==='terminee'): ?>
 
-                            <a href="index.php?page=mon_historique_avis"
+                            <a href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>"
                                class="btn btn-warning btn-sm">
                                 ⭐ Avis
                             </a>

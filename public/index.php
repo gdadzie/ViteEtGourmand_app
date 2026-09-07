@@ -238,6 +238,24 @@ switch ($page) {
         $commandesController->detailCommande();
         break;
 
+    case 'modifier_commande':
+        $commandesController->modifierCommande();
+        break;
+
+    case 'enregistrer_modification_commande':
+        requirePostMethod();
+        $commandesController->enregistrerModificationCommande();
+        break;
+
+    case 'annuler_commande':
+        requirePostMethod();
+        $commandesController->annulerCommande();
+        break;
+
+    case 'historique_commande':
+        $commandesController->historiqueCommande();
+        break;
+
     case 'profil':
         $utilisateursController->readUtilisateurById();
         break;
