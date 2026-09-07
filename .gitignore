@@ -19,6 +19,9 @@ cache/
 *.tmp
 *.cache
 
+# Aperçus temporaires de contrôle des livrables PDF
+output/pdf/qa/
+
 # Système / OS
 .DS_Store
 Thumbs.db
