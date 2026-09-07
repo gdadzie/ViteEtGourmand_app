@@ -1,128 +1,80 @@
-# Installation du projet en local
+# Vite & Gourmand
 
-## Prérequis
+Application web de gestion de menus et de commandes pour un traiteur. Réalisée dans le cadre du titre professionnel Développeur Web et Web Mobile.
 
-Avant de lancer le projet, assurez-vous d’avoir installé sur votre machine :
+## Fonctionnalités
 
-* PHP (version 8 recommandée)
-* Composer
-* MySQL + phpMyAdmin (ou autre gestionnaire de base de données)
-* MongoDB
-* Un serveur local (XAMPP, Laragon, WAMP, ou serveur PHP intégré)
+- Consultation et filtrage dynamique des menus.
+- Création de comptes, connexion, réinitialisation de mot de passe et gestion des comptes actifs.
+- Commande de menus, suivi des statuts et notifications par e-mail.
+- Espaces client, employé et administrateur.
+- Gestion des menus, plats, horaires, avis et employés.
+- Tableau de bord administrateur : statistiques de commandes et chiffre d'affaires par menu via MongoDB.
 
-Un éditeur comme **PHPStorm** ou **VSCode** est conseillé pour travailler plus confortablement.
+## Stack technique
 
----
+- PHP 8.1+, PDO et Composer.
+- MySQL pour les données métier.
+- MongoDB pour la projection analytique des commandes.
+- Bootstrap 5, HTML, CSS et JavaScript.
+- Déploiement Heroku.
 
-## Récupération du projet
+## Installation locale
 
-Clonez le dépôt depuis GitHub :
+1. Cloner le dépôt puis installer les dépendances :
 
-```bash
-git clone https://github.com/gdadzie/vite-et-gourmand
-```
+   ```bash
+   git clone https://github.com/gdadzie/ViteEtGourmand_app.git
+   cd ViteEtGourmand_app
+   composer install
+   ```
 
-Puis placez-vous dans le dossier :
+2. Créer une base MySQL puis importer les scripts du dossier `database/`.
 
-```bash
-cd vite-et-gourmand
-```
+3. Créer un fichier `.env.local` à la racine, jamais versionné :
 
----
+   ```dotenv
+   DB_HOST=localhost
+   DB_NAME=vite_et_gourmand
+   DB_USER=root
+   DB_PASS=
 
-## Installation des dépendances
+   MONGODB_URI=mongodb://localhost:27017
+   MONGODB_DATABASE=vite_et_gourmand
 
-Si le projet utilise Composer :
+   APP_URL=http://localhost
+   ```
 
-```bash
-composer install
-```
+4. Démarrer Apache/WAMP et ouvrir `http://localhost/index.php?page=home`.
 
-Cela installera automatiquement les bibliothèques nécessaires.
+## MongoDB et statistiques
 
----
+MySQL reste la source de vérité. Lors de l'ouverture du tableau de bord administrateur et après une mise à jour de statut, les commandes sont synchronisées vers la collection MongoDB `commande_analytics`. Cette collection sert uniquement aux comparaisons par menu et au calcul du chiffre d'affaires filtré par menu ou période.
 
-## Configuration de l’environnement
+## Déploiement Heroku
 
-Créer un fichier `.env` à la racine du projet (ou copier `.env.example` si présent).
+Configurer les variables d'environnement de production dans **Settings → Config Vars** : paramètres MySQL, `MONGODB_URI`, `MONGODB_DATABASE`, paramètres SMTP et `APP_URL`.
 
-Configurer ensuite :
-
-* les informations de connexion MySQL
-* les informations MongoDB
-* l’URL du projet en local
-
-Exemple :
-
-```
-DB_HOST=localhost
-DB_NAME=vite-et-gourmand
-DB_USER=root
-DB_PASS=
-
-MONGO_URI=mongodb://localhost:27017
-```
-
----
-
-## Création de la base de données
-
-1. Ouvrir phpMyAdmin
-2. Créer une base de données
-3. Importer le fichier SQL présent dans le dossier `/database` ou `/sql`
-
----
-
-## Lancer le projet
-
-Deux possibilités :
-
-### Serveur PHP intégré
+Déployer la branche principale :
 
 ```bash
-php -S localhost:8000 -t public
+git push heroku main
 ```
 
-Puis ouvrir :
+## Sécurité
 
-```
-http://localhost:8000
-```
+- Les secrets sont conservés uniquement dans les variables d'environnement.
+- Les mots de passe sont hachés.
+- Les formulaires protégés utilisent un jeton CSRF.
+- Les accès administrateur et employé sont contrôlés côté serveur.
+- Un compte désactivé ne peut pas se connecter.
 
-### Ou via votre serveur local (XAMPP / Laragon…)
+## Livrables ECF à remettre
 
-Placez le projet dans le dossier `htdocs` ou `www` et accédez-y via votre navigateur.
+- Dépôt GitHub public et application déployée.
+- Manuel d'utilisation PDF, avec comptes de démonstration créés pour le jury.
+- Charte graphique PDF et six maquettes (trois bureau, trois mobile).
+- Documentation de gestion de projet.
+- Documentation technique : choix techniques, environnement, MCD/UML, cas d'utilisation, séquence et déploiement.
 
----
-
-## Comptes de test
-
-
-
-* Admin : [admin@vitegourmand.test](mailto:admin@vite-et-gourmand.fr) / admin123
-* Employé : [employe@vitegourmand.test](mailto:employe@vite-et-gourmand.fr) / employe123
-* Client : [client@vitegourmand.test](mailto:utilisateur@test.fr) / utilisateur123
-
----
-
-## Remarque
-
-Si un problème survient au démarrage, vérifier :
-
-* que PHP est bien dans le PATH
-* que MySQL est lancé
-* que MongoDB est actif
-* que le fichier `.env` est correctement configuré
-
----
-
-Ce projet a été réalisé dans le cadre du TP Développeur Web & Web Mobile.
-
-https://vite-et-gourmand-2026-5c40281b04d6.herokuapp.com/index.php?page=home
-username: gdadzie
-
-* Utilisateur : qxrf1n0vk8zidlny
-* Mot de passe : h92q60tuw0eweci1
-* Serveur     : i943okdfa47xqzpy.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
-* Port        : 3306
-* Base        : s7q9nxx2ltnznznc
+> Ne jamais placer de mot de passe, URL de base de données ou clé SMTP dans ce dépôt.

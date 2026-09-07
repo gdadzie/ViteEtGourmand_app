@@ -27,6 +27,8 @@ $stats = $stats ?? [
         'a_noter' => null,
 ];
 $menuStats = $menuStats ?? [];
+$menusStats = $menusStats ?? [];
+$filtersStats = $filtersStats ?? ['id_menu' => 0, 'date_debut' => '', 'date_fin' => ''];
 $mongoDisponible = $mongoDisponible ?? false;
 $menuStatsJson = htmlspecialchars(
     json_encode($menuStats, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_TAG) ?: '[]',
@@ -235,6 +237,22 @@ $menuStatsJson = htmlspecialchars(
                             <?= $mongoDisponible ? 'MongoDB synchronisé' : 'MongoDB indisponible' ?>
                         </span>
                     </div>
+
+                    <form class="row g-2 align-items-end mb-4" method="get" action="index.php" aria-label="Filtrer les statistiques">
+                        <input type="hidden" name="page" value="espace_admin">
+                        <div class="col-12 col-md-4">
+                            <label for="stat-menu" class="form-label small mb-1">Menu</label>
+                            <select id="stat-menu" name="stat_menu" class="form-select form-select-sm">
+                                <option value="">Tous les menus</option>
+                                <?php foreach ($menusStats as $menu): ?>
+                                    <option value="<?= (int) $menu->getIdMenu() ?>" <?= (int) $filtersStats['id_menu'] === $menu->getIdMenu() ? 'selected' : '' ?>><?= $e($menu->getTitre()) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3"><label for="date-debut" class="form-label small mb-1">Du</label><input id="date-debut" type="date" name="date_debut" class="form-control form-control-sm" value="<?= $e($filtersStats['date_debut']) ?>"></div>
+                        <div class="col-6 col-md-3"><label for="date-fin" class="form-label small mb-1">Au</label><input id="date-fin" type="date" name="date_fin" class="form-control form-control-sm" value="<?= $e($filtersStats['date_fin']) ?>"></div>
+                        <div class="col-12 col-md-2 d-flex gap-2"><button class="btn btn-sm btn-accent flex-fill" type="submit">Filtrer</button><a class="btn btn-sm btn-outline-secondary" href="?page=espace_admin#statistiques">Réinitialiser</a></div>
+                    </form>
 
                     <?php if ($mongoDisponible && !empty($menuStats)): ?>
                         <div class="row g-4 align-items-center">

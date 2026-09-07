@@ -103,21 +103,27 @@ class CommandeStatutMongoRepository
     }
 
     /** @return array<int, array{menu_id:int, menu_titre:string, nombre_commandes:int, chiffre_affaires:float}> */
-    public function getStatsMenus(): array
+    public function getStatsMenus(array $filters = []): array
     {
         if ($this->analyticsCollection === null) {
             return [];
         }
 
         try {
-            $pipeline = [
+            $pipeline = [];
+            $match = $this->buildAnalyticsMatch($filters);
+            if ($match !== []) {
+                $pipeline[] = ['$match' => $match];
+            }
+
+            $pipeline = array_merge($pipeline, [
                 ['$group' => [
                     '_id' => ['id_menu' => '$id_menu', 'titre_menu' => '$titre_menu'],
                     'nombre_commandes' => ['$sum' => 1],
                     'chiffre_affaires' => ['$sum' => '$prix_total'],
                 ]],
                 ['$sort' => ['nombre_commandes' => -1, 'chiffre_affaires' => -1]],
-            ];
+            ]);
 
             $stats = [];
             foreach ($this->analyticsCollection->aggregate($pipeline) as $document) {
@@ -137,7 +143,7 @@ class CommandeStatutMongoRepository
     }
 
     /** @return array{total:int,en_attente:int,acceptees:int,terminees:int,chiffre_affaires:float} */
-    public function getStatsGlobales(): array
+    public function getStatsGlobales(array $filters = []): array
     {
         $result = ['total' => 0, 'en_attente' => 0, 'acceptees' => 0, 'terminees' => 0, 'chiffre_affaires' => 0.0];
 
@@ -146,11 +152,18 @@ class CommandeStatutMongoRepository
         }
 
         try {
-            foreach ($this->analyticsCollection->aggregate([['$group' => [
+            $pipeline = [];
+            $match = $this->buildAnalyticsMatch($filters);
+            if ($match !== []) {
+                $pipeline[] = ['$match' => $match];
+            }
+            $pipeline[] = ['$group' => [
                 '_id' => '$statut',
                 'total' => ['$sum' => 1],
                 'chiffre_affaires' => ['$sum' => '$prix_total'],
-            ]]]) as $document) {
+            ]];
+
+            foreach ($this->analyticsCollection->aggregate($pipeline) as $document) {
                 $statut = (string) ($document['_id'] ?? '');
                 $total = (int) ($document['total'] ?? 0);
                 $result['total'] += $total;
@@ -199,5 +212,27 @@ class CommandeStatutMongoRepository
             $this->lastError = $exception->getMessage();
             return [];
         }
+    }
+
+    /** @return array<string, mixed> */
+    private function buildAnalyticsMatch(array $filters): array
+    {
+        $match = [];
+        if (!empty($filters['id_menu'])) {
+            $match['id_menu'] = (int) $filters['id_menu'];
+        }
+
+        $dateRange = [];
+        if (!empty($filters['date_debut'])) {
+            $dateRange['$gte'] = $filters['date_debut'] . ' 00:00:00';
+        }
+        if (!empty($filters['date_fin'])) {
+            $dateRange['$lte'] = $filters['date_fin'] . ' 23:59:59';
+        }
+        if ($dateRange !== []) {
+            $match['date_creation'] = $dateRange;
+        }
+
+        return $match;
     }
 }

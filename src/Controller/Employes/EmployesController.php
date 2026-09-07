@@ -73,6 +73,7 @@ class EmployesController
 
     public function gestionDesMenusEmployes(): void
     {
+        AuthService::requireAdminEmploye();
         $menus = $this->menusRepo->readAll();
         require __DIR__ . '/../../View/Fonctionalites/consulter_menus.php';
     }
