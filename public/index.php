@@ -32,6 +32,7 @@ use Controller\Commandes\CommandesController;
 use Controller\Contact\ContactController;
 use Controller\Employes\EmployesController;
 use Controller\Home\HomeController;
+use Controller\LegalController;
 use Controller\Horaires\HorairesController;
 use Controller\Menus\MenusController;
 use Controller\Plats\PlatsController;
@@ -103,6 +104,7 @@ $mailService = new MailService();
 // CONTROLLERS
 // ===============================
 $homeController = new HomeController($avisRepo);
+$legalController = new LegalController();
 $ContactController = new ContactController(
     new ContactRepository($conn),
     $mailService
@@ -196,6 +198,16 @@ switch ($page) {
 
     case 'contact':
         $ContactController->index();
+        break;
+
+    case 'mentions_legales':
+        $legalController->mentionsLegales();
+        break;
+    case 'confidentialite':
+        $legalController->confidentialite();
+        break;
+    case 'conditions_generales':
+        $legalController->conditionsGenerales();
         break;
 
     case 'inscription':

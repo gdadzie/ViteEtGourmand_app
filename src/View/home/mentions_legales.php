@@ -1,4 +1,1 @@
-<?php
-?>
-
-<h1>Mentions légales</h1>
+<main class="container py-4 py-md-5"><article class="mx-auto" style="max-width: 900px"><h1 class="mb-4">Mentions légales</h1><h2 class="h4 mt-4">Éditeur du site</h2><p>Le site Vite &amp; Gourmand est édité par Vite &amp; Gourmand, traiteur à Bordeaux. Adresse : 12 rue des Gourmets, 33000 Bordeaux. E-mail : contact@viteetgourmand.fr. Téléphone : +33 5 12 34 56 78.</p><h2 class="h4 mt-4">Hébergement</h2><p>L'application est hébergée sur la plateforme Heroku.</p><h2 class="h4 mt-4">Propriété intellectuelle</h2><p>Les contenus, visuels, textes et éléments graphiques du site sont protégés. Toute reproduction ou utilisation sans autorisation préalable est interdite.</p><h2 class="h4 mt-4">Contact</h2><p>Pour toute question concernant le site, utilisez le <a href="?page=contact">formulaire de contact</a>.</p></article></main>

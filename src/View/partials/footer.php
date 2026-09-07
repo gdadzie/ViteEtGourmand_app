@@ -112,6 +112,8 @@
             <div class="small text-center text-md-end">
                 <a class="footer-link" href="?page=mentions_legales">Mentions légales</a>
                 <span class="footer-sep">•</span>
+                <a class="footer-link" href="?page=conditions_generales">CGV</a>
+                <span class="footer-sep">•</span>
                 <a class="footer-link" href="?page=confidentialite">Confidentialité</a>
             </div>
         </div>
