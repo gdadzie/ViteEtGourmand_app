@@ -382,11 +382,7 @@ switch ($page) {
         break;
 
     case 'horaires':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $horairesController->store();
-        } else {
-            $horairesController->show();
-        }
+        $adminController->modificationHoraires();
         break;
 
     // ===============================
