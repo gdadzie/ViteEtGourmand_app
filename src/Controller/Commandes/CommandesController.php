@@ -339,7 +339,7 @@ class CommandesController
 
             $commande->setModePaiement($modePaiement);
 
-            $commande->setStatutPaiement('unpaid');
+            $commande->setStatutPaiement('en attente');
 
             // =================================================
             // SAUVEGARDE
@@ -733,7 +733,7 @@ class CommandesController
             exit;
         }
 
-        if ($commande->getStatutPaiement() === 'paid') {
+        if ($commande->getStatutPaiement() === 'payé') {
             $_SESSION['error'] = "DÃ©jÃ  payÃ©";
             header('Location: index.php?page=gestion_des_commandes');
             exit;
