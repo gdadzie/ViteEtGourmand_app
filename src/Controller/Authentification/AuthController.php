@@ -5,6 +5,7 @@ namespace Controller\Authentification;
 
 use Service\Authentification\AuthService;
 use Repository\VillesRepository;
+use View\View;
 use PDO;
 
 class AuthController
@@ -24,7 +25,7 @@ class AuthController
     public function connexion(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            require __DIR__ . '/../../View/Authentication/formulaire_de_connexion.php';
+            $this->render('Authentication/formulaire_de_connexion');
             return;
         }
 
@@ -35,7 +36,7 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            require __DIR__ . '/../../View/Authentication/formulaire_de_connexion.php';
+            $this->render('Authentication/formulaire_de_connexion', ['error' => $error]);
             return;
         }
 
@@ -48,7 +49,7 @@ class AuthController
         $villes = $this->villesRepo->findAll();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
+            $this->render('Authentication/formulaire_inscription', ['villes' => $villes]);
             return;
         }
 
@@ -57,7 +58,7 @@ class AuthController
         // =========================
         if (!isset($_POST['rgpd'])) {
             $error = "Vous devez accepter la politique de confidentialitÃ©.";
-            require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
+            $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'error' => $error]);
             return;
         }
 
@@ -71,12 +72,12 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
+            $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'error' => $error]);
             return;
         }
 
         $success = $result['message'];
-        require __DIR__ . '/../../View/Authentication/formulaire_inscription.php';
+        $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'success' => $success]);
     }
 
     public function deconnexion(): void
@@ -103,7 +104,7 @@ class AuthController
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $token = trim($_GET['token'] ?? '');
-            require __DIR__ . '/../../View/Authentication/reinitialiser_mot_de_passe.php';
+            $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token]);
             return;
         }
 
@@ -117,13 +118,21 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            require __DIR__ . '/../../View/Authentication/reinitialiser_mot_de_passe.php';
+            $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token, 'error' => $error]);
             return;
         }
 
         // âœ… message succÃ¨s
         $success = $result['message'];
 
-        require __DIR__ . '/../../View/Authentication/reinitialiser_mot_de_passe.php';
+        $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token, 'success' => $success]);
+    }
+
+    private function render(string $view, array $data = []): void
+    {
+        View::render($view, $data + [
+            'pageTitle' => 'Vite & Gourmand',
+            'cssFiles' => ['/assets/css/formulaires/formulaire.css'],
+        ]);
     }
 }
