@@ -85,6 +85,11 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
                                         <i class="bi bi-clock-history me-2"></i>Gestion des horaires
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="?page=espace_admin#statistiques">
+                                        <i class="bi bi-bar-chart-line me-2"></i>Statistiques
+                                    </a>
+                                </li>
                             <?php endif; ?>
 
                             <li><hr class="dropdown-divider"></li>
