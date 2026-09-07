@@ -44,6 +44,7 @@ use Entity\Utilisateurs;
 use Entity\Villes;
 use Repository\AvisRepository;
 use Repository\CommandesRepository;
+use Repository\ContactRepository;
 use Repository\HorairesRepository;
 use Repository\MenusRepository;
 use Repository\PlatsRepository;
@@ -102,7 +103,10 @@ $mailService = new MailService();
 // CONTROLLERS
 // ===============================
 $homeController = new HomeController($avisRepo);
-$ContactController = new ContactController();
+$ContactController = new ContactController(
+    new ContactRepository($conn),
+    $mailService
+);
 $authController = new AuthController(
     $authService,
     $conn

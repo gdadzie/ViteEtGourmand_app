@@ -47,6 +47,21 @@ final class MailService
         return $this->send($email, $nomComplet, 'Confirmation de votre commande — Vite & Gourmand', $body);
     }
 
+    public function envoyerMailContact(string $email, string $title, string $message): bool
+    {
+        $recipient = $_ENV['CONTACT_RECIPIENT'] ?? $_ENV['SMTP_FROM'] ?? '';
+        if ($recipient === '') {
+            return false;
+        }
+
+        $body = '<h2>Nouveau message de contact</h2>'
+            . '<p><strong>Expéditeur :</strong> ' . $this->escape($email) . '</p>'
+            . '<p><strong>Objet :</strong> ' . $this->escape($title) . '</p>'
+            . '<p>' . nl2br($this->escape($message)) . '</p>';
+
+        return $this->send($recipient, 'Vite & Gourmand', 'Contact : ' . $title, $body);
+    }
+
     private function send(string $email, string $name, string $subject, string $body): bool
     {
         try {
