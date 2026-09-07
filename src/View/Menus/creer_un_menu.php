@@ -24,7 +24,7 @@
 <nav aria-label="breadcrumb" class="mb-3 p-4 mt-5">
     <ol class="breadcrumb breadcrumb-custom">
         <li class="breadcrumb-item">
-            <a href="?page=espace_employe"><i class="bi bi-arrow-left"></i> Retour</a>
+            <a href="<?= \View\View::dashboardUrl() ?>"><i class="bi bi-arrow-left"></i> Retour</a>
         </li>
     </ol>
 </nav>
@@ -145,7 +145,7 @@
 
                         <!-- Boutons -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="?page=liste_des_menus" class="btn btn-outline-secondary">
+                            <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Retour
                             </a>
 

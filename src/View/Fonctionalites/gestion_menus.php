@@ -95,7 +95,7 @@ unset($_SESSION['success'], $_SESSION['error']);
         <nav aria-label="breadcrumb" class="mb-3 p-4 mt-5">
             <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item">
-                    <a href="?page=espace_employe">
+                    <a href="<?= \View\View::dashboardUrl() ?>">
                         <i class="bi bi-arrow-left"></i> Retour
                     </a>
                 </li>

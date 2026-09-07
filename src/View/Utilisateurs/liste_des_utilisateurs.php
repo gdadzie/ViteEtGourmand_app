@@ -187,7 +187,7 @@ $resetUrl = 'index.php?page=liste_des_utilisateurs';
 <div class="container my-4 my-md-5">
 
     <!-- RETOUR -->
-    <a href="?page=espace_admin" class="back-link mb-3">
+    <a href="<?= \View\View::dashboardUrl() ?>" class="back-link mb-3">
         <i class="bi bi-arrow-left"></i> Retour
     </a>
     <!-- Header -->

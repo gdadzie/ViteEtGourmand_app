@@ -3,6 +3,7 @@
 namespace Controller\Contact;
 
 use Repository\ContactRepository;
+use Repository\HorairesRepository;
 use Service\MailService;
 use View\View;
 
@@ -10,7 +11,8 @@ class ContactController
 {
     public function __construct(
         private ContactRepository $repository,
-        private MailService $mailService
+        private MailService $mailService,
+        private HorairesRepository $horairesRepository
     ) {
     }
 
@@ -31,6 +33,7 @@ class ContactController
             'metaDescription' => 'Contactez Vite & Gourmand pour toute demande de devis ou information.',
             'success' => $success,
             'error' => $error,
+            'horaires' => $this->horairesRepository->readAll(),
             'cssFiles' => ['/assets/css/contact.css'],
         ]);
     }

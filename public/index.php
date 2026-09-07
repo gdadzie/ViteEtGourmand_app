@@ -107,7 +107,8 @@ $homeController = new HomeController($avisRepo);
 $legalController = new LegalController();
 $ContactController = new ContactController(
     new ContactRepository($conn),
-    $mailService
+    $mailService,
+    $horairesRepo
 );
 $authController = new AuthController(
     $authService,
@@ -445,6 +446,6 @@ switch ($page) {
     // ===============================
     default:
         http_response_code(404);
-        echo "<h1>Page non trouvÃ©e</h1>";
+        echo "<h1>Page non trouvée</h1>";
         break;
 }

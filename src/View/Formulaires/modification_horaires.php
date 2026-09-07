@@ -148,7 +148,7 @@
 <div class="container my-5">
 
     <!-- RETOUR -->
-    <a href="?page=espace_admin" class="back-link mb-4">
+    <a href="<?= \View\View::dashboardUrl() ?>" class="back-link mb-4">
         <i class="bi bi-arrow-left"></i>
         Retour
     </a>
