@@ -5,6 +5,7 @@ namespace Controller\Avis;
 use Repository\AvisRepository;
 use Repository\CommandesRepository;
 use Service\Avis\AvisService;
+use View\View;
 
 class AvisController
 {
@@ -69,7 +70,11 @@ class AvisController
 
 
 
-        require __DIR__ . '/../../View/Avis/creer_avis.php';
+        View::render('Avis/creer_avis', [
+            'commande' => $commande,
+            'pageTitle' => 'Laisser un avis | Vite & Gourmand',
+            'cssFiles' => ['/assets/css/formulaires/formulaire.css'],
+        ]);
     }
 
     /* =========================================================
