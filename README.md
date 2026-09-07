@@ -78,3 +78,9 @@ git push heroku main
 - Documentation technique : choix techniques, environnement, MCD/UML, cas d'utilisation, séquence et déploiement.
 
 > Ne jamais placer de mot de passe, URL de base de données ou clé SMTP dans ce dépôt.
+
+## Documents du projet
+
+- [Guide de démonstration jury](docs/guide_jury.md)
+- [Plan de tests manuels](docs/tests_manuels.md)
+- [Installation de la base de données](database/INSTALLATION.md)
