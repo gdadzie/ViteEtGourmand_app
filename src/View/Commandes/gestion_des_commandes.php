@@ -167,6 +167,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
         .livree { background:#d1e7dd; color:#146c43; }
         .attente_retour { background:#f8d7da; color:#842029; }
         .terminee { background:#343a40; color:#fff; }
+        .annulee { background:#f8d7da; color:#842029; }
 
         /* Actions */
         .actions {
@@ -178,6 +179,8 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
         }
 
         .actions .btn { border-radius: 8px; }
+        .actions form .btn { min-width: 104px; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,.08); }
+        .actions form .btn:hover { transform: translateY(-1px); }
 
         .btn-detail {
             padding: 0;
@@ -380,42 +383,42 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                     <?php if ($statut === 'recue'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-success">Accepter</button>
+                                            <button class="btn btn-sm btn-success"><i class="bi bi-check2 me-1"></i>Accepter</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($statut === 'acceptee'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-primary">Préparer</button>
+                                            <button class="btn btn-sm btn-primary"><i class="bi bi-credit-card me-1"></i>Préparer</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($statut === 'payee'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-dark">Payée</button>
+                                            <button class="btn btn-sm btn-dark"><i class="bi bi-cash me-1"></i>Payée</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($statut === 'en_preparation'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-warning">En préparation</button>
+                                            <button class="btn btn-sm btn-warning"><i class="bi bi-fire me-1"></i>Préparer</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($statut === 'livree'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-dark">Livrée</button>
+                                            <button class="btn btn-sm btn-dark"><i class="bi bi-truck me-1"></i>Livrée</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($statut === 'attente_retour'): ?>
                                         <form method="POST" action="index.php?page=modifier_statut_commande">
                                             <input type="hidden" name="id" value="<?= $commande->getIdCommande() ?>">
-                                            <button class="btn btn-sm btn-dark">Retour</button>
+                                            <button class="btn btn-sm btn-dark"><i class="bi bi-arrow-return-left me-1"></i>Retour</button>
                                         </form>
                                     <?php endif; ?>
 

@@ -4,6 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+$statut = strtolower(strtr(trim($commande->getStatut()), ['é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e', ' ' => '_']));
+$retourPage = $retourPage ?? 'mes_commandes';
+$peutModifier = $peutModifier ?? false;
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +91,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
             </small>
         </div>
 
-        <a href="index.php?page=mes_commandes"
+        <a href="index.php?page=<?= $e($retourPage) ?>"
            class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left"></i> Retour
         </a>
@@ -99,7 +102,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
     <div class="mb-3">
 
         <span class="badge bg-dark badge-status">
-            <?= $e(ucfirst($commande->getStatut())) ?>
+            <?= $e(ucfirst(str_replace('_', ' ', $statut))) ?>
         </span>
 
         <span class="badge <?= $commande->getStatutPaiement()==='payé'?'bg-success':'bg-warning text-dark' ?> badge-status">
@@ -211,7 +214,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                     <div class="d-flex gap-2 flex-wrap">
 
-                        <?php if ($commande->getStatut()==='recue'): ?>
+                        <?php if ($peutModifier): ?>
 
                             <a href="index.php?page=modifier_commande&id=<?= $commande->getIdCommande() ?>"
                                class="btn btn-outline-primary btn-sm">
@@ -234,7 +237,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                         <?php endif; ?>
 
-                        <?php if ($commande->getStatut()==='terminee'): ?>
+                        <?php if ($statut === 'terminee' && $retourPage === 'mes_commandes'): ?>
 
                             <a href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>"
                                class="btn btn-warning btn-sm">

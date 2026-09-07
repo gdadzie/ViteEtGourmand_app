@@ -476,7 +476,7 @@ class CommandesController
         $idCommande = (int) ($_POST['id_commande'] ?? 0);
         $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
 
-        if (!$commande || $commande->getStatut() !== 'recue') {
+        if (!$commande || $this->normaliserStatut($commande->getStatut()) !== 'recue') {
             $_SESSION['error'] = 'Cette commande ne peut plus être annulée.';
             $this->redirectMesCommandes();
         }
@@ -500,7 +500,7 @@ class CommandesController
         $idCommande = (int) ($_GET['id'] ?? 0);
         $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
 
-        if (!$commande || $commande->getStatut() !== 'recue') {
+        if (!$commande || $this->normaliserStatut($commande->getStatut()) !== 'recue') {
             $_SESSION['error'] = 'Seules les commandes en attente peuvent être modifiées.';
             $this->redirectMesCommandes();
         }
@@ -522,7 +522,7 @@ class CommandesController
         $idCommande = (int) ($_POST['id_commande'] ?? 0);
         $commande = $this->commandeRepo->readCommandeByIdUtilisateur((int) $_SESSION['id_utilisateur'], $idCommande);
 
-        if (!$commande || $commande->getStatut() !== 'recue') {
+        if (!$commande || $this->normaliserStatut($commande->getStatut()) !== 'recue') {
             $_SESSION['error'] = 'Cette commande ne peut plus être modifiée.';
             $this->redirectMesCommandes();
         }
@@ -606,6 +606,7 @@ class CommandesController
         }
 
         $ancien = $commande->getStatut();
+        $ancienNormalise = $this->normaliserStatut($ancien);
 
         // âœ… STATUTS NORMALISÃ‰S
         $map = [
@@ -617,13 +618,13 @@ class CommandesController
             'attente_retour' => 'terminee'
         ];
 
-        if (!isset($map[$ancien])) {
+        if (!isset($map[$ancienNormalise])) {
             $_SESSION['error'] = "Statut non modifiable";
             header('Location: index.php?page=gestion_des_commandes');
             exit;
         }
 
-        $nouveau = $map[$ancien];
+        $nouveau = $map[$ancienNormalise];
 
         $this->commandeRepo->updateStatut($id, $nouveau);
 
@@ -685,6 +686,13 @@ class CommandesController
         }
 
         $historique = (new CommandeStatutMongoRepository())->getHistoriqueParCommande($idCommande);
+        if ($historique === []) {
+            $historique[] = [
+                'action' => 'Commande créée',
+                'date_modification' => $commande->getDateCreation(),
+                'nouveau_statut' => $commande->getStatut(),
+            ];
+        }
         require __DIR__ . '/../../View/Commandes/historique_commande.php';
     }
 
@@ -822,10 +830,15 @@ class CommandesController
             exit;
         }
 
-        if (!isset($_SESSION['id_utilisateur']) || $commande->getIdUtilisateur() != $_SESSION['id_utilisateur']) {
+        $role = (int) ($_SESSION['id_role'] ?? 0);
+        $estProprietaire = isset($_SESSION['id_utilisateur']) && $commande->getIdUtilisateur() === (int) $_SESSION['id_utilisateur'];
+        if (!$estProprietaire && !in_array($role, [2, 3], true)) {
             header('Location: index.php?page=mes_commandes');
             exit;
         }
+
+        $retourPage = $estProprietaire ? 'mes_commandes' : 'gestion_des_commandes';
+        $peutModifier = $estProprietaire && $this->normaliserStatut($commande->getStatut()) === 'recue';
 
         require __DIR__ . '/../../View/Commandes/detail_commande.php';
     }
@@ -852,5 +865,14 @@ class CommandesController
     {
         header('Location: index.php?page=mes_commandes');
         exit;
+    }
+
+    private function normaliserStatut(string $statut): string
+    {
+        return strtolower(strtr(trim($statut), [
+            'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'à' => 'a', 'â' => 'a', 'ù' => 'u', 'û' => 'u',
+            'ô' => 'o', 'î' => 'i', 'ï' => 'i', 'ç' => 'c', ' ' => '_',
+        ]));
     }
 }

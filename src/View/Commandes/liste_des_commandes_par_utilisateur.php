@@ -83,6 +83,8 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                     <?php foreach ($commandes as $commande): ?>
 
+                        <?php $statut = strtolower(strtr(trim($commande->getStatut()), ['é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e', ' ' => '_'])); ?>
+
                         <tr>
 
                             <!-- MENU -->
@@ -106,15 +108,15 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                             <!-- STATUT -->
                             <td>
-        <span class="status <?= $commande->getStatut() ?>">
-            <?= $e(ucfirst(str_replace('_', ' ', $commande->getStatut()))) ?>
+        <span class="status <?= $statut ?>">
+            <?= $e(ucfirst(str_replace('_', ' ', $statut))) ?>
         </span>
                             </td>
 
                             <!-- AVIS -->
                             <td>
                                 <?php $avisCommande = $avisParCommande[$commande->getIdCommande()] ?? null; ?>
-                                <?php if ($commande->getStatut() === 'terminee' && !$avisCommande): ?>
+                                <?php if ($statut === 'terminee' && !$avisCommande): ?>
                                     <a class="btn btn-secondary btn-sm rounded-pill"
                                        href="index.php?page=avis&id_commande=<?= $commande->getIdCommande() ?>">
                                         <i class="bi bi-star me-1"></i>Laisser un avis
@@ -132,13 +134,13 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
                                     <!-- DÉTAIL -->
                                     <a href="index.php?page=detail_commande&id=<?= $commande->getIdCommande() ?>"
-                                       class="btn btn-sm btn-outline-dark">
+                                       class="btn btn-sm btn-outline-dark order-action" title="Voir le détail">
                                         <i class="bi bi-eye"></i>
                                     </a>
 
-                                    <?php if ($commande->getStatut() === 'recue'): ?>
+                                    <?php if ($statut === 'recue'): ?>
                                         <a href="index.php?page=modifier_commande&id=<?= $commande->getIdCommande() ?>"
-                                           class="btn btn-sm btn-outline-primary" title="Modifier la commande">
+                                           class="btn btn-sm btn-outline-primary order-action" title="Modifier la commande">
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                         <form method="POST"
@@ -150,7 +152,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                                                    value="<?= $commande->getIdCommande() ?>">
 
                                             <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger" title="Annuler la commande">
+                                                    class="btn btn-sm btn-outline-danger order-action" title="Annuler la commande">
                                                 <i class="bi bi-x-circle"></i>
                                             </button>
 

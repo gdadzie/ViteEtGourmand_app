@@ -59,12 +59,30 @@ tbody tr:hover { background-color: #fcfaf7; }
 }
 
 .reçue { background:#fff3cd; color:#856404; }
+.recue { background:#fff3cd; color:#856404; }
 .acceptée { background:#e7ddff; color:#5a33b1; }
+.acceptee { background:#e7ddff; color:#5a33b1; }
 .payée { background: #ffefdd; color: #e89032; }
+.payee { background: #ffefdd; color: #9a5600; }
 .en_preparation { background:#dbeafe; color:#0b5ed7; }
 .en_livraison { background:#d1fae5; color:#198754; }
 .livrée { background:#d1e7dd; color:#146c43; }
+.livree { background:#d1e7dd; color:#146c43; }
 .terminée { background:#343a40; color:white; }
+.terminee { background:#343a40; color:white; }
+.annulee { background:#f8d7da; color:#842029; }
+
+.order-action {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.order-action:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,.12); }
 
 .btn-accent {
     background:#aa6d27;

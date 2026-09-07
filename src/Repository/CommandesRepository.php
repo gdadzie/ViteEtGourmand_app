@@ -275,7 +275,7 @@ class CommandesRepository
     public function updateClientOrder(Commande $commande): bool
     {
         $stmt = $this->conn->prepare(
-            'UPDATE commandes
+            "UPDATE commandes
              SET nombre_personnes = :nombre_personnes,
                  prix_total = :prix_total,
                  adresse_livraison = :adresse_livraison,
@@ -286,7 +286,7 @@ class CommandesRepository
                  mode_paiement = :mode_paiement
              WHERE id_commande = :id_commande
                AND id_utilisateur = :id_utilisateur
-               AND statut = \'recue\''
+               AND statut IN ('recue', 'reçue')"
         );
 
         $stmt->execute([

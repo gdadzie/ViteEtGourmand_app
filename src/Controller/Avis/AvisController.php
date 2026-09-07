@@ -58,7 +58,7 @@ class AvisController
         if (
             !$commande ||
             $commande->getIdUtilisateur() != $_SESSION['id_utilisateur'] ||
-            $commande->getStatut() !== 'terminee' ||
+            $this->normaliserStatut($commande->getStatut()) !== 'terminee' ||
 
             $this->avisRepo->existeDeja($idCommande)
 
@@ -93,7 +93,7 @@ class AvisController
         if (
             !$commande ||
             $commande->getIdUtilisateur() !== (int) $_SESSION['id_utilisateur'] ||
-            $commande->getStatut() !== 'terminee' ||
+            $this->normaliserStatut($commande->getStatut()) !== 'terminee' ||
             $this->avisRepo->existeDeja($idCommande) ||
             $note < 1 || $note > 5 || mb_strlen($commentaire) < 3
         ) {
@@ -216,6 +216,11 @@ class AvisController
             : $_SESSION['error'] = "Erreur lors de la suppression";
 
         $this->redirect('gestion_avis');
+    }
+
+    private function normaliserStatut(string $statut): string
+    {
+        return strtolower(strtr(trim($statut), ['é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e', ' ' => '_']));
     }
 
 
