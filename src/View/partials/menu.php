@@ -86,7 +86,7 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="?page=espace_admin#statistiques">
+                                    <a class="dropdown-item" href="?page=statistiques">
                                         <i class="bi bi-bar-chart-line me-2"></i>Statistiques
                                     </a>
                                 </li>

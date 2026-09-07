@@ -59,18 +59,27 @@ class AdminController
             exit;
         }
 
+        require __DIR__ . '/../../View/Admin/espace_administrateur.php';
+    }
+
+    /** Affiche les statistiques MongoDB dans une page dédiée. */
+    public function statistiques(): void
+    {
+        AuthService::requireAdmin();
+
         $filtersStats = [
             'id_menu' => (int) ($_GET['stat_menu'] ?? 0),
             'date_debut' => trim((string) ($_GET['date_debut'] ?? '')),
             'date_fin' => trim((string) ($_GET['date_fin'] ?? '')),
         ];
-        $admins = $this->utilisateursRepo->readByRole(3);
+
         $this->mongoRepo->synchroniserCommandes($this->commandesRepo->readAnalyticsRows());
         $stats = $this->mongoRepo->getStatsGlobales($filtersStats);
         $menuStats = $this->mongoRepo->getStatsMenus($filtersStats);
         $menusStats = $this->menusRepo->readAll();
         $mongoDisponible = $this->mongoRepo->isAvailable() && $this->mongoRepo->getLastError() === null;
-        require __DIR__ . '/../../View/Admin/espace_administrateur.php';
+
+        require __DIR__ . '/../../View/Admin/statistiques.php';
     }
 
     // CRÃ‰ATION D'UN EMPLOYE

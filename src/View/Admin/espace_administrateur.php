@@ -18,23 +18,6 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 $prenom = $prenom ?? ($_SESSION['prenom'] ?? ''); // optionnel
 $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
 
-// Stats optionnelles si ton contrôleur les passe (sinon, affichage "—")
-$stats = $stats ?? [
-        'total' => null,
-        'en_attente' => null,
-        'acceptees' => null,
-        'terminees' => null,
-        'a_noter' => null,
-];
-$menuStats = $menuStats ?? [];
-$menusStats = $menusStats ?? [];
-$filtersStats = $filtersStats ?? ['id_menu' => 0, 'date_debut' => '', 'date_fin' => ''];
-$mongoDisponible = $mongoDisponible ?? false;
-$menuStatsJson = htmlspecialchars(
-    json_encode($menuStats, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_TAG) ?: '[]',
-    ENT_QUOTES,
-    'UTF-8'
-);
 ?>
 
 <div class="container my-5">
@@ -51,24 +34,6 @@ $menuStatsJson = htmlspecialchars(
             </div>
         </div>
 
-        <div class="d-flex flex-wrap gap-2">
-            <span class="stat-chip">
-                <i class="bi bi-receipt me-1"></i>
-                Total : <strong><?= $stats['total'] ?? '—' ?></strong>
-            </span>
-            <span class="stat-chip">
-                <i class="bi bi-hourglass-split me-1"></i>
-                En attente : <strong><?= $stats['en_attente'] ?? '—' ?></strong>
-            </span>
-            <span class="stat-chip">
-                <i class="bi bi-check2-circle me-1"></i>
-                Acceptées : <strong><?= $stats['acceptees'] ?? '—' ?></strong>
-            </span>
-            <span class="stat-chip">
-                <i class="bi bi-flag me-1"></i>
-                Terminées : <strong><?= $stats['terminees'] ?? '—' ?></strong>
-            </span>
-        </div>
     </div>
 
     <!-- Alerts (si tu utilises $_SESSION['success']/['error']) -->
@@ -224,63 +189,6 @@ $menuStatsJson = htmlspecialchars(
                 </div>
             </a>
         </div>
-        <!-- Statistiques MongoDB -->
-        <div class="col-12" id="statistiques">
-            <section class="card card-tile h-100" aria-labelledby="stats-menus-title">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
-                        <div>
-                            <h2 id="stats-menus-title" class="h5 mb-1"><i class="bi bi-bar-chart-line me-2 accent"></i>Statistiques des menus</h2>
-                            <p class="muted mb-0">Commandes et chiffre d'affaires, calculés depuis MongoDB.</p>
-                        </div>
-                        <span class="badge <?= $mongoDisponible ? 'text-bg-success' : 'text-bg-warning' ?> align-self-md-start">
-                            <?= $mongoDisponible ? 'MongoDB synchronisé' : 'MongoDB indisponible' ?>
-                        </span>
-                    </div>
-
-                    <form class="row g-2 align-items-end mb-4" method="get" action="index.php" aria-label="Filtrer les statistiques">
-                        <input type="hidden" name="page" value="espace_admin">
-                        <div class="col-12 col-md-4">
-                            <label for="stat-menu" class="form-label small mb-1">Menu</label>
-                            <select id="stat-menu" name="stat_menu" class="form-select form-select-sm">
-                                <option value="">Tous les menus</option>
-                                <?php foreach ($menusStats as $menu): ?>
-                                    <option value="<?= (int) $menu->getIdMenu() ?>" <?= (int) $filtersStats['id_menu'] === $menu->getIdMenu() ? 'selected' : '' ?>><?= $e($menu->getTitre()) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-6 col-md-3"><label for="date-debut" class="form-label small mb-1">Du</label><input id="date-debut" type="date" name="date_debut" class="form-control form-control-sm" value="<?= $e($filtersStats['date_debut']) ?>"></div>
-                        <div class="col-6 col-md-3"><label for="date-fin" class="form-label small mb-1">Au</label><input id="date-fin" type="date" name="date_fin" class="form-control form-control-sm" value="<?= $e($filtersStats['date_fin']) ?>"></div>
-                        <div class="col-12 col-md-2 d-flex gap-2"><button class="btn btn-sm btn-accent flex-fill" type="submit">Filtrer</button><a class="btn btn-sm btn-outline-secondary" href="?page=espace_admin#statistiques">Réinitialiser</a></div>
-                    </form>
-
-                    <?php if ($mongoDisponible && !empty($menuStats)): ?>
-                        <div class="row g-4 align-items-center">
-                            <div class="col-12 col-lg-7"><canvas id="menu-stats-chart" data-menu-stats="<?= $menuStatsJson ?>" aria-label="Graphique des commandes par menu" role="img"></canvas></div>
-                            <div class="col-12 col-lg-5">
-                                <div class="table-responsive">
-                                    <table class="table table-sm align-middle mb-0">
-                                        <thead><tr><th>Menu</th><th>Commandes</th><th>CA</th></tr></thead>
-                                        <tbody>
-                                        <?php foreach ($menuStats as $menuStat): ?>
-                                            <tr>
-                                                <td><?= $e($menuStat['menu_titre'] ?? 'Menu') ?></td>
-                                                <td><?= (int) ($menuStat['nombre_commandes'] ?? 0) ?></td>
-                                                <td><?= number_format((float) ($menuStat['chiffre_affaires'] ?? 0), 2, ',', ' ') ?> €</td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <p class="alert alert-info mb-0">Aucune donnée statistique disponible pour le moment. Les commandes apparaîtront ici après la synchronisation MongoDB.</p>
-                    <?php endif; ?>
-                </div>
-            </section>
-        </div>
-
         <!-- Creer un nouveau plat -->
         <div class="col-12 col-md-6 col-lg-4">
             <a class="quick-link" href="?page=creer_un_plat">
@@ -339,7 +247,7 @@ $menuStatsJson = htmlspecialchars(
 
         <!-- Statistiques -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="#statistiques">
+            <a class="quick-link" href="?page=statistiques">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
@@ -396,7 +304,5 @@ $menuStatsJson = htmlspecialchars(
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="assets/js/dashboard/admin-stats.js" defer></script>
 </body>
 </html>

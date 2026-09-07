@@ -72,7 +72,7 @@ $prenom = $_SESSION['prenom'] ?? '';
                                     <a class="dropdown-item" href="?page=modification_horaire">
                                         Gestion des horaires
                                     </a>
-                                    <a class="dropdown-item" href="?page=espace_admin#statistiques">
+                                    <a class="dropdown-item" href="?page=statistiques">
                                         Statistiques
                                     </a>
                                 </li>

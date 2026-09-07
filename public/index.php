@@ -292,6 +292,10 @@ switch ($page) {
         $adminController->index();
         break;
 
+    case 'statistiques':
+        $adminController->statistiques();
+        break;
+
     case 'creation_employe':
         $adminController->creationEmploye();
         break;
