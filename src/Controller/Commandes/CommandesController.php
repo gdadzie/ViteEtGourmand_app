@@ -210,6 +210,13 @@ class CommandesController
                 $_POST['mode_paiement'] ?? 'paiement_livraison'
             );
 
+            if (!in_array($modeReception, ['livraison', 'sur_place'], true)
+                || !in_array($modePaiement, ['paiement_livraison', 'paiement_sur_place'], true)) {
+                $_SESSION['error'] = 'Mode de réception ou de paiement invalide.';
+                header('Location: index.php?page=liste_des_menus');
+                exit;
+            }
+
 
 
             // =================================================
@@ -218,9 +225,10 @@ class CommandesController
             if (
                 !$idMenu ||
                 !$nb ||
-                empty($adresse) ||
+                !$idVille ||
                 empty($date) ||
-                empty($heure)
+                empty($heure) ||
+                ($modeReception === 'livraison' && empty($adresse))
             ) {
 
                 $_SESSION['error'] = "Tous les champs sont obligatoires";
@@ -241,6 +249,24 @@ class CommandesController
 
                 header('Location: index.php?page=liste_des_menus');
 
+                exit;
+            }
+
+            if ($modeReception === 'sur_place') {
+                $adresse = 'Retrait sur place';
+            }
+
+            $villeEntity = $this->villesRepo->findById($idVille);
+            if ($villeEntity === null) {
+                $_SESSION['error'] = 'Ville de livraison invalide.';
+                header('Location: index.php?page=liste_des_menus');
+                exit;
+            }
+
+            $dateLivraison = \DateTime::createFromFormat('Y-m-d', $date);
+            if (!$dateLivraison || $dateLivraison < new \DateTime('today')) {
+                $_SESSION['error'] = 'La date de livraison est invalide.';
+                header('Location: index.php?page=liste_des_menus');
                 exit;
             }
 
@@ -270,7 +296,8 @@ class CommandesController
                 (float)$menu->getPrixParPersonne(),
                 $nb,
                 $minimumPersonnes,
-                $villes[(int)$idVille] ?? []
+                $villeEntity,
+                $modeReception
             );
 
             $prixMenus = $detailsPrix['prix_menus'];
@@ -304,7 +331,7 @@ class CommandesController
 
             $commande->setHeureLivraison($heure);
 
-            $commande->setStatut('reÃ§ue');
+            $commande->setStatut('recue');
 
             $commande->setDateCreation(date('Y-m-d H:i:s'));
 
@@ -335,6 +362,9 @@ class CommandesController
                 );
 
                 $commandeCreee = true;
+                (new CommandeStatutMongoRepository())->synchroniserCommandes(
+                    $this->commandeRepo->readAnalyticsRows()
+                );
                 $_SESSION['success'] =
                     "Commande créée avec succès";
 
@@ -618,7 +648,8 @@ class CommandesController
         float $prixParPersonne,
         int $nombrePersonnes,
         int $minimumPersonnes,
-        array $villeEntity
+        array $villeEntity,
+        string $modeReception
     ): array {
 
         $prixMenus = $prixParPersonne * $nombrePersonnes;
@@ -629,7 +660,9 @@ class CommandesController
             $minimumPersonnes
         );
 
-        $fraisLivraison = $this->calculLivraison($villeEntity);
+        $fraisLivraison = $modeReception === 'livraison'
+            ? $this->calculLivraison($villeEntity)
+            : 0.0;
 
         $total = $prixMenus - $reduction + $fraisLivraison;
 
