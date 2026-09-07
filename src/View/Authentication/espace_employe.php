@@ -38,7 +38,7 @@
 
         <!-- Carte 1 : Gestion des avis -->
         <div class="col-12 col-md-6 col-xl-4">
-            <a href="?page=creation_employe" class="card-link">
+            <a href="?page=gestion_avis" class="card-link">
                 <div class="card-emp">
                     <div class="d-flex align-items-start gap-3">
                         <div class="icon-badge"><i class="bi bi-chat-square-text"></i></div>
@@ -68,23 +68,7 @@
             </a>
         </div>
 
-        <!-- Carte 3 : Modifier contacts -->
-        <div class="col-12 col-md-6 col-xl-4">
-            <a href="index.php?page=gestion_avis" class="card-link">
-                <div class="card-emp">
-                    <div class="d-flex align-items-start gap-3">
-                        <div class="icon-badge"><i class="bi bi-telephone"></i></div>
-                        <div>
-                            <h5 class="card-title">Gestion des avis</h5>
-                            <p class="card-text">Validez les avis des clients</p>
-                            <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Carte 4 : Voir les menus -->
+        <!-- Carte 3 : Gestion des menus -->
         <div class="col-12 col-md-6 col-xl-4">
             <a href="index.php?page=gestion_menus" class="card-link">
                 <div class="card-emp">
@@ -93,6 +77,22 @@
                         <div>
                             <h5 class="card-title">Gestion des menus</h5>
                             <p class="card-text">Consultez et gérez les menus proposés par le service traiteur.</p>
+                            <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Carte 4 : Consulter les menus -->
+        <div class="col-12 col-md-6 col-xl-4">
+            <a href="index.php?page=liste_des_menus" class="card-link">
+                <div class="card-emp">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="icon-badge"><i class="bi bi-card-list"></i></div>
+                        <div>
+                            <h5 class="card-title">Consulter les menus</h5>
+                            <p class="card-text">Visualisez les menus tels qu’ils sont présentés aux clients.</p>
                             <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
                         </div>
                     </div>
@@ -116,15 +116,15 @@
             </a>
         </div>
 
-        <!-- Carte 6 : Statistiques / CA -->
+        <!-- Carte 6 : Site public -->
         <div class="col-12 col-md-6 col-xl-4">
-            <a href="index.php?page=sales_stats" class="card-link">
+            <a href="index.php?page=home" class="card-link">
                 <div class="card-emp">
                     <div class="d-flex align-items-start gap-3">
-                        <div class="icon-badge"><i class="bi bi-graph-up"></i></div>
+                        <div class="icon-badge"><i class="bi bi-globe2"></i></div>
                         <div>
-                            <h5 class="card-title">Statistiques / CA</h5>
-                            <p class="card-text">Analysez le chiffre d’affaires par menu ou période.</p>
+                            <h5 class="card-title">Voir le site</h5>
+                            <p class="card-text">Consultez le site public tel qu’il est visible par les clients.</p>
                             <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
                         </div>
                     </div>
