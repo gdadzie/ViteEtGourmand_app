@@ -499,6 +499,7 @@ class CommandesController
             $_SESSION['id_utilisateur'] ?? null,
             $_SESSION['id_role'] ?? null
         );
+        $mongo->synchroniserCommandes($this->commandeRepo->readAnalyticsRows());
 
         $_SESSION['success'] = "Statut mis Ã  jour";
 

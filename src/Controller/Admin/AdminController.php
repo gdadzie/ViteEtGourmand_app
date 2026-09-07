@@ -7,6 +7,8 @@ use PDO;
 use Config\Database;
 use Entity\Utilisateurs;
 use Repository\MenusRepository;
+use Repository\CommandesRepository;
+use Repository\CommandeStatutMongoRepository;
 use Repository\UtilisateursRepository;
 use Repository\HorairesRepository;
 use Repository\VillesRepository;
@@ -19,6 +21,8 @@ class AdminController
     private MenusRepository $menusRepo;
     private PDO $conn;
     private VillesRepository $villesRepo;
+    private CommandesRepository $commandesRepo;
+    private CommandeStatutMongoRepository $mongoRepo;
 
     public function __construct(UtilisateursRepository $utilisateursRepo, PDO $conn)
     {
@@ -26,6 +30,8 @@ class AdminController
         $this->menusRepo = new MenusRepository($conn);
         $this->conn = $conn;
         $this->villesRepo = new VillesRepository($conn);
+        $this->commandesRepo = new CommandesRepository($conn);
+        $this->mongoRepo = new CommandeStatutMongoRepository();
 
     }
 
@@ -54,6 +60,10 @@ class AdminController
         }
 
         $admins = $this->utilisateursRepo->readByRole(3);
+        $this->mongoRepo->synchroniserCommandes($this->commandesRepo->readAnalyticsRows());
+        $stats = $this->mongoRepo->getStatsGlobales();
+        $menuStats = $this->mongoRepo->getStatsMenus();
+        $mongoDisponible = $this->mongoRepo->isAvailable() && $this->mongoRepo->getLastError() === null;
         require __DIR__ . '/../../View/Admin/espace_administrateur.php';
     }
 

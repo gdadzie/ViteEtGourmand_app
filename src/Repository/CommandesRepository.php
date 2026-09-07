@@ -322,4 +322,17 @@ class CommandesRepository
         $dataList = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $dataList;
     }
+
+    /** @return array<int, array<string, mixed>> */
+    public function readAnalyticsRows(): array
+    {
+        $stmt = $this->conn->query(
+            'SELECT c.id_commande, c.id_menu, m.titre AS titre_menu, c.prix_total, c.statut, c.date_creation
+             FROM commandes c
+             INNER JOIN menus m ON m.id_menu = c.id_menu
+             ORDER BY c.id_commande ASC'
+        );
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

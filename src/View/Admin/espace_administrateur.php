@@ -26,6 +26,13 @@ $stats = $stats ?? [
         'terminees' => null,
         'a_noter' => null,
 ];
+$menuStats = $menuStats ?? [];
+$mongoDisponible = $mongoDisponible ?? false;
+$menuStatsJson = htmlspecialchars(
+    json_encode($menuStats, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_TAG) ?: '[]',
+    ENT_QUOTES,
+    'UTF-8'
+);
 ?>
 
 <div class="container my-5">
@@ -215,31 +222,45 @@ $stats = $stats ?? [
                 </div>
             </a>
         </div>
-        <!-- Statistiques/CA -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="?page=gestion_des_menus">
-                <div class="card card-tile h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="icon-badge">
-                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Gestion des statistiques et du chiffre d'affaire</h5>
-                                <div class="muted small">Accèder au statistique de ventes des menus .</div>
-                            </div>
+        <!-- Statistiques MongoDB -->
+        <div class="col-12" id="statistiques">
+            <section class="card card-tile h-100" aria-labelledby="stats-menus-title">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+                        <div>
+                            <h2 id="stats-menus-title" class="h5 mb-1"><i class="bi bi-bar-chart-line me-2 accent"></i>Statistiques des menus</h2>
+                            <p class="muted mb-0">Commandes et chiffre d'affaires, calculés depuis MongoDB.</p>
                         </div>
-                        <p class="card-text muted mb-0">
-                            Consulter les statistiques et le chiffre d'affaire de votre entreprise.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                        <span class="btn btn-accent w-100">
-                            Accèder <i class="bi bi-pencil-square ms-1"></i>
+                        <span class="badge <?= $mongoDisponible ? 'text-bg-success' : 'text-bg-warning' ?> align-self-md-start">
+                            <?= $mongoDisponible ? 'MongoDB synchronisé' : 'MongoDB indisponible' ?>
                         </span>
                     </div>
+
+                    <?php if ($mongoDisponible && !empty($menuStats)): ?>
+                        <div class="row g-4 align-items-center">
+                            <div class="col-12 col-lg-7"><canvas id="menu-stats-chart" data-menu-stats="<?= $menuStatsJson ?>" aria-label="Graphique des commandes par menu" role="img"></canvas></div>
+                            <div class="col-12 col-lg-5">
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle mb-0">
+                                        <thead><tr><th>Menu</th><th>Commandes</th><th>CA</th></tr></thead>
+                                        <tbody>
+                                        <?php foreach ($menuStats as $menuStat): ?>
+                                            <tr>
+                                                <td><?= $e($menuStat['menu_titre'] ?? 'Menu') ?></td>
+                                                <td><?= (int) ($menuStat['nombre_commandes'] ?? 0) ?></td>
+                                                <td><?= number_format((float) ($menuStat['chiffre_affaires'] ?? 0), 2, ',', ' ') ?> €</td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <p class="alert alert-info mb-0">Aucune donnée statistique disponible pour le moment. Les commandes apparaîtront ici après la synchronisation MongoDB.</p>
+                    <?php endif; ?>
                 </div>
-            </a>
+            </section>
         </div>
 
         <!-- Creer un nouveau plat -->
@@ -330,5 +351,7 @@ $stats = $stats ?? [
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="assets/js/dashboard/admin-stats.js" defer></script>
 </body>
 </html>
