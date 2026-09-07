@@ -337,6 +337,33 @@ $menuStatsJson = htmlspecialchars(
             </a>
         </div>
 
+        <!-- Statistiques -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="#statistiques">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge">
+                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">Statistiques</h5>
+                                <div class="muted small">Suivre les commandes et le chiffre d’affaires</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">
+                            Consulter les graphiques et filtrer les résultats par menu ou période.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">
+                            Consulter <i class="bi bi-bar-chart-line ms-1"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <!-- Déconnexion -->
         <div class="col-12 col-md-6 col-lg-4">
             <a class="quick-link" href="?page=deconnexion">
