@@ -502,11 +502,6 @@ button,
 ========================= */
 
 @media (max-width:768px){
-
-    body{
-        padding-top:90px;
-    }
-
     .menu-media{
         height:170px;
 

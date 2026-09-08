@@ -26,7 +26,12 @@ final class MailService
     public function envoyerMailCreationCompte(string $email, string $nomComplet, string $type = 'employe'): bool
     {
         $subject = $type === 'employe' ? 'Création de votre compte employé Vite & Gourmand' : 'Bienvenue chez Vite & Gourmand';
-        return $this->send($email, $nomComplet, $subject, '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2><p>Votre compte a été créé avec succès.</p>');
+        $body = '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2>'
+            . '<p>Merci d’avoir créé votre compte Vite &amp; Gourmand.</p>'
+            . '<p>Votre inscription a bien été enregistrée. Vous pouvez dès maintenant vous connecter, consulter nos menus et suivre vos commandes.</p>'
+            . '<p>À bientôt,<br><strong>L’équipe Vite &amp; Gourmand</strong></p>';
+
+        return $this->send($email, $nomComplet, $subject, $body);
     }
 
     public function envoyerMailReinitialisation(string $email, string $nomComplet, string $token): bool

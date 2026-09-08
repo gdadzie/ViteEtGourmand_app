@@ -153,6 +153,16 @@ class AuthService
             ];
         }
 
+        // L'inscription reste valide même si le serveur SMTP est momentanément indisponible.
+        $mailSent = (new MailService())->envoyerMailCreationCompte(
+            $user->getEmail(),
+            trim($user->getPrenom() . ' ' . $user->getNom()),
+            'client'
+        );
+        if (!$mailSent) {
+            error_log('Welcome email could not be delivered for user ' . $user->getIdUtilisateur());
+        }
+
         return [
             'success' => true,
             'message' => 'Votre compte a Ã©tÃ© crÃ©Ã© avec succÃ¨s ! Vous pouvez maintenant vous connecter.'
