@@ -49,8 +49,9 @@ final class MailService
 
     public function envoyerMailContact(string $email, string $title, string $message): bool
     {
-        $recipient = $_ENV['CONTACT_RECIPIENT'] ?? $_ENV['SMTP_FROM'] ?? '';
+        $recipient = $_ENV['CONTACT_RECIPIENT'] ?? $_ENV['SMTP_FROM'] ?? $_ENV['SMTP_USER'] ?? '';
         if ($recipient === '') {
+            error_log('Contact email not sent: no recipient configured.');
             return false;
         }
 
@@ -59,14 +60,17 @@ final class MailService
             . '<p><strong>Objet :</strong> ' . $this->escape($title) . '</p>'
             . '<p>' . nl2br($this->escape($message)) . '</p>';
 
-        return $this->send($recipient, 'Vite & Gourmand', 'Contact : ' . $title, $body);
+        return $this->send($recipient, 'Vite & Gourmand', 'Contact : ' . $title, $body, $email);
     }
 
-    private function send(string $email, string $name, string $subject, string $body): bool
+    private function send(string $email, string $name, string $subject, string $body, ?string $replyTo = null): bool
     {
         try {
             $mail = $this->mailer();
             $mail->addAddress($email, $name);
+            if ($replyTo !== null && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
+                $mail->addReplyTo($replyTo);
+            }
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $body;
