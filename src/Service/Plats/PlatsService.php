@@ -3,15 +3,18 @@
 namespace Service\Plats;
 
 use Entity\Plats;
+use Repository\MediaRepository;
 use Repository\PlatsRepository;
 
 class PlatsService
 {
     private PlatsRepository $platsRepo;
+    private MediaRepository $mediaRepo;
 
-    public function __construct(PlatsRepository $platsRepo)
+    public function __construct(PlatsRepository $platsRepo, MediaRepository $mediaRepo)
     {
         $this->platsRepo = $platsRepo;
+        $this->mediaRepo = $mediaRepo;
     }
 
     //=======================================================================
@@ -57,6 +60,8 @@ class PlatsService
         //===================================================================
 
         $imageNom = null;
+        $imageMime = null;
+        $imageContent = null;
 
         if (
             isset($files['image_plat']) &&
@@ -114,6 +119,9 @@ class PlatsService
                     "Impossible d'enregistrer l'image du plat."
                 );
             }
+
+            $imageMime = $mime;
+            $imageContent = file_get_contents($cheminFinal) ?: null;
         }
 
         // Enregistrement du nom de l'image
@@ -125,6 +133,10 @@ class PlatsService
 
         if (!$this->platsRepo->createPlat($plat)) {
             throw new \Exception('Impossible de creer le plat.');
+        }
+
+        if ($imageNom !== null && $imageMime !== null && $imageContent !== null) {
+            $this->mediaRepo->save('plat', (int) $plat->getIdPlat(), $imageNom, $imageMime, $imageContent);
         }
 
         return $this->platsRepo->attachToMenu($idMenu, (int) $plat->getIdPlat());
@@ -169,6 +181,8 @@ class PlatsService
         $plat->setTypePlat(trim((string) ($data['type_plat'] ?? '')));
 
         $imageNom = $currentPlat->getImagePlat();
+        $imageMime = null;
+        $imageContent = null;
         if (isset($files['image_plat']) && $files['image_plat']['error'] === UPLOAD_ERR_OK) {
             $tmp = $files['image_plat']['tmp_name'];
             $size = (int) $files['image_plat']['size'];
@@ -190,6 +204,9 @@ class PlatsService
             if (!move_uploaded_file($tmp, $uploads . $imageNom)) {
                 throw new \Exception('Impossible d\'enregistrer l\'image du plat.');
             }
+
+            $imageMime = $mime;
+            $imageContent = file_get_contents($uploads . $imageNom) ?: null;
         }
 
         $plat->setImagePlat((string) ($imageNom ?? ''));
@@ -197,6 +214,9 @@ class PlatsService
 
         if ($updated && $imageNom !== null && $imageNom !== $currentPlat->getImagePlat()) {
             $this->platsRepo->replaceImage($id, $imageNom);
+            if ($imageMime !== null && $imageContent !== null) {
+                $this->mediaRepo->save('plat', $id, $imageNom, $imageMime, $imageContent);
+            }
             if ($currentPlat->getImagePlat()) {
                 $oldFile = ROOT . '/public/uploads/' . $currentPlat->getImagePlat();
                 if (is_file($oldFile)) {
@@ -233,6 +253,11 @@ class PlatsService
             }
         }
 
-        return $this->platsRepo->delete($id);
+        $deleted = $this->platsRepo->delete($id);
+        if ($deleted) {
+            $this->mediaRepo->delete('plat', $id);
+        }
+
+        return $deleted;
     }
 }

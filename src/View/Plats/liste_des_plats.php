@@ -59,7 +59,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                         <?php if ($plat->getImagePlat()): ?>
 
                             <img
-                                    src="/uploads/<?= rawurlencode($plat->getImagePlat()) ?>"
+                                    src="/index.php?page=media_image&amp;type=plat&amp;id=<?= (int) $plat->getIdPlat() ?>&amp;name=<?= rawurlencode($plat->getImagePlat()) ?>"
                                     alt="Image du plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
                             >
 

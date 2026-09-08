@@ -35,6 +35,7 @@ use Controller\Home\HomeController;
 use Controller\LegalController;
 use Controller\Horaires\HorairesController;
 use Controller\Menus\MenusController;
+use Controller\MediaController;
 use Controller\Plats\PlatsController;
 use Controller\Utilisateurs\UtilisateursController;
 use Entity\Avis;
@@ -48,6 +49,7 @@ use Repository\CommandesRepository;
 use Repository\ContactRepository;
 use Repository\HorairesRepository;
 use Repository\MenusRepository;
+use Repository\MediaRepository;
 use Repository\PlatsRepository;
 use Repository\UtilisateursRepository;
 use Repository\VillesRepository;
@@ -88,6 +90,7 @@ $utilisateursRepo = new UtilisateursRepository($conn);
 $horairesRepo     = new HorairesRepository($conn);
 $platsRepo        = new PlatsRepository($conn);
 $menusRepo        = new MenusRepository($conn);
+$mediaRepo        = new MediaRepository($conn);
 $commandeRepo     = new CommandesRepository($conn);
 $avisRepo         = new AvisRepository($conn);
 $villesRepo       = new VillesRepository($conn);
@@ -95,7 +98,7 @@ $villesRepo       = new VillesRepository($conn);
 // ===============================
 // SERVICES
 // ===============================
-$menuService = new MenusService($menusRepo, $platsRepo);
+$menuService = new MenusService($menusRepo, $platsRepo, $mediaRepo);
 $avisService = new AvisService($avisRepo);
 $authService = new AuthService();
 $mailService = new MailService();
@@ -132,6 +135,7 @@ $horairesController = new HorairesController($horairesRepo);
 
 
 $menusController = new MenusController($menuService);
+$mediaController = new MediaController($mediaRepo);
 
 $platsController = new PlatsController($conn);
 
@@ -189,6 +193,10 @@ function requirePostMethod()
 // SWITCH ROUTES
 // ===============================
 switch ($page) {
+
+    case 'media_image':
+        $mediaController->show();
+        break;
 
     // ===============================
     // SUPPORT / UTILISATEUR

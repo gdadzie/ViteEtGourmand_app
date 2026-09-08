@@ -4,6 +4,7 @@ namespace Service\Menus;
 
 use Entity\Menus;
 use Entity\Plats;
+use Repository\MediaRepository;
 use Repository\MenusRepository;
 use Repository\PlatsRepository;
 
@@ -11,11 +12,13 @@ class MenusService
 {
     private MenusRepository $menusRepo;
     private PlatsRepository $platsRepo;
+    private MediaRepository $mediaRepo;
 
-    public function __construct(MenusRepository $menusRepo, PlatsRepository $platsRepo)
+    public function __construct(MenusRepository $menusRepo, PlatsRepository $platsRepo, MediaRepository $mediaRepo)
     {
         $this->menusRepo = $menusRepo;
         $this->platsRepo = $platsRepo;
+        $this->mediaRepo = $mediaRepo;
     }
 
     //=======================================================================
@@ -67,6 +70,8 @@ class MenusService
         $menu->setDateCreation(date('Y-m-d H:i:s'));
 
         $imageNom = null;
+        $imageMime = null;
+        $imageContent = null;
 
         if (
             isset($files['image_menu']) &&
@@ -106,12 +111,19 @@ class MenusService
             if (!move_uploaded_file($tmp, $cheminFinal)) {
                 throw new \Exception("Erreur upload image");
             }
+
+            $imageMime = $mime;
+            $imageContent = file_get_contents($cheminFinal) ?: null;
         }
 
         $menu->setImage($imageNom);
 
         if (!$this->menusRepo->create($menu)) {
             return false;
+        }
+
+        if ($imageNom !== null && $imageMime !== null && $imageContent !== null) {
+            $this->mediaRepo->save('menu', (int) $menu->getIdMenu(), $imageNom, $imageMime, $imageContent);
         }
 
         foreach ($platsExistants as $platExistant) {
@@ -203,6 +215,8 @@ class MenusService
 
         // On garde l'image actuelle par défaut
         $imageNom = $currentMenu->getImage() ?? '';
+        $imageMime = null;
+        $imageContent = null;
 
         // Une nouvelle image a été envoyée
         if (
@@ -241,6 +255,9 @@ class MenusService
                 throw new \Exception("Impossible d'enregistrer l'image.");
             }
 
+            $imageMime = $mime;
+            $imageContent = file_get_contents($cheminFinal) ?: null;
+
             // Suppression de l'ancienne image
             if (!empty($currentMenu->getImage())) {
                 $ancienneImage = $dossierUploads . $currentMenu->getImage();
@@ -254,7 +271,12 @@ class MenusService
         $menu->setImage($imageNom);
         $menu->setDateModification(date('Y-m-d H:i:s'));
 
-        return $this->menusRepo->update($menu);
+        $updated = $this->menusRepo->update($menu);
+        if ($updated && $imageMime !== null && $imageContent !== null) {
+            $this->mediaRepo->save('menu', $id, $imageNom, $imageMime, $imageContent);
+        }
+
+        return $updated;
     }
 
     //=======================================================================
@@ -266,6 +288,11 @@ class MenusService
             return false;
         }
 
-        return $this->menusRepo->delete($id);
+        $deleted = $this->menusRepo->delete($id);
+        if ($deleted) {
+            $this->mediaRepo->delete('menu', $id);
+        }
+
+        return $deleted;
     }
 }

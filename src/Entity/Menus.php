@@ -170,7 +170,7 @@ class Menus
     public function getImagePath(): string
     {
         return $this->image
-            ? '/uploads/' . $this->image
+            ? '/index.php?page=media_image&type=menu&id=' . (int) $this->id_menu . '&name=' . rawurlencode($this->image)
             : '/uploads/default.png';
     }
 

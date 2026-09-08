@@ -119,8 +119,8 @@ unset($_SESSION['success'], $_SESSION['error']);
                 <div class="card card-menu flex-fill">
 
                     <!-- IMAGE DU MENU -->
-                    <?php if ($menu->getImage() && file_exists('uploads/' . $menu->getImage())): ?>
-                        <img src="uploads/<?= htmlspecialchars($menu->getImage()) ?>"
+                    <?php if ($menu->getImage()): ?>
+                        <img src="<?= htmlspecialchars($menu->getImagePath()) ?>"
                              class="card-img-top"
                              alt="<?= htmlspecialchars($menu->getTitre()) ?>">
                     <?php endif; ?>

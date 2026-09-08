@@ -4,6 +4,7 @@ namespace Controller\Plats;
 
 use PDO;
 use Repository\MenusRepository;
+use Repository\MediaRepository;
 use Repository\PlatsRepository;
 use Service\Authentification\AuthService;
 use Service\Plats\PlatsService;
@@ -16,7 +17,7 @@ class PlatsController
 
     public function __construct(PDO $conn)
     {
-        $this->service = new PlatsService(new PlatsRepository($conn));
+        $this->service = new PlatsService(new PlatsRepository($conn), new MediaRepository($conn));
         $this->menusRepository = new MenusRepository($conn);
     }
 

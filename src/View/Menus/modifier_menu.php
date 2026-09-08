@@ -114,7 +114,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                             <?php if($menu->getImage()): ?>
 
                                 <img
-                                    src="uploads/<?= htmlspecialchars($menu->getImage()) ?>"
+                                    src="<?= htmlspecialchars($menu->getImagePath()) ?>"
                                     class="image-menu mb-3"
                                     alt="Image du menu">
 

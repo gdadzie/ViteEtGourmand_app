@@ -32,7 +32,7 @@ unset($_SESSION['error']);
                     <div class="col-12">
                         <label for="image_plat" class="form-label">Nouvelle photo</label>
                         <?php if ($plat->getImagePlat()): ?>
-                            <img class="img-fluid rounded mb-3 d-block" style="max-height: 220px" src="/uploads/<?= rawurlencode($plat->getImagePlat()) ?>" alt="Photo actuelle de <?= htmlspecialchars((string) $plat->getNomPlat()) ?>">
+                            <img class="img-fluid rounded mb-3 d-block" style="max-height: 220px" src="/index.php?page=media_image&amp;type=plat&amp;id=<?= (int) $plat->getIdPlat() ?>&amp;name=<?= rawurlencode($plat->getImagePlat()) ?>" alt="Photo actuelle de <?= htmlspecialchars((string) $plat->getNomPlat()) ?>">
                         <?php endif; ?>
                         <input type="file" id="image_plat" name="image_plat" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp" data-image-input>
                         <div class="form-text">Laissez vide pour conserver la photo actuelle. JPG, PNG, GIF ou WEBP - 5 Mo maximum.</div>
