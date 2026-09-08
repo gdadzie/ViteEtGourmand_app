@@ -82,7 +82,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
         </div>
 
         <!-- RETOUR -->
-        <a href="index.php?page=espace_utilisateur" class="btn btn-outline-secondary">
+        <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Retour
         </a>
     </div>
@@ -197,7 +197,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
             <div class="d-flex justify-content-between">
 
-                <a href="index.php?page=espace_utilisateur"
+                <a href="<?= \View\View::dashboardUrl() ?>"
                    class="btn btn-outline-secondary">
                     Annuler
                 </a>

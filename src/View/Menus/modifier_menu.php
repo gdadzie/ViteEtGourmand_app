@@ -40,7 +40,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 <nav aria-label="breadcrumb" class="mb-3 p-4 mt-5">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="?page=liste_des_menus">
+            <a href="<?= \View\View::dashboardUrl() ?>">
                 <i class="bi bi-arrow-left"></i>
                 Retour
             </a>
@@ -302,7 +302,7 @@ unset($_SESSION['success'], $_SESSION['error']);
                         <div class="d-flex justify-content-between">
 
                             <a
-                                href="?page=liste_des_menus"
+                                href="<?= \View\View::dashboardUrl() ?>"
                                 class="btn btn-outline-secondary">
 
                                 <i class="bi bi-arrow-left"></i>

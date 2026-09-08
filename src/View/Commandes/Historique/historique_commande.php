@@ -66,7 +66,7 @@ unset($_SESSION['success'], $_SESSION['error']);
         </tbody>
     </table>
 
-    <a href="index.php?page=gestion_des_commandes" class="btn btn-secondary mt-3">Retour aux commandes</a>
+    <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-secondary mt-3">Retour au tableau de bord</a>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

@@ -131,13 +131,7 @@ class AvisController
 
         $avis = $this->avisRepo->readAll();
 
-        $role = $_SESSION['id_role'] ?? 'employe';
-
-        $retour = match ($role) {
-            'admin'   => '?page=espace_admin',
-            'employe' => '?page=espace_employe',
-            default    => '?page=home'
-        };
+        $retour = \View\View::dashboardUrl();
 
         require __DIR__ . '/../../View/Avis/gestion_des_avis.php';
     }

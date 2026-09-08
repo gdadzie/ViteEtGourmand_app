@@ -6,7 +6,7 @@
                 <h1 class="h2 mb-2"><i class="bi bi-chat-dots me-2"></i>Ma messagerie</h1>
                 <p class="mb-0 text-muted">Retrouvez vos messages et les réponses de l’équipe Vite &amp; Gourmand.</p>
             </div>
-            <a href="?page=espace_utilisateur" class="btn btn-outline-secondary">
+            <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-1"></i>Tableau de bord
             </a>
         </div>

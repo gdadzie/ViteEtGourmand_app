@@ -13,7 +13,7 @@
 <main class="container my-4 my-md-5" style="max-width: 900px">
     <div class="topbar p-4 mb-4 d-flex flex-column flex-md-row justify-content-between gap-3">
         <div><h1 class="page-title mb-1">Modifier la commande #<?= $commande->getIdCommande() ?></h1><p class="muted mb-0">Vous pouvez modifier ces informations tant que la commande n’est pas acceptée.</p></div>
-        <a class="btn btn-outline-secondary align-self-md-center" href="?page=detail_commande&id=<?= $commande->getIdCommande() ?>"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+        <a class="btn btn-outline-secondary align-self-md-center" href="<?= \View\View::dashboardUrl() ?>"><i class="bi bi-arrow-left me-1"></i>Retour au tableau de bord</a>
     </div>
 
     <form class="card card-tile" method="post" action="index.php?page=enregistrer_modification_commande">
@@ -30,7 +30,7 @@
                 <div class="col-12 col-md-6"><label class="form-label" for="paiement">Paiement</label><select id="paiement" class="form-select" name="mode_paiement"><option value="paiement_livraison" <?= $commande->getModePaiement() === 'paiement_livraison' ? 'selected' : '' ?>>Paiement à la livraison</option><option value="paiement_sur_place" <?= $commande->getModePaiement() === 'paiement_sur_place' ? 'selected' : '' ?>>Paiement sur place</option></select></div>
             </div>
         </div>
-        <div class="card-footer bg-transparent border-0 px-4 pb-4 d-flex gap-2 justify-content-end"><a class="btn btn-outline-secondary" href="?page=mes_commandes">Annuler</a><button class="btn btn-accent" type="submit"><i class="bi bi-check2 me-1"></i>Enregistrer les modifications</button></div>
+        <div class="card-footer bg-transparent border-0 px-4 pb-4 d-flex gap-2 justify-content-end"><a class="btn btn-outline-secondary" href="<?= \View\View::dashboardUrl() ?>">Retour au tableau de bord</a><button class="btn btn-accent" type="submit"><i class="bi bi-check2 me-1"></i>Enregistrer les modifications</button></div>
     </form>
 </main>
 </body>

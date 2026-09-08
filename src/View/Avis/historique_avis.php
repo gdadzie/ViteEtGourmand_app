@@ -114,7 +114,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
             </div>
         </div>
 
-        <a href="index.php?page=espace_utilisateur"
+        <a href="<?= \View\View::dashboardUrl() ?>"
            class="btn btn-outline-dark rounded-pill">
             <i class="bi bi-arrow-left me-1"></i> Retour
         </a>

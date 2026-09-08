@@ -1,8 +1,8 @@
 <main class="container my-4 my-md-5">
 
     <nav class="mb-4">
-        <a href="index.php?page=liste_des_menus" class="back-link">
-            <i class="bi bi-arrow-left"></i> Retour à la liste des menus
+        <a href="<?= \View\View::dashboardUrl() ?>" class="back-link">
+            <i class="bi bi-arrow-left"></i> Retour au tableau de bord
         </a>
     </nav>
 

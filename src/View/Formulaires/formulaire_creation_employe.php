@@ -230,7 +230,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <div class="container wrap my-4 my-md-5">
 
     <!-- RETOUR -->
-    <a href="?page=espace_admin" class="back-link mb-3">
+    <a href="<?= \View\View::dashboardUrl() ?>" class="back-link mb-3">
         <i class="bi bi-arrow-left"></i> Retour
     </a>
 
@@ -366,7 +366,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="?page=espace_admin" class="btn btn-ghost">
+                                <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-ghost">
                                     Annuler
                                 </a>
 

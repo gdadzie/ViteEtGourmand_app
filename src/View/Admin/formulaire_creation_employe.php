@@ -74,7 +74,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <nav aria-label="breadcrumb" class="mb-3 p-4 mt-5">
     <ol class="breadcrumb breadcrumb-custom">
         <li class="breadcrumb-item">
-            <a href="?page=espace_admin"><i class="bi bi-arrow-left"></i> Retour</a>
+            <a href="<?= \View\View::dashboardUrl() ?>"><i class="bi bi-arrow-left"></i> Retour au tableau de bord</a>
         </li>
     </ol>
 </nav>

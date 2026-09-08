@@ -28,7 +28,7 @@ $menuStatsJson = htmlspecialchars(
             <h1 class="page-title mb-1"><i class="bi bi-bar-chart-line me-2 accent"></i>Statistiques</h1>
             <p class="muted mb-0">Suivi des commandes et du chiffre d’affaires par menu.</p>
         </div>
-        <a class="btn btn-outline-secondary" href="?page=espace_admin"><i class="bi bi-arrow-left me-1"></i>Retour au tableau de bord</a>
+        <a class="btn btn-outline-secondary" href="<?= \View\View::dashboardUrl() ?>"><i class="bi bi-arrow-left me-1"></i>Retour au tableau de bord</a>
     </div>
 
     <section class="card card-tile" aria-labelledby="stats-menus-title">

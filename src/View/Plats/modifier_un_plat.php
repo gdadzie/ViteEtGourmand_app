@@ -6,7 +6,7 @@ unset($_SESSION['error']);
 <main class="plat-form-page py-4 py-md-5">
     <div class="container">
         <nav aria-label="Fil d'Ariane" class="mb-4">
-            <a class="back-link" href="?page=liste_des_plats"><i class="bi bi-arrow-left" aria-hidden="true"></i> Retour aux plats</a>
+            <a class="back-link" href="<?= \View\View::dashboardUrl() ?>"><i class="bi bi-arrow-left" aria-hidden="true"></i> Retour au tableau de bord</a>
         </nav>
         <div class="row justify-content-center"><div class="col-12 col-lg-9 col-xl-8">
             <section class="plat-form-card" aria-labelledby="edit-plat-title">
@@ -39,7 +39,7 @@ unset($_SESSION['error']);
                         <img src="" alt="Aperçu de la nouvelle photo sélectionnée" class="image-preview d-none mt-3" data-image-preview>
                     </div>
                     <div class="col-12 d-flex flex-column flex-sm-row justify-content-between gap-3 pt-2">
-                        <a href="?page=liste_des_plats" class="btn btn-outline-secondary px-4">Annuler</a>
+                        <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-outline-secondary px-4">Retour au tableau de bord</a>
                         <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-1"></i> Enregistrer les modifications</button>
                     </div>
                 </form>

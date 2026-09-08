@@ -91,9 +91,9 @@ $peutModifier = $peutModifier ?? false;
             </small>
         </div>
 
-        <a href="index.php?page=<?= $e($retourPage) ?>"
+        <a href="<?= \View\View::dashboardUrl() ?>"
            class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left"></i> Retour
+            <i class="bi bi-arrow-left"></i> Retour au tableau de bord
         </a>
 
     </div>

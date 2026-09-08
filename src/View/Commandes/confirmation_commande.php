@@ -158,12 +158,8 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
         <div class="buttons">
 
-            <a href="?page=espace_utilisateur" class="btn btn-primary">
-                Voir mes commandes
-            </a>
-
-            <a href="?page=accueil" class="btn btn-secondary">
-                Retour à l'accueil
+            <a href="<?= \View\View::dashboardUrl() ?>" class="btn btn-primary">
+                Retour au tableau de bord
             </a>
 
         </div>
