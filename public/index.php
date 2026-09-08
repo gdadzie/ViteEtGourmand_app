@@ -201,6 +201,10 @@ switch ($page) {
         $ContactController->index();
         break;
 
+    case 'messagerie_contact':
+        $ContactController->inbox();
+        break;
+
     case 'mentions_legales':
         $legalController->mentionsLegales();
         break;

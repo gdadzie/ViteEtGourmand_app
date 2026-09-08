@@ -4,6 +4,7 @@ namespace Controller\Contact;
 
 use Repository\ContactRepository;
 use Repository\HorairesRepository;
+use Service\Authentification\AuthService;
 use Service\MailService;
 use View\View;
 
@@ -70,6 +71,84 @@ class ContactController
             : 'Votre message a bien été enregistré. Nous vous répondrons rapidement.';
 
         header('Location: index.php?page=contact');
+        exit;
+    }
+
+    public function inbox(): void
+    {
+        AuthService::requireAdminEmploye();
+
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+            $this->processInboxAction();
+            return;
+        }
+
+        $success = $_SESSION['success'] ?? null;
+        $error = $_SESSION['error'] ?? null;
+        unset($_SESSION['success'], $_SESSION['error']);
+
+        try {
+            $messages = $this->repository->readInbox();
+        } catch (\Throwable $exception) {
+            error_log('Contact inbox error: ' . $exception->getMessage());
+            $messages = [];
+            $error = 'La messagerie est momentanément indisponible.';
+        }
+
+        View::render('Contact/inbox', [
+            'currentPage' => 'messagerie_contact',
+            'pageTitle' => 'Vite & Gourmand - Messagerie contact',
+            'metaDescription' => 'Gestion des messages de contact.',
+            'messages' => $messages,
+            'success' => $success,
+            'error' => $error,
+            'cssFiles' => ['/assets/css/contact-inbox.css'],
+        ]);
+    }
+
+    private function processInboxAction(): void
+    {
+        $id = (int) ($_POST['message_id'] ?? 0);
+        $action = (string) ($_POST['action'] ?? '');
+        if ($id <= 0 || !in_array($action, ['reply', 'mark-treated'], true)) {
+            $_SESSION['error'] = 'Action de messagerie invalide.';
+            $this->redirectInbox();
+        }
+
+        try {
+            $message = $this->repository->readInboxMessage($id);
+            if ($message === null) {
+                $_SESSION['error'] = 'Ce message est introuvable.';
+                $this->redirectInbox();
+            }
+
+            if ($action === 'reply') {
+                $reply = trim((string) ($_POST['reply'] ?? ''));
+                if ($reply === '' || mb_strlen($reply) > 5000) {
+                    $_SESSION['error'] = 'Votre réponse doit contenir entre 1 et 5 000 caractères.';
+                    $this->redirectInbox();
+                }
+                if (!$this->mailService->envoyerReponseContact($message['email'], $message['titre_message'], $reply)) {
+                    $_SESSION['error'] = 'La réponse n’a pas pu être envoyée. Vérifiez la configuration e-mail.';
+                    $this->redirectInbox();
+                }
+                $this->repository->markAsTreated($id, $reply);
+                $_SESSION['success'] = 'La réponse a été envoyée et le message est marqué comme traité.';
+            } else {
+                $this->repository->markAsTreated($id);
+                $_SESSION['success'] = 'Le message est marqué comme traité.';
+            }
+        } catch (\Throwable $exception) {
+            error_log('Contact inbox action error: ' . $exception->getMessage());
+            $_SESSION['error'] = 'Cette action n’a pas pu être effectuée. Réessayez.';
+        }
+
+        $this->redirectInbox();
+    }
+
+    private function redirectInbox(): never
+    {
+        header('Location: index.php?page=messagerie_contact');
         exit;
     }
 }

@@ -56,6 +56,26 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
     <!-- Cartes principales -->
     <div class="row g-4">
 
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=messagerie_contact">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge"><i class="bi bi-envelope-open fs-4 accent"></i></div>
+                            <div>
+                                <h5 class="card-title mb-0">Messages clients</h5>
+                                <div class="muted small">Consultez et traitez les demandes du formulaire de contact.</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">Répondez aux clients et suivez les messages déjà traités.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">Ouvrir <i class="bi bi-arrow-right ms-1"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <!-- Créer un nouvel employé -->
         <div class="col-12 col-md-6 col-lg-4">
             <a class="quick-link" href="?page=creation_employe">

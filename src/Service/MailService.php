@@ -73,6 +73,16 @@ final class MailService
         return $this->send($email, 'Client Vite & Gourmand', 'Accusé de réception de votre message', $body);
     }
 
+    public function envoyerReponseContact(string $email, string $title, string $response): bool
+    {
+        $body = '<h2>Bonjour,</h2>'
+            . '<p>En réponse à votre message « <strong>' . $this->escape($title) . '</strong> » :</p>'
+            . '<p>' . nl2br($this->escape($response)) . '</p>'
+            . '<p>Cordialement,<br><strong>Vite &amp; Gourmand</strong></p>';
+
+        return $this->send($email, 'Client Vite & Gourmand', 'Réponse à votre demande — Vite & Gourmand', $body);
+    }
+
     private function send(string $email, string $name, string $subject, string $body, ?string $replyTo = null): bool
     {
         try {

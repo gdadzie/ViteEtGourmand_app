@@ -64,6 +64,11 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
                                         <i class="bi bi-briefcase me-2"></i>Tableau employé
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="?page=messagerie_contact">
+                                        <i class="bi bi-envelope-open me-2"></i>Messages clients
+                                    </a>
+                                </li>
 
                             <?php elseif ((int)$role === 3): ?>
                                 <li>
@@ -89,6 +94,11 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
                                 <li>
                                     <a class="dropdown-item" href="?page=statistiques">
                                         <i class="bi bi-bar-chart-line me-2"></i>Statistiques
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="?page=messagerie_contact">
+                                        <i class="bi bi-envelope-open me-2"></i>Messages clients
                                     </a>
                                 </li>
                             <?php endif; ?>

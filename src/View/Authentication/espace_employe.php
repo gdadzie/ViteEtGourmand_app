@@ -36,6 +36,21 @@
     <!-- CARTES (données inchangées : mêmes liens / titres / textes) -->
     <div class="row g-4">
 
+        <div class="col-12 col-md-6 col-xl-4">
+            <a href="?page=messagerie_contact" class="card-link">
+                <div class="card-emp">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="icon-badge"><i class="bi bi-envelope-open"></i></div>
+                        <div>
+                            <h5 class="card-title">Messages clients</h5>
+                            <p class="card-text">Consultez les demandes reçues et répondez directement aux clients.</p>
+                            <div class="card-cta">Accéder <i class="bi bi-arrow-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <!-- Carte 1 : Gestion des avis -->
         <div class="col-12 col-md-6 col-xl-4">
             <a href="?page=gestion_avis" class="card-link">
