@@ -142,7 +142,7 @@ class AvisRepository
         $stmt = $this->conn->query("
     SELECT
         a.*,
-        u.nom AS nom_utilisateur
+        TRIM(CONCAT(u.prenom, ' ', u.nom)) AS nom_utilisateur
     FROM avis a
     INNER JOIN utilisateurs u
         ON a.id_utilisateur = u.id_utilisateur

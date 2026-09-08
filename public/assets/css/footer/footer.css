@@ -6,11 +6,17 @@
 }
 
 .footer-vg{
+    margin-top: 0 !important;
     background:
             radial-gradient(900px 420px at 15% 20%, rgba(170,109,39,.22), transparent 60%),
             radial-gradient(700px 380px at 85% 30%, rgba(170,109,39,.18), transparent 62%),
             linear-gradient(180deg, #151515, #0f0f0f);
     color:#fff;
+}
+
+/* Le footer reste collé à la fin du contenu, sans bande blanche. */
+body > main:last-of-type {
+    margin-bottom: 0 !important;
 }
 
 .footer-topbar{

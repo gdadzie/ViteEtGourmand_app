@@ -1,5 +1,5 @@
 
-<footer class="footer-vg pt-5 pb-3 mt-5">
+<footer class="footer-vg pt-5 pb-3">
     <div class="container-fluid px-3 px-md-4">
 
         <div class="footer-topbar mb-4">
