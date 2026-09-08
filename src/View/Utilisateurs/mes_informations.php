@@ -102,7 +102,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
     <!-- FORMULAIRE -->
     <div class="card card-box p-4">
 
-        <form method="POST" action="index.php?page=update_profil">
+        <form method="POST" action="index.php?page=modifier_profil">
 
             <div class="row g-3">
 
