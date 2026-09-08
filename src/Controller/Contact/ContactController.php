@@ -132,6 +132,7 @@ class ContactController
                     $_SESSION['error'] = 'La réponse n’a pas pu être envoyée. Vérifiez la configuration e-mail.';
                     $this->redirectInbox();
                 }
+                $this->repository->addExchange($id, 'equipe', $reply);
                 $this->repository->markAsTreated($id, $reply);
                 $_SESSION['success'] = 'La réponse a été envoyée et le message est marqué comme traité.';
             } else {
@@ -146,9 +147,85 @@ class ContactController
         $this->redirectInbox();
     }
 
+    public function clientInbox(): void
+    {
+        AuthService::requireUtilisateur();
+        $email = (string) ($_SESSION['email'] ?? '');
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['error'] = 'Votre adresse e-mail est indisponible. Veuillez vous reconnecter.';
+            header('Location: index.php?page=connexion');
+            exit;
+        }
+
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+            $this->processClientReply($email);
+            return;
+        }
+
+        $success = $_SESSION['success'] ?? null;
+        $error = $_SESSION['error'] ?? null;
+        unset($_SESSION['success'], $_SESSION['error']);
+
+        try {
+            $messages = $this->repository->readMessagesForEmail($email);
+            foreach ($messages as &$message) {
+                $message['exchanges'] = $this->repository->readConversation((int) $message['id']);
+            }
+            unset($message);
+        } catch (\Throwable $exception) {
+            error_log('Client contact inbox error: ' . $exception->getMessage());
+            $messages = [];
+            $error = 'Votre messagerie est momentanément indisponible.';
+        }
+
+        View::render('Contact/client-inbox', [
+            'currentPage' => 'ma_messagerie',
+            'pageTitle' => 'Vite & Gourmand - Ma messagerie',
+            'metaDescription' => 'Vos échanges avec Vite & Gourmand.',
+            'messages' => $messages,
+            'success' => $success,
+            'error' => $error,
+            'cssFiles' => ['/assets/css/contact-inbox.css'],
+        ]);
+    }
+
+    private function processClientReply(string $email): void
+    {
+        $id = (int) ($_POST['message_id'] ?? 0);
+        $reply = trim((string) ($_POST['reply'] ?? ''));
+        if ($id <= 0 || $reply === '' || mb_strlen($reply) > 5000) {
+            $_SESSION['error'] = 'Votre réponse doit contenir entre 1 et 5 000 caractères.';
+            $this->redirectClientInbox();
+        }
+
+        try {
+            $message = $this->repository->readInboxMessage($id);
+            if ($message === null || strcasecmp((string) $message['email'], $email) !== 0) {
+                $_SESSION['error'] = 'Cette conversation est introuvable.';
+                $this->redirectClientInbox();
+            }
+
+            $this->repository->addExchange($id, 'client', $reply);
+            $this->repository->markAsPending($id);
+            $this->mailService->envoyerMailContact($email, 'Réponse : ' . $message['titre_message'], $reply);
+            $_SESSION['success'] = 'Votre réponse a été envoyée à l’équipe.';
+        } catch (\Throwable $exception) {
+            error_log('Client contact reply error: ' . $exception->getMessage());
+            $_SESSION['error'] = 'Votre réponse n’a pas pu être envoyée. Réessayez.';
+        }
+
+        $this->redirectClientInbox();
+    }
+
     private function redirectInbox(): never
     {
         header('Location: index.php?page=messagerie_contact');
+        exit;
+    }
+
+    private function redirectClientInbox(): never
+    {
+        header('Location: index.php?page=ma_messagerie');
         exit;
     }
 }

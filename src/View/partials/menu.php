@@ -57,6 +57,11 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
                                         <i class="bi bi-speedometer2 me-2"></i>Mon tableau de bord
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="?page=ma_messagerie">
+                                        <i class="bi bi-chat-dots me-2"></i>Ma messagerie
+                                    </a>
+                                </li>
 
                             <?php elseif ((int)$role === 2): ?>
                                 <li>

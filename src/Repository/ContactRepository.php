@@ -91,6 +91,66 @@ class ContactRepository
         return $statement->execute(['id' => $id, 'reponse' => $reply]);
     }
 
+    public function markAsPending(int $id): bool
+    {
+        $this->ensureManagementColumns();
+        $primaryKey = $this->primaryKey();
+        $statement = $this->connection->prepare(
+            "UPDATE messages_contact
+             SET est_traite = 0, date_traitement = NULL
+             WHERE `{$primaryKey}` = :id"
+        );
+
+        return $statement->execute(['id' => $id]);
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    public function readMessagesForEmail(string $email): array
+    {
+        $this->ensureManagementColumns();
+        $primaryKey = $this->primaryKey();
+        $statement = $this->connection->prepare(
+            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, date_envoi,
+                    est_traite, date_traitement, reponse
+             FROM messages_contact
+             WHERE email = :email
+             ORDER BY date_envoi DESC"
+        );
+        $statement->execute(['email' => $email]);
+
+        return $statement->fetchAll();
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    public function readConversation(int $messageId): array
+    {
+        $this->ensureManagementColumns();
+        $statement = $this->connection->prepare(
+            'SELECT auteur, contenu, date_envoi
+             FROM messages_contact_echanges
+             WHERE message_contact_id = :message_id
+             ORDER BY date_envoi ASC, id ASC'
+        );
+        $statement->execute(['message_id' => $messageId]);
+
+        return $statement->fetchAll();
+    }
+
+    public function addExchange(int $messageId, string $author, string $content): bool
+    {
+        $this->ensureManagementColumns();
+        $statement = $this->connection->prepare(
+            'INSERT INTO messages_contact_echanges (message_contact_id, auteur, contenu, date_envoi)
+             VALUES (:message_id, :auteur, :contenu, NOW())'
+        );
+
+        return $statement->execute([
+            'message_id' => $messageId,
+            'auteur' => $author,
+            'contenu' => $content,
+        ]);
+    }
+
     private function ensureManagementColumns(): void
     {
         $columns = $this->columns();
@@ -105,6 +165,17 @@ class ContactRepository
                 $this->connection->exec("ALTER TABLE messages_contact ADD COLUMN `{$name}` {$definition}");
             }
         }
+
+        $this->connection->exec(
+            'CREATE TABLE IF NOT EXISTS messages_contact_echanges (
+                id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                message_contact_id INT NOT NULL,
+                auteur VARCHAR(20) NOT NULL,
+                contenu TEXT NOT NULL,
+                date_envoi DATETIME NOT NULL,
+                INDEX idx_contact_exchange (message_contact_id, date_envoi)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+        );
 
         $this->columns = null;
     }

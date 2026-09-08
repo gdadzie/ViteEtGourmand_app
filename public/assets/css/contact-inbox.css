@@ -13,4 +13,10 @@
 .reply-form textarea:focus { border-color: var(--inbox-brand); box-shadow: 0 0 0 .2rem rgba(170, 109, 39, .16); }
 .reply-form .btn-primary { background: var(--inbox-brand); border-color: var(--inbox-brand); }
 .reply-form .btn-primary:hover { background: #8e591c; border-color: #8e591c; }
+.chat-thread { display: grid; gap: .75rem; }
+.chat-bubble { border-radius: 1rem; max-width: min(88%, 46rem); padding: .85rem 1rem; }
+.chat-bubble small { display: block; font-size: .75rem; font-weight: 700; margin-bottom: .35rem; opacity: .75; }
+.chat-bubble p { margin: 0; white-space: normal; }
+.chat-client { background: #f1e3d3; justify-self: end; }
+.chat-team { background: #f1f3f5; justify-self: start; }
 @media (max-width: 575.98px) { .inbox-header { align-items: stretch; flex-direction: column; } .inbox-header .btn { width: 100%; } .message-card { padding: 1rem !important; } }
