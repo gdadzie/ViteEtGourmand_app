@@ -238,7 +238,7 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
 
         <!-- Liste des plats -->
         <div class="col-12 col-md-6 col-lg-4">
-            <a class="quick-link" href="?page=listes_des_plats">
+            <a class="quick-link" href="?page=liste_des_plats">
                 <div class="card card-tile h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
