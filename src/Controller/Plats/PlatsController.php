@@ -5,6 +5,7 @@ namespace Controller\Plats;
 use PDO;
 use Repository\MenusRepository;
 use Repository\PlatsRepository;
+use Service\Authentification\AuthService;
 use Service\Plats\PlatsService;
 use View\View;
 
@@ -21,6 +22,8 @@ class PlatsController
 
     public function creerUnPlat(): void
     {
+        AuthService::requireAdminEmploye();
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->renderCreateForm();
             return;
@@ -45,6 +48,8 @@ class PlatsController
 
     public function listeDesPlats(): void
     {
+        AuthService::requireAdminEmploye();
+
         View::render('Plats/liste_des_plats', [
             'plats' => $this->service->readPlats(),
             'pageTitle' => 'Nos plats | Vite & Gourmand',
@@ -54,7 +59,14 @@ class PlatsController
 
     public function supprimerUnPlat(): void
     {
-        $id = (int) ($_GET['id'] ?? 0);
+        AuthService::requireAdminEmploye();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?page=liste_des_plats');
+            exit;
+        }
+
+        $id = (int) ($_POST['id'] ?? 0);
 
         try {
             if ($id <= 0 || !$this->service->deletePlat($id)) {
@@ -67,6 +79,43 @@ class PlatsController
         }
 
         header('Location: index.php?page=liste_des_plats');
+        exit;
+    }
+
+    public function modifierUnPlat(): void
+    {
+        AuthService::requireAdminEmploye();
+
+        $id = (int) ($_GET['id'] ?? 0);
+        $plat = $this->service->readDetailPlat($id);
+
+        if (!$plat) {
+            $_SESSION['error'] = 'Plat introuvable.';
+            header('Location: index.php?page=liste_des_plats');
+            exit;
+        }
+
+        View::render('Plats/modifier_un_plat', [
+            'plat' => $plat,
+            'pageTitle' => 'Modifier un plat | Vite & Gourmand',
+            'cssFiles' => ['/assets/css/plats/creer-un-plat.css'],
+            'jsFiles' => ['/assets/js/plats/creer-un-plat.js'],
+        ]);
+    }
+
+    public function validerModificationPlat(): void
+    {
+        AuthService::requireAdminEmploye();
+
+        $id = (int) ($_POST['id'] ?? 0);
+        try {
+            $this->service->updatePlat($id, $_POST, $_FILES);
+            $_SESSION['success'] = 'Le plat a été modifié avec succès.';
+            header('Location: index.php?page=liste_des_plats');
+        } catch (\Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            header('Location: index.php?page=modifier_un_plat&id=' . $id);
+        }
         exit;
     }
 

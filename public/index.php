@@ -422,8 +422,21 @@ switch ($page) {
         break;
 
     case 'creer_un_plat':
-
         $platsController->creerUnPlat();
+        break;
+
+    case 'modifier_un_plat':
+        $platsController->modifierUnPlat();
+        break;
+
+    case 'valider_modification_plat':
+        requirePostMethod();
+        $platsController->validerModificationPlat();
+        break;
+
+    case 'supprimer_plat':
+        requirePostMethod();
+        $platsController->supprimerUnPlat();
         break;
 
     // ===============================

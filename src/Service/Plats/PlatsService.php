@@ -150,6 +150,64 @@ class PlatsService
         return $this->platsRepo->findById($id);
     }
 
+    public function updatePlat(int $id, array $data, array $files): bool
+    {
+        $currentPlat = $this->readDetailPlat($id);
+
+        if (!$currentPlat) {
+            throw new \Exception('Plat introuvable.');
+        }
+
+        $nomPlat = trim((string) ($data['nom_plat'] ?? ''));
+        if ($nomPlat === '') {
+            throw new \Exception('Veuillez renseigner le nom du plat.');
+        }
+
+        $plat = new Plats();
+        $plat->setIdPlat($id);
+        $plat->setNomPlat($nomPlat);
+        $plat->setTypePlat(trim((string) ($data['type_plat'] ?? '')));
+
+        $imageNom = $currentPlat->getImagePlat();
+        if (isset($files['image_plat']) && $files['image_plat']['error'] === UPLOAD_ERR_OK) {
+            $tmp = $files['image_plat']['tmp_name'];
+            $size = (int) $files['image_plat']['size'];
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $tmp);
+            finfo_close($finfo);
+            $extensions = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'];
+
+            if (!isset($extensions[$mime]) || $size > 5 * 1024 * 1024) {
+                throw new \Exception('L\'image doit être au format JPG, PNG, GIF ou WEBP et peser 5 Mo maximum.');
+            }
+
+            $uploads = ROOT . '/public/uploads/';
+            if (!is_dir($uploads)) {
+                mkdir($uploads, 0755, true);
+            }
+
+            $imageNom = uniqid('plat_', true) . '.' . $extensions[$mime];
+            if (!move_uploaded_file($tmp, $uploads . $imageNom)) {
+                throw new \Exception('Impossible d\'enregistrer l\'image du plat.');
+            }
+        }
+
+        $plat->setImagePlat((string) ($imageNom ?? ''));
+        $updated = $this->platsRepo->update($plat);
+
+        if ($updated && $imageNom !== null && $imageNom !== $currentPlat->getImagePlat()) {
+            $this->platsRepo->replaceImage($id, $imageNom);
+            if ($currentPlat->getImagePlat()) {
+                $oldFile = ROOT . '/public/uploads/' . $currentPlat->getImagePlat();
+                if (is_file($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+        }
+
+        return $updated;
+    }
+
     //=======================================================================
     // 4 - DELETE
     //=======================================================================

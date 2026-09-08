@@ -12,17 +12,16 @@ unset($_SESSION['success'], $_SESSION['error']);
 <main class="container my-4 my-md-5" role="main">
 
     <!-- HEADER -->
-    <div class="page-header mb-4">
+    <div class="page-header mb-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
 
         <div class="d-flex align-items-center gap-2">
             <span class="brand-dot"></span>
             <h1 class="m-0">Nos plats</h1>
         </div>
 
-        <p class="page-sub">
-            Découvrez notre sélection de plats.
-        </p>
+        <p class="page-sub mb-0">Gérez les plats disponibles pour la composition des menus.</p>
 
+        <a class="btn btn-primary" href="?page=creer_un_plat"><i class="bi bi-plus-circle me-1"></i> Ajouter un plat</a>
     </div>
 
 
@@ -117,14 +116,17 @@ unset($_SESSION['success'], $_SESSION['error']);
                             </span>
 
 
-                            <a
-                                    href="index.php?page=detail_plat&id=<?= $plat->getIdPlat() ?>"
-                                    class="btn-eye"
-                                    title="Voir le plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
-                                    aria-label="Voir le plat <?= htmlspecialchars($plat->getNomPlat()) ?>"
-                            >
-                                <i class="bi bi-eye"></i>
-                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="?page=modifier_un_plat&id=<?= (int) $plat->getIdPlat() ?>" class="btn btn-sm btn-outline-primary" aria-label="Modifier <?= htmlspecialchars($plat->getNomPlat()) ?>">
+                                    <i class="bi bi-pencil-square" aria-hidden="true"></i> Modifier
+                                </a>
+                                <form method="post" action="?page=supprimer_plat" onsubmit="return confirm('Supprimer ce plat ?');">
+                                    <input type="hidden" name="id" value="<?= (int) $plat->getIdPlat() ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Supprimer <?= htmlspecialchars($plat->getNomPlat()) ?>">
+                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </div>
 
                         </div>
 

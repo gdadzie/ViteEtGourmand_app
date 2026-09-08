@@ -139,6 +139,57 @@ class PlatsRepository
         return $stmt->rowCount() > 0;
     }
 
+    public function update(Plats $plat): bool
+    {
+        $columns = $this->getColumns('plats');
+        $assignments = ['nom_plat = :nom_plat', 'type_plat = :type_plat'];
+        $values = [
+            'id_plat' => $plat->getIdPlat(),
+            'nom_plat' => $plat->getNomPlat(),
+            'type_plat' => $plat->getTypePlat(),
+        ];
+
+        if (isset($columns['image_plat']) && $plat->getImagePlat() !== null) {
+            $assignments[] = 'image_plat = :image_plat';
+            $values['image_plat'] = $plat->getImagePlat();
+        }
+
+        $stmt = $this->conn->prepare(
+            'UPDATE plats SET ' . implode(', ', $assignments) . ' WHERE id_plat = :id_plat'
+        );
+
+        return $stmt->execute($values);
+    }
+
+    public function replaceImage(int $idPlat, string $filename): void
+    {
+        if (isset($this->getColumns('plats')['image_plat'])) {
+            $stmt = $this->conn->prepare('UPDATE plats SET image_plat = :filename WHERE id_plat = :id_plat');
+            $stmt->execute(['id_plat' => $idPlat, 'filename' => $filename]);
+            return;
+        }
+
+        $this->conn->exec(
+            'CREATE TABLE IF NOT EXISTS image_plat (
+                id_image_plat INT AUTO_INCREMENT PRIMARY KEY,
+                id_plat INT NOT NULL UNIQUE,
+                chemin_image_plat VARCHAR(255) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+        );
+
+        $stmt = $this->conn->prepare(
+            'UPDATE image_plat SET chemin_image_plat = :filename WHERE id_plat = :id_plat'
+        );
+        $stmt->execute(['id_plat' => $idPlat, 'filename' => $filename]);
+
+        if ($stmt->rowCount() === 0) {
+            $stmt = $this->conn->prepare(
+                'INSERT INTO image_plat (id_plat, chemin_image_plat) VALUES (:id_plat, :filename)'
+            );
+            $stmt->execute(['id_plat' => $idPlat, 'filename' => $filename]);
+        }
+    }
+
     private function saveImage(int $idPlat, string $filename): void
     {
         $this->conn->exec(
