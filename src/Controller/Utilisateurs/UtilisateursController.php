@@ -5,10 +5,12 @@ namespace Controller\Utilisateurs;
 use Entity\Utilisateurs;
 use PDO;
 use Repository\UtilisateursRepository;
+use Repository\VillesRepository;
 
 class UtilisateursController
 {
     private UtilisateursRepository $repo;
+    private VillesRepository $villesRepo;
 
     // =========================================================
     // CONSTRUCTEUR
@@ -16,6 +18,7 @@ class UtilisateursController
     public function __construct(PDO $conn)
     {
         $this->repo = new UtilisateursRepository($conn);
+        $this->villesRepo = new VillesRepository($conn);
     }
 
     // =========================================================
@@ -62,6 +65,8 @@ class UtilisateursController
             exit;
         }
 
+        $villes = $this->villesRepo->findAll();
+
         require __DIR__ . '/../../View/Utilisateurs/mes_informations.php';
     }
 
@@ -94,15 +99,34 @@ class UtilisateursController
         $numero_rue = trim($_POST['numero_rue'] ?? '');
         $nom_rue = trim($_POST['nom_rue'] ?? '');
         $code_postal = trim($_POST['code_postal'] ?? '');
-        $id_ville = trim($_POST['id_ville'] ?? '');
+        $id_ville = (int) ($_POST['id_ville'] ?? 0);
 
-        if (empty($prenom) || empty($nom) || empty($email)) {
+        if ($prenom === '' || $nom === '' || $email === '') {
             $_SESSION['error'] = "Prénom, nom et email sont obligatoires";
             header('Location: index.php?page=profil');
             exit;
         }
 
-        $ok = $this->repo->update(
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['error'] = "L'adresse email n'est pas valide";
+            header('Location: index.php?page=profil');
+            exit;
+        }
+
+        if ($id_ville <= 0 || !$this->villesRepo->findById($id_ville)) {
+            $_SESSION['error'] = "Veuillez sélectionner une ville valide";
+            header('Location: index.php?page=profil');
+            exit;
+        }
+
+        $emailOwner = $this->repo->readByEmail($email);
+        if ($emailOwner && $emailOwner->getIdUtilisateur() !== $id) {
+            $_SESSION['error'] = "Cette adresse email est déjà utilisée";
+            header('Location: index.php?page=profil');
+            exit;
+        }
+
+        $ok = $this->repo->updateUtilisateur(
             $id,
             $prenom,
             $nom,
@@ -110,7 +134,7 @@ class UtilisateursController
             $telephone,
             $numero_rue,
             $nom_rue,
-            $code_postal,
+            (int) $code_postal,
             $id_ville
         );
 

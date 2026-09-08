@@ -3,8 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Exemple : données utilisateur déjà chargées par le contrôleur
-$u = $u ?? null;
+$utilisateur = $utilisateur ?? null;
 
 $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 ?>
@@ -113,7 +112,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                     <input type="text"
                            name="prenom"
                            class="form-control"
-                           value="<?= $e($u?->getPrenom() ?? '') ?>"
+                           value="<?= $e($utilisateur?->getPrenom() ?? '') ?>"
                            required>
                 </div>
 
@@ -123,7 +122,7 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                     <input type="text"
                            name="nom"
                            class="form-control"
-                           value="<?= $e($u?->getNom() ?? '') ?>"
+                           value="<?= $e($utilisateur?->getNom() ?? '') ?>"
                            required>
                 </div>
 
@@ -176,13 +175,15 @@ $e = fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
                 <!-- VILLE -->
                 <div class="col-md-6">
                     <label class="form-label">Ville</label>
-                    <select name="id_ville" class="form-select">
+                    <select name="id_ville" class="form-select" required>
+
+                        <option value="">Sélectionnez votre ville</option>
 
                         <?php foreach (($villes ?? []) as $ville): ?>
 
                             <option
-                                    value="<?= $ville['id_ville'] ?>"
-                                    <?= ($u?->getIdVille() == $ville['id_ville']) ? 'selected' : '' ?>>
+                                    value="<?= (int) $ville['id_ville'] ?>"
+                                    <?= ($utilisateur?->getIdVille() === (int) $ville['id_ville']) ? 'selected' : '' ?>>
                                 <?= $e($ville['nom_ville']) ?>
                             </option>
 
