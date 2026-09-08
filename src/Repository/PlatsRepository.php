@@ -47,6 +47,10 @@ class PlatsRepository
 
         if ($success) {
             $plat->setIdPlat((int)$this->conn->lastInsertId());
+
+            if (!isset($columns['image_plat']) && $plat->getImagePlat() !== '') {
+                $this->saveImage((int) $plat->getIdPlat(), (string) $plat->getImagePlat());
+            }
         }
 
         return $success;
@@ -67,11 +71,7 @@ class PlatsRepository
 
     public function findAll(): array
     {
-        $stmt = $this->conn->query("
-            SELECT *
-            FROM plats
-            ORDER BY type_plat, nom_plat
-        ");
+        $stmt = $this->conn->query($this->getPlatsSelect() . ' ORDER BY p.type_plat, p.nom_plat');
 
         return $stmt->fetchAll(PDO::FETCH_CLASS, Plats::class);
     }
@@ -110,7 +110,7 @@ class PlatsRepository
 
     public function findById(int $id): ?Plats
     {
-        $stmt = $this->conn->prepare('SELECT * FROM plats WHERE id_plat = :id_plat');
+        $stmt = $this->conn->prepare($this->getPlatsSelect() . ' WHERE p.id_plat = :id_plat');
         $stmt->execute(['id_plat' => $id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, Plats::class);
 
@@ -122,6 +122,11 @@ class PlatsRepository
         $unlink = $this->conn->prepare('DELETE FROM menus_plats WHERE id_plat = :id_plat');
         $unlink->execute(['id_plat' => $id_plat]);
 
+        if ($this->imageTableExists()) {
+            $images = $this->conn->prepare('DELETE FROM image_plat WHERE id_plat = :id_plat');
+            $images->execute(['id_plat' => $id_plat]);
+        }
+
         $stmt = $this->conn->prepare("
         DELETE FROM plats
         WHERE id_plat = :id_plat
@@ -132,5 +137,47 @@ class PlatsRepository
         ]);
 
         return $stmt->rowCount() > 0;
+    }
+
+    private function saveImage(int $idPlat, string $filename): void
+    {
+        $this->conn->exec(
+            'CREATE TABLE IF NOT EXISTS image_plat (
+                id_image_plat INT AUTO_INCREMENT PRIMARY KEY,
+                id_plat INT NOT NULL,
+                chemin_image_plat VARCHAR(255) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+        );
+
+        $stmt = $this->conn->prepare(
+            'INSERT INTO image_plat (id_plat, chemin_image_plat) VALUES (:id_plat, :filename)'
+        );
+        $stmt->execute(['id_plat' => $idPlat, 'filename' => $filename]);
+    }
+
+    private function getPlatsSelect(): string
+    {
+        if (isset($this->getColumns('plats')['image_plat'])) {
+            return 'SELECT p.* FROM plats p';
+        }
+
+        if ($this->imageTableExists()) {
+            return 'SELECT p.*, image.chemin_image_plat AS image_plat
+                    FROM plats p
+                    LEFT JOIN (
+                        SELECT id_plat, MAX(chemin_image_plat) AS chemin_image_plat
+                        FROM image_plat
+                        GROUP BY id_plat
+                    ) image ON image.id_plat = p.id_plat';
+        }
+
+        return 'SELECT p.* FROM plats p';
+    }
+
+    private function imageTableExists(): bool
+    {
+        $stmt = $this->conn->query("SHOW TABLES LIKE 'image_plat'");
+
+        return $stmt->fetchColumn() !== false;
     }
 }
