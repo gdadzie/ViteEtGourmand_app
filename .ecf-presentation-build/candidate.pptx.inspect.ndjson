@@ -1,0 +1,135 @@
+{"kind":"deck","id":"pr/zk6dhv","name":"Deck"}
+{"kind":"layout","layoutId":"34d2eebc-4b95-47c4-a241-33978807567d","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"64f25455-1cc2-4986-9c5b-3b3979c9f229","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/wes6y3","slide":1,"title":"Vite & Gourmand","textShapes":3}
+{"kind":"shape","id":"sh/y1snatwv","slide":1,"bbox":[0,0,680,720]}
+{"kind":"textbox","id":"sh/j2l43ydg","slide":1,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[76,144,500,58]}
+{"kind":"textbox","id":"sh/sru5g3ex","slide":1,"text":"Application web de gestion et de commande pour un traiteur","textPreview":"Application web de gestion et de commande pour un traiteur","textChars":58,"textLines":1,"bbox":[80,219,450,80]}
+{"kind":"textbox","id":"sh/ts3698vi","slide":1,"text":"Soutenance ECF\nDéveloppeur Web et Web Mobile","textPreview":"Soutenance ECF | Développeur Web et Web Mobile","textChars":44,"textLines":2,"bbox":[80,555,430,60]}
+{"kind":"image","id":"im/gbqxgb25","slide":1,"name":"","geometry":"roundRect","alt":"Capture de la page d accueil de Vite & Gourmand","bbox":[640,0,640,720]}
+{"kind":"notes","id":"nt/wes6y3","slide":1,"text":"Présentation du projet Vite & Gourmand. Visuel : maquette fournie par le candidat."}
+{"kind":"slide","id":"sl/lp1pdr","slide":2,"title":"Le besoin métier","textShapes":8}
+{"kind":"textbox","id":"sh/rylobaxs","slide":2,"text":"Le besoin métier","textPreview":"Le besoin métier","textChars":16,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/szup4vyd","slide":2,"text":"Rendre les menus visibles et simplifier la gestion quotidienne du traiteur","textPreview":"Rendre les menus visibles et simplifier la gestion quotidienne du traiteur","textChars":74,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/d036d0fy","slide":2,"text":"Vite & Gourmand avait besoin d'un site qui permette aux visiteurs de découvrir les menus et de commander en ligne.","textPreview":"Vite & Gourmand avait besoin d'un site qui permette aux visiteurs de découvrir les menus et de commander en ligne.","textChars":114,"textLines":1,"bbox":[72,210,480,120]}
+{"kind":"textbox","id":"sh/itsnylgb","slide":2,"text":"L'équipe devait aussi gérer les commandes, les menus, les horaires, les avis et les comptes employés depuis des espaces sécurisés.","textPreview":"L'équipe devait aussi gérer les commandes, les menus, les horaires, les avis et les comptes employés depuis des espaces sécurisés.","textChars":130,"textLines":1,"bbox":[72,366,460,110]}
+{"kind":"shape","id":"sh/ju1o7qxw","slide":2,"bbox":[670,190,6,300]}
+{"kind":"textbox","id":"sh/4va50vyh","slide":2,"text":"4 profils","textPreview":"4 profils","textChars":9,"textLines":1,"bbox":[720,195,280,46]}
+{"kind":"textbox","id":"sh/5wj690fm","slide":2,"text":"Visiteur\nClient\nEmployé\nAdministrateur","textPreview":"Visiteur | Client | Employé | Administrateur","textChars":38,"textLines":4,"bbox":[720,270,360,230]}
+{"kind":"textbox","id":"sh/u58nulgz","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/v6ho3qxk","slide":2,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"notes","id":"nt/lp1pdr","slide":2,"text":"Le cahier des charges a conduit à identifier quatre profils et leurs droits."}
+{"kind":"slide","id":"sl/ew6ztq","slide":3,"title":"Une expérience pensée pour tous les écrans","textShapes":7}
+{"kind":"textbox","id":"sh/fed0vad0","slide":3,"text":"Une expérience pensée pour tous les écrans","textPreview":"Une expérience pensée pour tous les écrans","textChars":42,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/0fm1ofel","slide":3,"text":"Bootstrap structure les pages et adapte les contenus au mobile, à la tablette et au bureau","textPreview":"Bootstrap structure les pages et adapte les contenus au mobile, à la tablette et au bureau","textChars":90,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/2h4jqpwb","slide":3,"text":"Navigation compacte sur mobile","textPreview":"Navigation compacte sur mobile","textChars":30,"textLines":1,"bbox":[72,212,510,36]}
+{"kind":"textbox","id":"sh/nid0zadw","slide":3,"text":"Les formulaires prennent la largeur disponible. Les cartes se réorganisent sur une colonne. Les tableaux restent lisibles dans leur zone de défilement.","textPreview":"Les formulaires prennent la largeur disponible. Les cartes se réorganisent sur une colonne. Les tableaux restent lisibles dans leur zone ...","textChars":151,"textLines":1,"bbox":[72,270,520,135]}
+{"kind":"textbox","id":"sh/ojm1sfeh","slide":3,"text":"Objectif : préserver la lecture et les actions essentielles sur un iPhone comme sur un écran large.","textPreview":"Objectif : préserver la lecture et les actions essentielles sur un iPhone comme sur un écran large.","textChars":99,"textLines":1,"bbox":[72,456,510,72]}
+{"kind":"textbox","id":"sh/pkf21kv2","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/ilkjelw7","slide":3,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"image","id":"im/kn2l43e5","slide":3,"name":"","geometry":"roundRect","alt":"Maquette mobile de la page d accueil","bbox":[714,142,494,438]}
+{"kind":"notes","id":"nt/ew6ztq","slide":3,"text":"Visuel : maquette mobile fournie par le candidat. Aucun chiffre de performance n'est affirmé."}
+{"kind":"slide","id":"sl/8jge82","slide":4,"title":"Consulter et filtrer les menus","textShapes":8}
+{"kind":"textbox","id":"sh/yp876l8b","slide":4,"text":"Consulter et filtrer les menus","textPreview":"Consulter et filtrer les menus","textChars":30,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/lczqh0r2","slide":4,"text":"Une vue publique, claire et accessible avant connexion","textPreview":"Une vue publique, claire et accessible avant connexion","textChars":54,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/bmx8bq90","slide":4,"text":"Chaque menu présente","textPreview":"Chaque menu présente","textChars":20,"textLines":1,"bbox":[72,194,470,38]}
+{"kind":"textbox","id":"sh/qlo72l8f","slide":4,"text":"Le titre, la description, le prix, le nombre minimal de personnes et un accès au détail.","textPreview":"Le titre, la description, le prix, le nombre minimal de personnes et un accès au détail.","textChars":88,"textLines":1,"bbox":[72,252,500,76]}
+{"kind":"textbox","id":"sh/dofqd0rq","slide":4,"text":"Filtres disponibles","textPreview":"Filtres disponibles","textChars":19,"textLines":1,"bbox":[72,365,470,35]}
+{"kind":"textbox","id":"sh/cn6p4vq5","slide":4,"text":"Prix maximum ou fourchette de prix\nThème et régime\nNombre minimal de personnes","textPreview":"Prix maximum ou fourchette de prix | Thème et régime | Nombre minimal de personnes","textChars":78,"textLines":3,"bbox":[72,420,505,105]}
+{"kind":"textbox","id":"sh/vi18na94","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/ahsre58j","slide":4,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"image","id":"im/tozilc7a","slide":4,"name":"","geometry":"roundRect","alt":"Maquette de la liste des menus","bbox":[690,140,500,460]}
+{"kind":"notes","id":"nt/8jge82","slide":4,"text":"Visuel : maquette de liste des menus fournie. Les filtres sont actualisés sans rechargement de page."}
+{"kind":"slide","id":"sl/smhh8h","slide":5,"title":"Commander un menu","textShapes":8}
+{"kind":"textbox","id":"sh/2hkzihcn","slide":5,"text":"Commander un menu","textPreview":"Commander un menu","textChars":17,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/p4vidwby","slide":5,"text":"Le formulaire reprend les informations du compte et applique les règles métier","textPreview":"Le formulaire reprend les informations du compte et applique les règles métier","textChars":78,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/fetg7mtw","slide":5,"text":"Une commande vérifie","textPreview":"Une commande vérifie","textChars":20,"textLines":1,"bbox":[72,192,530,36]}
+{"kind":"textbox","id":"sh/udkzehcb","slide":5,"text":"Le nombre minimal de personnes, les frais de livraison, le stock et la remise de 10 % lorsque le client commande cinq personnes de plus que le minimum.","textPreview":"Le nombre minimal de personnes, les frais de livraison, le stock et la remise de 10 % lorsque le client commande cinq personnes de plus q...","textChars":151,"textLines":1,"bbox":[72,248,525,130]}
+{"kind":"textbox","id":"sh/hgby9wb2","slide":5,"text":"Après validation","textPreview":"Après validation","textChars":16,"textLines":1,"bbox":[72,425,530,36]}
+{"kind":"textbox","id":"sh/gf2hgruh","slide":5,"text":"La commande reçoit le statut « reçue ». Le client peut ensuite la modifier ou l'annuler avant son acceptation par l'équipe.","textPreview":"La commande reçoit le statut « reçue ». Le client peut ensuite la modifier ou l'annuler avant son acceptation par l'équipe.","textChars":123,"textLines":1,"bbox":[72,480,520,86]}
+{"kind":"textbox","id":"sh/zad0j6tg","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/e94zqlcv","slide":5,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"image","id":"im/tknexoru","slide":5,"name":"","geometry":"roundRect","alt":"Maquette du détail d un menu","bbox":[715,140,460,465]}
+{"kind":"notes","id":"nt/smhh8h","slide":5,"text":"Visuel : maquette de détail de menu fournie. Les règles décrites sont contrôlées côté serveur."}
+{"kind":"slide","id":"sl/w0d8gj","slide":6,"title":"Espaces employés et administrateurs","textShapes":8}
+{"kind":"textbox","id":"sh/crux0z2h","slide":6,"text":"Espaces employés et administrateurs","textPreview":"Espaces employés et administrateurs","textChars":35,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/bqlg7u1w","slide":6,"text":"Des fonctions séparées selon le rôle de l'utilisateur","textPreview":"Des fonctions séparées selon le rôle de l'utilisateur","textChars":53,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/p4jy5kjq","slide":6,"text":"Employé","textPreview":"Employé","textChars":7,"textLines":1,"bbox":[72,190,300,35]}
+{"kind":"textbox","id":"sh/o3axwf25","slide":6,"text":"Suit les commandes, gère les menus, les plats, les horaires et modère les avis.","textPreview":"Suit les commandes, gère les menus, les plats, les horaires et modère les avis.","textChars":79,"textLines":1,"bbox":[72,240,400,85]}
+{"kind":"textbox","id":"sh/n21g3a1k","slide":6,"text":"Administrateur","textPreview":"Administrateur","textChars":14,"textLines":1,"bbox":[72,380,360,35]}
+{"kind":"textbox","id":"sh/21sfu5kf","slide":6,"text":"Possède les droits employés. Il gère aussi les comptes employés et consulte les statistiques.","textPreview":"Possède les droits employés. Il gère aussi les comptes employés et consulte les statistiques.","textChars":93,"textLines":1,"bbox":[72,430,420,92]}
+{"kind":"textbox","id":"sh/10jy1kju","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/0zaxsf29","slide":6,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"image","id":"im/ryl8vet4","slide":6,"name":"","geometry":"roundRect","alt":"Maquette de l espace administrateur","bbox":[610,156,590,420]}
+{"kind":"notes","id":"nt/w0d8gj","slide":6,"text":"Visuel : maquette du tableau administrateur fournie par le candidat."}
+{"kind":"slide","id":"sl/0p22uy","slide":7,"title":"Architecture MVC","textShapes":17}
+{"kind":"textbox","id":"sh/83y1s7et","slide":7,"text":"Architecture MVC","textPreview":"Architecture MVC","textChars":16,"textLines":1,"bbox":[72,55,700,48]}
+{"kind":"textbox","id":"sh/72p0j2xo","slide":7,"text":"Le code sépare le routage, les règles métier, l'accès aux données et l'affichage.","textPreview":"Le code sépare le routage, les règles métier, l'accès aux données et l'affichage.","textChars":81,"textLines":1,"bbox":[74,110,780,35]}
+{"kind":"shape","id":"sh/m1gjqxw3","slide":7,"bbox":[72,255,205,170]}
+{"kind":"textbox","id":"sh/h8r2pcvq","slide":7,"text":"Route","textPreview":"Route","textChars":5,"textLines":1,"bbox":[92,282,164,34]}
+{"kind":"textbox","id":"sh/g7i1wre5","slide":7,"text":"public/index.php","textPreview":"public/index.php","textChars":16,"textLines":1,"bbox":[92,330,164,24]}
+{"kind":"textbox","id":"sh/v6p0nmdk","slide":7,"text":"Reçoit la page demandée","textPreview":"Reçoit la page demandée","textChars":23,"textLines":1,"bbox":[92,370,164,48]}
+{"kind":"shape","id":"sh/u5gjuhwz","slide":7,"bbox":[324,255,205,170]}
+{"kind":"textbox","id":"sh/5wr2twvm","slide":7,"text":"Controller","textPreview":"Controller","textChars":10,"textLines":1,"bbox":[344,282,164,34]}
+{"kind":"textbox","id":"sh/4vi10re1","slide":7,"text":"src/Controller","textPreview":"src/Controller","textChars":14,"textLines":1,"bbox":[344,330,164,24]}
+{"kind":"textbox","id":"sh/6torux43","slide":7,"text":"Contrôle les droits et orchestre","textPreview":"Contrôle les droits et orchestre","textChars":32,"textLines":1,"bbox":[344,370,164,48]}
+{"kind":"shape","id":"sh/ruxsn25o","slide":7,"bbox":[576,255,205,170]}
+{"kind":"textbox","id":"sh/sv69w7m9","slide":7,"text":"Service","textPreview":"Service","textChars":7,"textLines":1,"bbox":[596,282,164,34]}
+{"kind":"textbox","id":"sh/twfapsnu","slide":7,"text":"src/Service","textPreview":"src/Service","textChars":11,"textLines":1,"bbox":[596,330,164,24]}
+{"kind":"textbox","id":"sh/exoryx4f","slide":7,"text":"Applique les règles métier","textPreview":"Applique les règles métier","textChars":26,"textLines":1,"bbox":[596,370,164,48]}
+{"kind":"shape","id":"sh/fyxsr250","slide":7,"bbox":[828,255,205,170]}
+{"kind":"textbox","id":"sh/gz6907m5","slide":7,"text":"Repository","textPreview":"Repository","textChars":10,"textLines":1,"bbox":[848,282,164,34]}
+{"kind":"textbox","id":"sh/10fatcnq","slide":7,"text":"src/Repository","textPreview":"src/Repository","textChars":14,"textLines":1,"bbox":[848,330,164,24]}
+{"kind":"textbox","id":"sh/u1krmd4v","slide":7,"text":"Accède à MySQL et MongoDB","textPreview":"Accède à MySQL et MongoDB","textChars":25,"textLines":1,"bbox":[848,370,164,48]}
+{"kind":"textbox","id":"sh/v2d8fi5g","slide":7,"text":"Les vues dans src/View rendent les pages PHP avec Bootstrap. Les entités représentent les objets métier.","textPreview":"Les vues dans src/View rendent les pages PHP avec Bootstrap. Les entités représentent les objets métier.","textChars":104,"textLines":1,"bbox":[72,535,920,42]}
+{"kind":"textbox","id":"sh/z69onel8","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/y507e9kn","slide":7,"text":"Architecture applicative","textPreview":"Architecture applicative","textChars":24,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"notes","id":"nt/0p22uy","slide":7,"text":"Architecture progressive MVC du dépôt. Les chemins de dossiers sont vérifiables dans le code source."}
+{"kind":"slide","id":"sl/czqu1h","slide":8,"title":"Données relationnelles et analytiques","textShapes":8}
+{"kind":"textbox","id":"sh/4ja1w7q9","slide":8,"text":"Données relationnelles et analytiques","textPreview":"Données relationnelles et analytiques","textChars":37,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/ji1032po","slide":8,"text":"MySQL gère l'activité quotidienne. MongoDB alimente les statistiques administrateur.","textPreview":"MySQL gère l'activité quotidienne. MongoDB alimente les statistiques administrateur.","textChars":84,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/d8329c7q","slide":8,"text":"MySQL","textPreview":"MySQL","textChars":5,"textLines":1,"bbox":[760,205,280,35]}
+{"kind":"textbox","id":"sh/s7a107q5","slide":8,"text":"Utilisateurs, rôles, menus, plats, allergènes, commandes, avis, horaires et messages de contact.","textPreview":"Utilisateurs, rôles, menus, plats, allergènes, commandes, avis, horaires et messages de contact.","textChars":96,"textLines":1,"bbox":[760,260,380,100]}
+{"kind":"textbox","id":"sh/rm1k7mp0","slide":8,"text":"MongoDB","textPreview":"MongoDB","textChars":7,"textLines":1,"bbox":[760,412,280,35]}
+{"kind":"textbox","id":"sh/6lsjyh8f","slide":8,"text":"Projection des commandes pour comparer les menus et calculer le chiffre d'affaires avec des filtres de période.","textPreview":"Projection des commandes pour comparer les menus et calculer le chiffre d'affaires avec des filtres de période.","textChars":111,"textLines":1,"bbox":[760,465,380,96]}
+{"kind":"textbox","id":"sh/9czixs7m","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/8bq1onq1","slide":8,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"image","id":"im/vi1ormt8","slide":8,"name":"","geometry":"roundRect","alt":"Modèle conceptuel de données de Vite et Gourmand","bbox":[70,170,610,430]}
+{"kind":"notes","id":"nt/czqu1h","slide":8,"text":"Visuel : MCD fourni par le candidat. MySQL reste la source de vérité métier."}
+{"kind":"slide","id":"sl/zniaxf","slide":9,"title":"Sécurité, configuration et Git","textShapes":9}
+{"kind":"textbox","id":"sh/ulszah47","slide":9,"text":"Sécurité, configuration et Git","textPreview":"Sécurité, configuration et Git","textChars":30,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/ho3i5w3y","slide":9,"text":"Des données sensibles séparées du code versionné","textPreview":"Des données sensibles séparées du code versionné","textChars":48,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/wnahcrmd","slide":9,"text":"Sécurité applicative","textPreview":"Sécurité applicative","textChars":20,"textLines":1,"bbox":[72,196,410,35]}
+{"kind":"textbox","id":"sh/7i10z2lw","slide":9,"text":"Mots de passe hachés\nContrôle des rôles et de la propriété des commandes\nJetons CSRF sur les formulaires sensibles\nComptes désactivés refusés à la connexion","textPreview":"Mots de passe hachés | Contrôle des rôles et de la propriété des commandes | Jetons CSRF sur les formulaires sensibles | Comptes désactiv...","textChars":156,"textLines":4,"bbox":[72,252,505,170]}
+{"kind":"textbox","id":"sh/mxsz6h4b","slide":9,"text":"Fichiers sensibles","textPreview":"Fichiers sensibles","textChars":18,"textLines":1,"bbox":[690,196,410,35]}
+{"kind":"textbox","id":"sh/9kji1c3m","slide":9,"text":".env et .env.*\nIdentifiants MySQL, MongoDB et SMTP\n/vendor, logs, caches et sauvegardes locales\nVariables de production placées dans Heroku Config Vars","textPreview":".env et .env.* | Identifiants MySQL, MongoDB et SMTP | /vendor, logs, caches et sauvegardes locales | Variables de production placées dan...","textChars":151,"textLines":4,"bbox":[690,252,500,170]}
+{"kind":"textbox","id":"sh/8jah87mh","slide":9,"text":"Workflow Git : develop pour les intégrations, main pour une version testée puis déployée.","textPreview":"Workflow Git : develop pour les intégrations, main pour une version testée puis déployée.","textChars":89,"textLines":1,"bbox":[72,515,1020,42]}
+{"kind":"textbox","id":"sh/zuhgv2lk","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/yt8z2x4z","slide":9,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"notes","id":"nt/zniaxf","slide":9,"text":"Le fichier .gitignore exclut les secrets, dépendances locales, logs, caches et sauvegardes. Aucun mot de passe ne doit être partagé à l'oral."}
+{"kind":"slide","id":"sl/4pvlk7","slide":10,"title":"Déploiement et vérifications","textShapes":17}
+{"kind":"textbox","id":"sh/e18z6lor","slide":10,"text":"Déploiement et vérifications","textPreview":"Déploiement et vérifications","textChars":28,"textLines":1,"bbox":[72,52,1000,50]}
+{"kind":"textbox","id":"sh/1ozi107i","slide":10,"text":"Une application mise en ligne sur Heroku et contrôlée par parcours","textPreview":"Une application mise en ligne sur Heroku et contrôlée par parcours","textChars":66,"textLines":1,"bbox":[74,109,820,34]}
+{"kind":"textbox","id":"sh/0nqh8v6x","slide":10,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[72,210,60,58]}
+{"kind":"textbox","id":"sh/nqh03qpo","slide":10,"text":"Config Vars","textPreview":"Config Vars","textChars":11,"textLines":1,"bbox":[72,282,220,32]}
+{"kind":"textbox","id":"sh/mp8zalo3","slide":10,"text":"MySQL, MongoDB, SMTP et APP_URL","textPreview":"MySQL, MongoDB, SMTP et APP_URL","textChars":31,"textLines":1,"bbox":[72,328,220,82]}
+{"kind":"textbox","id":"sh/9sji507e","slide":10,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[358,210,60,58]}
+{"kind":"textbox","id":"sh/orqhcv6t","slide":10,"text":"Déploiement","textPreview":"Déploiement","textChars":11,"textLines":1,"bbox":[358,282,220,32]}
+{"kind":"textbox","id":"sh/bu107apk","slide":10,"text":"Push de la branche main vers Heroku","textPreview":"Push de la branche main vers Heroku","textChars":35,"textLines":1,"bbox":[358,328,220,82]}
+{"kind":"textbox","id":"sh/atsze5oz","slide":10,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[644,210,60,58]}
+{"kind":"textbox","id":"sh/sb69gbmd","slide":10,"text":"Migrations","textPreview":"Migrations","textChars":10,"textLines":1,"bbox":[644,282,220,32]}
+{"kind":"textbox","id":"sh/dcfapg3y","slide":10,"text":"Mises à jour SQL, dont le cycle de vie des commandes","textPreview":"Mises à jour SQL, dont le cycle de vie des commandes","textChars":52,"textLines":1,"bbox":[644,328,220,82]}
+{"kind":"textbox","id":"sh/q9ore147","slide":10,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[930,210,60,58]}
+{"kind":"textbox","id":"sh/raxsn6ls","slide":10,"text":"Tests","textPreview":"Tests","textChars":5,"textLines":1,"bbox":[930,282,220,32]}
+{"kind":"textbox","id":"sh/0f6tkbm9","slide":10,"text":"Accueil, connexion, commande, e-mails et statistiques","textPreview":"Accueil, connexion, commande, e-mails et statistiques","textChars":53,"textLines":1,"bbox":[930,328,220,82]}
+{"kind":"textbox","id":"sh/1gzatg3u","slide":10,"text":"Les scénarios de test couvrent les menus, le cycle de commande, les avis, les rôles, les statistiques et le responsive.","textPreview":"Les scénarios de test couvrent les menus, le cycle de commande, les avis, les rôles, les statistiques et le responsive.","textChars":119,"textLines":1,"bbox":[72,500,970,54]}
+{"kind":"textbox","id":"sh/edobil43","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[72,670,36,22]}
+{"kind":"textbox","id":"sh/fexsr6lo","slide":10,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[111,670,250,22]}
+{"kind":"notes","id":"nt/4pvlk7","slide":10,"text":"Les détails des tests manuels sont disponibles dans docs/tests_manuels.md du dépôt."}
+{"kind":"slide","id":"sl/6cj0cf","slide":11,"title":"Vite & Gourmand","textShapes":5}
+{"kind":"textbox","id":"sh/uhczml4b","slide":11,"text":"Vite & Gourmand","textPreview":"Vite & Gourmand","textChars":15,"textLines":1,"bbox":[72,135,850,55]}
+{"kind":"textbox","id":"sh/hk3ix032","slide":11,"text":"Une application qui relie la présentation des menus, la commande client et la gestion interne du traiteur.","textPreview":"Une application qui relie la présentation des menus, la commande client et la gestion interne du traiteur.","textChars":106,"textLines":1,"bbox":[74,220,900,66]}
+{"kind":"textbox","id":"sh/wjuhov2h","slide":11,"text":"Démonstration conseillée","textPreview":"Démonstration conseillée","textChars":24,"textLines":1,"bbox":[74,375,500,33]}
+{"kind":"textbox","id":"sh/jml0zal8","slide":11,"text":"Accueil et menus\nCommande client\nSuivi employé\nStatistiques administrateur","textPreview":"Accueil et menus | Commande client | Suivi employé | Statistiques administrateur","textChars":74,"textLines":4,"bbox":[74,425,440,150]}
+{"kind":"textbox","id":"sh/ilczq5kn","slide":11,"text":"Merci pour votre attention","textPreview":"Merci pour votre attention","textChars":26,"textLines":1,"bbox":[74,625,570,34]}
+{"kind":"notes","id":"nt/6cj0cf","slide":11,"text":"Conclusion. Proposer ensuite une démonstration avec les comptes préparés et les liens réels."}
