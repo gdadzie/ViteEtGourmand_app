@@ -63,6 +63,16 @@ final class MailService
         return $this->send($recipient, 'Vite & Gourmand', 'Contact : ' . $title, $body, $email);
     }
 
+    public function envoyerAccuseReceptionContact(string $email, string $title): bool
+    {
+        $body = '<h2>Bonjour,</h2>'
+            . '<p>Nous avons bien reçu votre message concernant : <strong>' . $this->escape($title) . '</strong>.</p>'
+            . '<p>Notre équipe vous répondra dans les meilleurs délais.</p>'
+            . '<p>À bientôt,<br><strong>Vite &amp; Gourmand</strong></p>';
+
+        return $this->send($email, 'Client Vite & Gourmand', 'Accusé de réception de votre message', $body);
+    }
+
     private function send(string $email, string $name, string $subject, string $body, ?string $replyTo = null): bool
     {
         try {

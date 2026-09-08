@@ -63,9 +63,10 @@ class ContactController
             exit;
         }
 
-        $mailSent = $this->mailService->envoyerMailContact($email, $title, $message);
-        $_SESSION['success'] = $mailSent
-            ? 'Votre message a été envoyé. Nous vous répondrons rapidement.'
+        $this->mailService->envoyerMailContact($email, $title, $message);
+        $acknowledgementSent = $this->mailService->envoyerAccuseReceptionContact($email, $title);
+        $_SESSION['success'] = $acknowledgementSent
+            ? 'Votre message a bien été envoyé. Un accusé de réception vous a été adressé.'
             : 'Votre message a bien été enregistré. Nous vous répondrons rapidement.';
 
         header('Location: index.php?page=contact');
