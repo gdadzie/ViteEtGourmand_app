@@ -27,7 +27,7 @@
     <?php endforeach; ?>
 </head>
 
-<body>
+<body class="app-shell">
 
 <?php if ($showMenu ?? true): ?>
     <?php require ROOT . '/src/View/partials/menu.php'; ?>

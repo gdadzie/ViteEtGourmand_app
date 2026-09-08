@@ -178,6 +178,24 @@ html { background: #0f0f0f; }
 body { margin: 0; min-height: 100%; }
 body > footer.footer-vg:last-child { margin-bottom: 0 !important; }
 
+/* Structure commune : le footer est toujours le dernier bloc visible. */
+body.app-shell {
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+    min-height: 100dvh;
+    padding: 0 !important;
+}
+
+body.app-shell > main {
+    flex: 0 0 auto;
+}
+
+body.app-shell > footer.footer-vg {
+    flex: 0 0 auto;
+    margin: 0 !important;
+}
+
 @media (max-width: 768px) {
     .footer-vg {
         margin-bottom: 0 !important;
