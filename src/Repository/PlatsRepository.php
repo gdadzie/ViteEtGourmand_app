@@ -16,23 +16,53 @@ class PlatsRepository
 
     public function createPlat(Plats $plat): bool
     {
-        $stmt = $this->conn->prepare("
-            INSERT INTO plats (nom_plat, type_plat, id_menu, image_plat)
-            VALUES (:nom_plat, :type_plat, :id_menu, :image_plat)
-        ");
-
-        $success = $stmt->execute([
+        // La composition d'un menu est normalement stockee dans menus_plats.
+        // Certaines anciennes bases possedent encore id_menu et image_plat dans
+        // la table plats : on les renseigne uniquement lorsqu'elles existent.
+        $columns = $this->getColumns('plats');
+        $fields = ['nom_plat', 'type_plat'];
+        $values = [
             'nom_plat' => $plat->getNomPlat(),
             'type_plat' => $plat->getTypePlat(),
-            'id_menu' => $plat->getIdMenu(),
-            'image_plat' => $plat->getImagePlat(),
-        ]);
+        ];
+
+        if (isset($columns['id_menu'])) {
+            $fields[] = 'id_menu';
+            $values['id_menu'] = $plat->getIdMenu();
+        }
+
+        if (isset($columns['image_plat'])) {
+            $fields[] = 'image_plat';
+            $values['image_plat'] = $plat->getImagePlat();
+        }
+
+        $placeholders = implode(', ', array_map(static fn (string $field): string => ':' . $field, $fields));
+        $stmt = $this->conn->prepare(sprintf(
+            'INSERT INTO plats (%s) VALUES (%s)',
+            implode(', ', $fields),
+            $placeholders
+        ));
+
+        $success = $stmt->execute($values);
 
         if ($success) {
             $plat->setIdPlat((int)$this->conn->lastInsertId());
         }
 
         return $success;
+    }
+
+    /** @return array<string, true> */
+    private function getColumns(string $table): array
+    {
+        $columns = [];
+        $stmt = $this->conn->query("SHOW COLUMNS FROM `{$table}`");
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $column) {
+            $columns[$column['Field']] = true;
+        }
+
+        return $columns;
     }
 
     public function findAll(): array
