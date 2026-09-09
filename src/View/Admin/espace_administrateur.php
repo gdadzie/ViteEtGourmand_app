@@ -130,6 +130,27 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
             </a>
         </div>
 
+        <!-- Gestion des avis -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <a class="quick-link" href="?page=gestion_avis">
+                <div class="card card-tile h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-badge"><i class="bi bi-star fs-4 accent"></i></div>
+                            <div>
+                                <h5 class="card-title mb-0">Gestion des avis</h5>
+                                <div class="muted small">Validez ou modérez les avis laissés par les clients.</div>
+                            </div>
+                        </div>
+                        <p class="card-text muted mb-0">Gardez uniquement les avis conformes et utiles sur le site.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+                        <span class="btn btn-accent w-100">Ouvrir <i class="bi bi-arrow-right ms-1"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <!-- Gestion des menus -->
         <div class="col-12 col-md-6 col-lg-4">
             <a class="quick-link" href="?page=gestion_des_menus">
@@ -164,7 +185,7 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-clock fs-4 accent"></i>
+                                <i class="bi bi-bag-check fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Gestion des commandes</h5>
@@ -216,7 +237,7 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
+                                <i class="bi bi-plus-circle fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Ajouter un plat</h5>
@@ -243,7 +264,7 @@ $nom    = $nom    ?? ($_SESSION['nom'] ?? '');    // optionnel
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="icon-badge">
-                                <i class="bi bi-bar-chart-line fs-4 accent"></i>
+                                <i class="bi bi-egg-fried fs-4 accent"></i>
                             </div>
                             <div>
                                 <h5 class="card-title mb-0">Gestion des plats</h5>

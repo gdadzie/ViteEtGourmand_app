@@ -28,7 +28,7 @@ class EmployesController
         AuthService::requireEmploye();
 
         $employes = $this->utilisateursRepo->readByRoleEmploye(); // id_role = 2 pour employé
-        require __DIR__ . '/../../View/Authentication/espace_employe.php';
+        require __DIR__ . '/../../View/Employes/espace_employe.php';
     }
 
     // Récupérer tous les employés
