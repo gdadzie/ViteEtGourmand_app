@@ -33,19 +33,6 @@
     <?php require ROOT . '/src/View/partials/menu.php'; ?>
 <?php endif; ?>
 
-<?php
-$currentRoute = (string) ($_GET['page'] ?? 'home');
-$dashboardRoutes = ['espace_utilisateur', 'espace_employe', 'espace_admin'];
-$showDashboardReturn = isset($_SESSION['id_utilisateur'], $_SESSION['id_role'])
-    && !in_array($currentRoute, $dashboardRoutes, true);
-?>
-<?php if ($showDashboardReturn): ?>
-    <a class="global-dashboard-return" href="<?= htmlspecialchars($dashboardUrl ?? \View\View::dashboardUrl()) ?>" aria-label="Retourner à mon tableau de bord">
-        <i class="bi bi-arrow-left" aria-hidden="true"></i>
-        <span>Tableau de bord</span>
-    </a>
-<?php endif; ?>
-
 <?php require $viewFile; ?>
 
 <?php require ROOT . '/src/View/partials/footer.php'; ?>

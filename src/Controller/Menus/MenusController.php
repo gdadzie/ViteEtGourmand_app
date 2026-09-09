@@ -94,15 +94,9 @@ class MenusController
             exit;
         }
 
-        $imagePath = '/uploads/default.png';
-
-        if (!empty($menu->getImage())) {
-            $file = ROOT . '/public/uploads/' . $menu->getImage();
-
-            if (file_exists($file)) {
-                $imagePath = '/uploads/' . $menu->getImage();
-            }
-        }
+        // Les images sont servies par la route media_image : elle lit d'abord le
+        // stockage persistant en base, puis utilise le fichier local en secours.
+        $imagePath = $menu->getImagePath();
 
         $metaTitle = $menu->getTitre() . ' | Vite & Gourmand';
 
