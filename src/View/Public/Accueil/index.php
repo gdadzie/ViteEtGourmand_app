@@ -21,7 +21,7 @@
     <!-- QUI SOMMES-NOUS -->
     <section class="row g-4 align-items-center justify-content-center px-2 px-md-4 py-4">
 
-        <div class="col-12 col-md-3 align-self-start">
+        <div class="col-12 col-md-3 align-self-start mt-5">
             <img class="frame-img" src="assets/images/images/menu_noel_1.jpg" alt="Menu Noël">
         </div>
         <div class="col-12 col-md-3 align-self-center">
@@ -29,26 +29,26 @@
         </div>
 
         <div class="col-12 col-md-6">
-            <div class="">
-                <h2 class="h-title mb-3 titre-h2">Qui sommes-nous ?</h2>
+            <div class="mt-5">
+                <h2 class="h-title mb-3 ">Qui sommes-nous ?</h2>
 
-                <p class="text-muted-2 paragraphe-main mb-2">
+                <p class="  mb-2">
                     Depuis plus de 25 ans, Vite & Gourmand accompagne vos moments importants avec une cuisine savoureuse, généreuse et de qualité.
                     Basée à Bordeaux, notre entreprise familiale met tout son savoir-faire au service de vos événements privés ou professionnels.
                 </p>
 
-                <p class="text-muted-2 paragraphe-main mb-2">
+                <p class="  mb-2">
                     Nous créons des menus sur mesure pour Noël, Pâques, anniversaires, mariages ou toute autre célébration.
                     Chaque plat est préparé avec passion, pour garantir fraîcheur, goût et présentation irréprochable.
                 </p>
 
-                <p class="text-muted-2 paragraphe-main mb-3">
+                <p class="  mb-3">
                     Grâce à notre application web, vous pouvez consulter facilement tous nos menus, filtrer vos choix selon vos envies,
                     et passer vos commandes directement en ligne. Toutes les informations sur les plats, les régimes alimentaires et les conditions
                     de commande sont disponibles pour préparer vos événements en toute sérénité.
                 </p>
 
-                <button class="btn btn-outline-brand btn-en-savoir-plus">
+                <button class="btn btn-outline-brand">
                     En savoir plus <i class="bi bi-chevron-right ms-1"></i>
                 </button>
             </div>

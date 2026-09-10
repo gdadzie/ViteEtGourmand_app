@@ -1,5 +1,5 @@
 /* Charte visuelle issue de la maquette Canva : cette feuille complète les styles existants. */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
 :root {
     --vg-or: #b77a2d;
     --vg-or-clair: #e0b067;
@@ -11,14 +11,17 @@
 body {
     background: var(--vg-creme);
     color: var(--vg-texte);
-    font-family: Inter, Arial, sans-serif;
+    font-family: 'Open Sans', Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, .h-title, .page-header h1 {
-    font-family: 'Playfair Display', Georgia, "Times New Roman", serif;
-    font-weight: 600;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 100;
     color: #9c621e;
+    letter-spacing:10px;
 }
+
+
 
 /* Sur l'accueil, le menu se pose sur l'image comme dans la maquette. */
 body:has(.hero) .navbar {
@@ -50,7 +53,7 @@ body:has(.auth-page) .navbar .navbar-brand {
 }
 
 body:has(.hero) .navbar .nav-link,
-body:has(.auth-page) .navbar .nav-link { color: #fff !important; font-family: 'Poppins', sans-serif; }
+body:has(.auth-page) .navbar .nav-link { color: #fff !important; font-family: 'Open Sans', Arial, sans-serif; }
 
 body:has(.hero) .hero {
     border-radius: 0;
@@ -58,7 +61,7 @@ body:has(.hero) .hero {
     min-height: 640px;
 }
 
-.navbar { background: var(--vg-or); }
+.navbar { background: var(--vg-or); font-family: 'Open Sans', Arial, sans-serif; }
 .navbar .nav-link { font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
 .navbar .btn-login { background: var(--vg-or); color: #fff; box-shadow: none; }
 .navbar .btn-login:hover { background: #9c621e; color: #fff; }
