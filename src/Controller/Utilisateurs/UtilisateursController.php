@@ -35,7 +35,7 @@ class UtilisateursController
 
         $utilisateurs = $this->repo->readAll();
 
-        require __DIR__ . '/../../View/Utilisateurs/liste_des_utilisateurs.php';
+        require __DIR__ . '/../../View/Admin/Utilisateurs/liste.php';
 
         return $utilisateurs;
     }
@@ -67,7 +67,7 @@ class UtilisateursController
 
         $villes = $this->villesRepo->findAll();
 
-        require __DIR__ . '/../../View/Utilisateurs/mes_informations.php';
+        require __DIR__ . '/../../View/Account/profil_legacy.php';
     }
 
     // =========================================================

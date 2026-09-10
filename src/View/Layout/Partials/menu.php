@@ -10,9 +10,9 @@ $currentPage = $currentPage ?? ''; // fourni par le layout/controller
     <div class="container">
 
         <a class="navbar-brand" href="?page=home" aria-label="Retour à l'accueil">
-            <span class="brand-dot"></span>
-
-            <span class="brand-name">Vite &amp; Gourmand</span>
+            <img class="brand-logo"
+                 src="/assets/images/logo/logo_100__80px.svg"
+                 alt="Vite et Gourmand">
         </a>
 
         <button class="navbar-toggler" type="button"

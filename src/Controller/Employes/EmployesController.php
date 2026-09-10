@@ -28,7 +28,7 @@ class EmployesController
         AuthService::requireEmploye();
 
         $employes = $this->utilisateursRepo->readByRoleEmploye(); // id_role = 2 pour employé
-        require __DIR__ . '/../../View/Employes/espace_employe.php';
+        require __DIR__ . '/../../View/Dashboard/employe.php';
     }
 
     // Récupérer tous les employés
@@ -36,14 +36,14 @@ class EmployesController
     {
         AuthService::requireAdminEmploye();
         $employes = $this->utilisateursRepo->readByRole(2); // id_role = 2 pour employé
-        require __DIR__ . '/../../View/Admin/gestion_des_menus.php';
+        require __DIR__ . '/../../View/Gestion/Menus/gestion_administrateur.php';
     }
 
     // Afficher le formulaire de modification des horaires
     public function show(): void
     {
         $horaires = $this->horairesRepo->readAll();
-        require __DIR__ . '/../../View/Formulaires/modification_horaires.php';
+        require __DIR__ . '/../../View/Gestion/Horaires/modifier.php';
     }
 
     // Traiter le formulaire POST des horaires
@@ -75,7 +75,7 @@ class EmployesController
     {
         AuthService::requireAdminEmploye();
         $menus = $this->menusRepo->readAll();
-        require __DIR__ . '/../../View/Fonctionalites/consulter_menus.php';
+        require __DIR__ . '/../../View/Gestion/Menus/liste.php';
     }
 
 

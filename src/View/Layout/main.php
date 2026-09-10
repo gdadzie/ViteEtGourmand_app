@@ -25,17 +25,18 @@
     <?php foreach ($cssFiles ?? [] as $css): ?>
         <link rel="stylesheet" href="<?= htmlspecialchars($css) ?>">
     <?php endforeach; ?>
+    <link rel="stylesheet" href="/assets/css/maquette-canva.css?v=1">
 </head>
 
 <body class="app-shell">
 
 <?php if ($showMenu ?? true): ?>
-    <?php require ROOT . '/src/View/partials/menu.php'; ?>
+    <?php require ROOT . '/src/View/Layout/Partials/menu.php'; ?>
 <?php endif; ?>
 
 <?php require $viewFile; ?>
 
-<?php require ROOT . '/src/View/partials/footer.php'; ?>
+<?php require ROOT . '/src/View/Layout/Partials/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 

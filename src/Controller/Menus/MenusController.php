@@ -24,7 +24,7 @@ class MenusController
         header('Expires: 0');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            View::render('Menus/creer_un_menu', [
+            View::render('Gestion/Menus/creer', [
                 'platsDisponibles' => $this->menuService->getPlatsDisponibles(),
             ], 'Layout/main', false);
             return;
@@ -62,7 +62,7 @@ class MenusController
 
         global $horaires;
 
-        View::render('Menus/liste_des_menus', [
+        View::render('Public/Menus/liste', [
             'currentPage' => 'liste_des_menus',
             'pageTitle'   => 'Nos menus — Vite & Gourmand',
             'horaires'    => $horaires ?? [],
@@ -110,7 +110,7 @@ class MenusController
 
         global $horaires;
 
-        View::render('Menus/detail_menu', [
+        View::render('Public/Menus/detail', [
             'currentPage'      => 'detail_menu',
             'pageTitle'        => $metaTitle,
             'metaDescription'  => $metaDescription,
@@ -189,7 +189,7 @@ class MenusController
             exit;
         }
 
-        View::render('Menus/modifier_menu', [
+        View::render('Gestion/Menus/modifier', [
             'menu' => $menu
         ]);
     }

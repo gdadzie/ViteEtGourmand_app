@@ -14,7 +14,7 @@
     --shadow-soft:0 6px 18px rgba(0,0,0,.06);
     --shadow-hover:0 14px 34px rgba(0,0,0,.11);
 
-    --radius:18px;
+    --radius:25px;
 }
 
 .avatar-letter { align-items: center; background: #aa6d27; border-radius: 50%; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); color: #fff; display: flex; font-size: 1.3rem; font-weight: 700; height: 55px; justify-content: center; min-width: 55px; text-transform: uppercase; width: 55px; }
@@ -108,23 +108,23 @@ h5,
     background:
             radial-gradient(
                     1200px 600px at 20% 20%,
-                    rgba(170,109,39,.45),
+                    rgba(170,109,39,.16),
                     transparent 55%
             ),
 
             radial-gradient(
                     900px 500px at 80% 30%,
-                    rgba(170,109,39,.35),
+                    rgba(170,109,39,.10),
                     transparent 60%
             ),
 
             linear-gradient(
                     120deg,
-                    rgba(0,0,0,.65),
-                    rgba(0,0,0,.35)
+            rgba(0,0,0,.12),
+            rgba(0,0,0,.05)
             ),
 
-            url('/assets/images/images/menu_noel_1.jpg')
+            url('/assets/images/images/service_traiteur_vite_et_gourmand.jpg')
             center/cover no-repeat;
 }
 
@@ -138,12 +138,9 @@ h5,
 
     z-index:0;
 
-    background:
-            linear-gradient(
-                    to bottom,
-                    rgba(0,0,0,.45),
-                    rgba(0,0,0,.55)
-            );
+    /* Filtre sombre posé sur la photo : il garde l'image visible tout en
+       créant le contraste nécessaire pour le titre et les boutons. */
+    background:rgba(17, 12, 8, .34);
 
     pointer-events:none;
 
@@ -186,13 +183,14 @@ h5,
 .hero h1{
     font-size:clamp(2.2rem, 4vw, 3.4rem);
 
-    font-weight:800;
+    font-weight:600;
 
     letter-spacing:-1px;
 
     margin:0 0 10px 0;
 
-    font-family:'Outfit', sans-serif;
+    font-family:'Poppins', sans-serif;
+    color: #ebe3d0;
 }
 
 .hero p{
@@ -351,17 +349,7 @@ h5,
    CONTENT
 ========================= */
 
-.section-card{
-    background:var(--card);
 
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    box-shadow:var(--shadow-soft);
-
-    padding:22px;
-}
 
 .frame-img{
     width:100%;

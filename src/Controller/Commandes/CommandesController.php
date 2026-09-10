@@ -75,7 +75,7 @@ class CommandesController
 
 
         // Affichage de la vue
-        require __DIR__ . '/../../View/Commandes/gestion_des_commandes.php';
+        require __DIR__ . '/../../View/Gestion/Commandes/liste.php';
     }
 
     // =========================================================
@@ -177,7 +177,7 @@ class CommandesController
 
 
 
-            require __DIR__ . '/../../View/Commandes/finaliser_commande.php';
+            require __DIR__ . '/../../View/Client/Commandes/finaliser.php';
 
             return;
         }
@@ -512,7 +512,7 @@ class CommandesController
             $this->redirectMesCommandes();
         }
 
-        require __DIR__ . '/../../View/Commandes/modifier_commande.php';
+        require __DIR__ . '/../../View/Client/Commandes/modifier.php';
     }
 
     /** Enregistre une modification avec recalcul du total côté serveur. */
@@ -664,7 +664,7 @@ class CommandesController
         }
 
 
-        require __DIR__ . '/../../View/Commandes/liste_des_commandes_par_utilisateur.php';
+        require __DIR__ . '/../../View/Client/Commandes/liste.php';
     }
 
     /** Historique d'une commande, accessible uniquement à son propriétaire ou à l'équipe. */
@@ -693,7 +693,7 @@ class CommandesController
                 'nouveau_statut' => $commande->getStatut(),
             ];
         }
-        require __DIR__ . '/../../View/Commandes/historique_commande.php';
+        require __DIR__ . '/../../View/Client/Commandes/historique.php';
     }
 
 
@@ -840,7 +840,7 @@ class CommandesController
         $retourPage = $estProprietaire ? 'mes_commandes' : 'gestion_des_commandes';
         $peutModifier = $estProprietaire && $this->normaliserStatut($commande->getStatut()) === 'recue';
 
-        require __DIR__ . '/../../View/Commandes/detail_commande.php';
+        require __DIR__ . '/../../View/Client/Commandes/detail.php';
     }
 
     private function requireClient(): void

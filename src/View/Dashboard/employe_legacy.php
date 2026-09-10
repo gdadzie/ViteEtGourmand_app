@@ -14,7 +14,7 @@
 
 
 <body>
-<?php include __DIR__ . '/../partials/menu.php'; ?>
+<?php include __DIR__ . '/../Layout/Partials/menu.php'; ?>
 
 
 <div class="container my-5">

@@ -27,7 +27,7 @@ class HomeController
         $avisValides =
             $this->avisRepo->findByAvisValide();
 
-        View::render('home/home', [
+        View::render('Public/Accueil/index', [
             'currentPage'     => 'home',
             'pageTitle'       => 'Vite & Gourmand — Accueil',
             'metaDescription' => 'Vite & Gourmand — Traiteur à Bordeaux. Menus pour événements, commandes en ligne.',

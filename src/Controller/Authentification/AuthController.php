@@ -25,7 +25,7 @@ class AuthController
     public function connexion(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->render('Authentication/formulaire_de_connexion');
+            $this->render('Auth/connexion');
             return;
         }
 
@@ -36,7 +36,7 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            $this->render('Authentication/formulaire_de_connexion', ['error' => $error]);
+            $this->render('Auth/connexion', ['error' => $error]);
             return;
         }
 
@@ -49,7 +49,7 @@ class AuthController
         $villes = $this->villesRepo->findAll();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->render('Authentication/formulaire_inscription', ['villes' => $villes]);
+            $this->render('Auth/inscription', ['villes' => $villes]);
             return;
         }
 
@@ -58,7 +58,7 @@ class AuthController
         // =========================
         if (!isset($_POST['rgpd'])) {
             $error = "Vous devez accepter la politique de confidentialitÃ©.";
-            $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'error' => $error]);
+            $this->render('Auth/inscription', ['villes' => $villes, 'error' => $error]);
             return;
         }
 
@@ -72,12 +72,12 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'error' => $error]);
+            $this->render('Auth/inscription', ['villes' => $villes, 'error' => $error]);
             return;
         }
 
         $success = $result['message'];
-        $this->render('Authentication/formulaire_inscription', ['villes' => $villes, 'success' => $success]);
+        $this->render('Auth/inscription', ['villes' => $villes, 'success' => $success]);
     }
 
     public function deconnexion(): void
@@ -97,14 +97,14 @@ class AuthController
             header('Location: index.php?page=home');
             exit;
         }
-        require __DIR__ . '/../../View/Client/espace_client.php';
+        require __DIR__ . '/../../View/Dashboard/client.php';
     }
 
     public function resetPassword(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $token = trim($_GET['token'] ?? '');
-            $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token]);
+            $this->render('Auth/reinitialisation', ['token' => $token]);
             return;
         }
 
@@ -118,14 +118,14 @@ class AuthController
 
         if (!$result['success']) {
             $error = $result['message'];
-            $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token, 'error' => $error]);
+            $this->render('Auth/reinitialisation', ['token' => $token, 'error' => $error]);
             return;
         }
 
         // âœ… message succÃ¨s
         $success = $result['message'];
 
-        $this->render('Authentication/reinitialiser_mot_de_passe', ['token' => $token, 'success' => $success]);
+        $this->render('Auth/reinitialisation', ['token' => $token, 'success' => $success]);
     }
 
     private function render(string $view, array $data = []): void

@@ -59,7 +59,7 @@ class AdminController
             exit;
         }
 
-        require __DIR__ . '/../../View/Admin/espace_administrateur.php';
+        require __DIR__ . '/../../View/Dashboard/administrateur.php';
     }
 
     /** Affiche les statistiques MongoDB dans une page dédiée. */
@@ -79,7 +79,7 @@ class AdminController
         $menusStats = $this->menusRepo->readAll();
         $mongoDisponible = $this->mongoRepo->isAvailable() && $this->mongoRepo->getLastError() === null;
 
-        require __DIR__ . '/../../View/Admin/statistiques.php';
+        require __DIR__ . '/../../View/Admin/Statistiques/index.php';
     }
 
     // CRÃ‰ATION D'UN EMPLOYE
@@ -91,7 +91,7 @@ class AdminController
         $villes = $this->villesRepo->findAll();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Admin/Employes/creer.php';
             return;
         }
 
@@ -109,14 +109,14 @@ class AdminController
         // VÃ©rification email existant
         if ($email !== '' && $this->utilisateursRepo->readByEmail($email)) {
             $error = "Cet email est dÃ©jÃ  utilisÃ©.";
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Admin/Employes/creer.php';
             return;
         }
 
         // Validation ville
         if ($idVille <= 0) {
             $error = "Veuillez sÃ©lectionner une ville.";
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Admin/Employes/creer.php';
             return;
         }
 
@@ -124,7 +124,7 @@ class AdminController
 
         if (!$villeEntity) {
             $error = "La ville sÃ©lectionnÃ©e est introuvable.";
-            require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+            require __DIR__ . '/../../View/Admin/Employes/creer.php';
             return;
         }
 
@@ -159,12 +159,12 @@ class AdminController
                 $success = "Le compte employÃ© a Ã©tÃ© crÃ©Ã©, mais l'email n'a pas pu Ãªtre envoyÃ©.";
             }
 
-            require __DIR__ . '/../../View/Admin/espace_administrateur.php';
+            require __DIR__ . '/../../View/Dashboard/administrateur.php';
             return;
         }
 
         $error = "Erreur lors de la crÃ©ation du compte.";
-        require __DIR__ . '/../../View/Formulaires/formulaire_creation_employe.php';
+        require __DIR__ . '/../../View/Admin/Employes/creer.php';
     }
 
     // AFFICHER LA LISTE DES UTILISATEURS
@@ -186,7 +186,7 @@ class AdminController
             $estActif
         );
 
-        require __DIR__ . '/../../View/Utilisateurs/liste_des_utilisateurs.php';
+        require __DIR__ . '/../../View/Admin/Utilisateurs/liste.php';
     }
 
 
@@ -205,7 +205,7 @@ class AdminController
         // IMPORTANT : ne pas Ã©craser $utilisateurs aprÃ¨s
         $utilisateurs = $this->utilisateursRepo->readByRoleEmploye($prenom, $nom, $email, $estActif);
 
-        require __DIR__ . '/../../View/Utilisateurs/liste_des_employes.php';
+        require __DIR__ . '/../../View/Admin/Employes/liste.php';
     }
 
     public function modificationHoraires(): void
@@ -239,13 +239,13 @@ class AdminController
         }
 
         $horaires = $repo->readAll();
-        require __DIR__ . '/../../View/Formulaires/modification_horaires.php';
+        require __DIR__ . '/../../View/Gestion/Horaires/modifier.php';
     }
 
     public function gestionDesMenus(): void
     {
         AuthService::requireAdminEmploye();
         $menus = $this->menusRepo->readAll();
-        require __DIR__ . '/../../View/Fonctionalites/gestion_menus.php';
+        require __DIR__ . '/../../View/Gestion/Menus/gestion.php';
     }
 }

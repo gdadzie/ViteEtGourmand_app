@@ -21,12 +21,15 @@
     <!-- QUI SOMMES-NOUS -->
     <section class="row g-4 align-items-center justify-content-center px-2 px-md-4 py-4">
 
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-3 align-self-start">
+            <img class="frame-img" src="assets/images/images/menu_noel_1.jpg" alt="Menu Noël">
+        </div>
+        <div class="col-12 col-md-3 align-self-center">
             <img class="frame-img" src="assets/images/images/menu_noel_1.jpg" alt="Menu Noël">
         </div>
 
-        <div class="col-12 col-md-5">
-            <div class="section-card">
+        <div class="col-12 col-md-6">
+            <div class="">
                 <h2 class="h-title mb-3 titre-h2">Qui sommes-nous ?</h2>
 
                 <p class="text-muted-2 paragraphe-main mb-2">
@@ -117,7 +120,9 @@
                         <?php
                         $nomClient = $avis->getNomUtilisateur() ?: 'Client';
 
-                        $initiale = strtoupper(substr($nomClient, 0, 1));
+                        // Les avis ne stockent pas encore de photo de profil : un portrait local
+                        // est choisi de façon stable pour conserver un rendu cohérent à l'écran.
+                        $avatarNumero = ((int) $avis->getIdAvis() % 4) + 1;
                         ?>
 
                         <div class="col-12 col-md-3">
@@ -126,10 +131,9 @@
 
                                 <div class="d-flex align-items-start">
 
-                                    <!-- AVATAR LETTRE -->
-                                    <div class="avatar-letter me-3">
-                                        <?= htmlspecialchars($initiale) ?>
-                                    </div>
+                                    <img class="review-avatar me-3"
+                                         src="/assets/images/avatars/<?= $avatarNumero ?>.jpg"
+                                         alt="Photo de profil de <?= htmlspecialchars($nomClient) ?>">
 
                                     <div class="flex-grow-1">
 

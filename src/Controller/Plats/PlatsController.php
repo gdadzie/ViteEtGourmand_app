@@ -51,7 +51,7 @@ class PlatsController
     {
         AuthService::requireAdminEmploye();
 
-        View::render('Plats/liste_des_plats', [
+        View::render('Gestion/Plats/liste', [
             'plats' => $this->service->readPlats(),
             'pageTitle' => 'Nos plats | Vite & Gourmand',
             'cssFiles' => ['/assets/css/liste_des_plats.css'],
@@ -96,7 +96,7 @@ class PlatsController
             exit;
         }
 
-        View::render('Plats/modifier_un_plat', [
+        View::render('Gestion/Plats/modifier', [
             'plat' => $plat,
             'pageTitle' => 'Modifier un plat | Vite & Gourmand',
             'cssFiles' => ['/assets/css/plats/creer-un-plat.css'],
@@ -125,7 +125,7 @@ class PlatsController
         $oldPlat = $_SESSION['old_plat'] ?? [];
         unset($_SESSION['old_plat']);
 
-        View::render('Plats/creer_un_plat', [
+        View::render('Gestion/Plats/creer', [
             'menus' => $this->menusRepository->readAll(),
             'oldPlat' => $oldPlat,
             'pageTitle' => 'Creer un plat | Vite & Gourmand',

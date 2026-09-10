@@ -27,8 +27,8 @@ final class MailService
     {
         $subject = $type === 'employe' ? 'Création de votre compte employé Vite & Gourmand' : 'Bienvenue chez Vite & Gourmand';
         $body = '<h2>Bonjour ' . $this->escape($nomComplet) . '</h2>'
-            . '<p>Merci d’avoir créé votre compte Vite &amp; Gourmand.</p>'
-            . '<p>Votre inscription a bien été enregistrée. Vous pouvez dès maintenant vous connecter, consulter nos menus et suivre vos commandes.</p>'
+            . '<p>Votre compte  Vite &amp; Gourmand employé vient d’être créee et est désormais actif.</p>'
+            . '<p>Vous pouvez dès maintenant vous connecter,et acceder à votre espace de gestion.</p>'
             . '<p>À bientôt,<br><strong>L’équipe Vite &amp; Gourmand</strong></p>';
 
         return $this->send($email, $nomComplet, $subject, $body);

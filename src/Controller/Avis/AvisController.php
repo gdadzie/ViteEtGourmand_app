@@ -70,7 +70,7 @@ class AvisController
 
 
 
-        View::render('Avis/creer_avis', [
+        View::render('Client/Avis/creer', [
             'commande' => $commande,
             'pageTitle' => 'Laisser un avis | Vite & Gourmand',
             'cssFiles' => ['/assets/css/formulaires/formulaire.css'],
@@ -133,7 +133,7 @@ class AvisController
 
         $retour = \View\View::dashboardUrl();
 
-        require __DIR__ . '/../../View/Avis/gestion_des_avis.php';
+        require __DIR__ . '/../../View/Gestion/Avis/liste.php';
     }
 
     public function showAvisByUtilisateur(): void
@@ -147,7 +147,7 @@ class AvisController
 
         $avis = $this->avisRepo->readByUtilisateur($_SESSION['id_utilisateur']);
 
-        require __DIR__ . '/../../View/Avis/historique_avis.php';
+        require __DIR__ . '/../../View/Client/Avis/historique.php';
     }
 
     public function showAvisByIdCommande(): void
@@ -161,7 +161,7 @@ class AvisController
 
         $avis = $this->avisRepo->findAvisByCommande($_SESSION['id_utilisateur']);
 
-        require __DIR__ . '/../../View/Avis/historique_avis.php';
+        require __DIR__ . '/../../View/Client/Avis/historique.php';
     }
 
     /* =========================================================

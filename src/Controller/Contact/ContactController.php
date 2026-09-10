@@ -28,7 +28,7 @@ class ContactController
         $error = $_SESSION['error'] ?? null;
         unset($_SESSION['success'], $_SESSION['error']);
 
-        View::render('Contact/contact', [
+        View::render('Public/Contact/contact', [
             'currentPage' => 'contact',
             'pageTitle' => 'Vite & Gourmand - Contact',
             'metaDescription' => 'Contactez Vite & Gourmand pour toute demande de devis ou information.',
@@ -95,7 +95,7 @@ class ContactController
             $error = 'La messagerie est momentanément indisponible.';
         }
 
-        View::render('Contact/inbox', [
+        View::render('Gestion/Messagerie/index', [
             'currentPage' => 'messagerie_contact',
             'pageTitle' => 'Vite & Gourmand - Messagerie contact',
             'metaDescription' => 'Gestion des messages de contact.',
@@ -178,7 +178,7 @@ class ContactController
             $error = 'Votre messagerie est momentanément indisponible.';
         }
 
-        View::render('Contact/client-inbox', [
+        View::render('Client/Messagerie/index', [
             'currentPage' => 'ma_messagerie',
             'pageTitle' => 'Vite & Gourmand - Ma messagerie',
             'metaDescription' => 'Vos échanges avec Vite & Gourmand.',

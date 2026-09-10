@@ -14,7 +14,7 @@ class HorairesController
     }
     public function show(): void {
         $horaires = $this->repo->findAll();
-        require __DIR__ . '/../../View/partials/footer.php';
+        require __DIR__ . '/../../View/Layout/Partials/footer.php';
     }
 
     public function store(): void {

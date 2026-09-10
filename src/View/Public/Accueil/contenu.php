@@ -10,7 +10,7 @@
     <section class="row min-vh-100 mt-5 align-items-center justify-content-center">
 
         <div class="col-md-3 col-12 align-self-start">
-            <img class="cadre-img image-fluid" src="assets/images/images/menu_pacques_1.jpg">
+            <img class="cadre-img image-fluid" src="assets/images/images/service_traiteur_vite_et_gourmand.jpg">
         </div>
 
         <div class="col-md-3 col-12 align-self-center">
