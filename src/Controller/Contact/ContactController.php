@@ -89,6 +89,10 @@ class ContactController
 
         try {
             $messages = $this->repository->readInbox();
+            foreach ($messages as &$message) {
+                $message['exchanges'] = $this->repository->readConversation((int) $message['id']);
+            }
+            unset($message);
         } catch (\Throwable $exception) {
             error_log('Contact inbox error: ' . $exception->getMessage());
             $messages = [];
@@ -128,13 +132,15 @@ class ContactController
                     $_SESSION['error'] = 'Votre réponse doit contenir entre 1 et 5 000 caractères.';
                     $this->redirectInbox();
                 }
-                if (!$this->mailService->envoyerReponseContact($message['email'], $message['titre_message'], $reply)) {
+                // Les demandes publiques gardent l'e-mail ; le chat interne reste dans l'application.
+                if (($message['canal'] ?? 'contact') !== 'interne'
+                    && !$this->mailService->envoyerReponseContact($message['email'], $message['titre_message'], $reply)) {
                     $_SESSION['error'] = 'La réponse n’a pas pu être envoyée. Vérifiez la configuration e-mail.';
                     $this->redirectInbox();
                 }
                 $this->repository->addExchange($id, 'equipe', $reply);
                 $this->repository->markAsTreated($id, $reply);
-                $_SESSION['success'] = 'La réponse a été envoyée et le message est marqué comme traité.';
+                $_SESSION['success'] = 'Votre réponse est publiée dans la conversation.';
             } else {
                 $this->repository->markAsTreated($id);
                 $_SESSION['success'] = 'Le message est marqué comme traité.';
@@ -158,6 +164,10 @@ class ContactController
         }
 
         if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+            if (($_POST['action'] ?? '') === 'start') {
+                $this->startClientConversation($email);
+                return;
+            }
             $this->processClientReply($email);
             return;
         }
@@ -207,11 +217,35 @@ class ContactController
 
             $this->repository->addExchange($id, 'client', $reply);
             $this->repository->markAsPending($id);
-            $this->mailService->envoyerMailContact($email, 'Réponse : ' . $message['titre_message'], $reply);
             $_SESSION['success'] = 'Votre réponse a été envoyée à l’équipe.';
         } catch (\Throwable $exception) {
             error_log('Client contact reply error: ' . $exception->getMessage());
             $_SESSION['error'] = 'Votre réponse n’a pas pu être envoyée. Réessayez.';
+        }
+
+        $this->redirectClientInbox();
+    }
+
+    /** Crée une discussion interne depuis l'espace client, sans passer par le formulaire public. */
+    private function startClientConversation(string $email): void
+    {
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $message = trim((string) ($_POST['message'] ?? ''));
+
+        if ($title === '' || $message === '' || mb_strlen($title) > 255 || mb_strlen($message) > 5000) {
+            $_SESSION['error'] = 'Indiquez un objet et un message de 5 000 caractères maximum.';
+            $this->redirectClientInbox();
+        }
+
+        try {
+            $userId = (int) ($_SESSION['id_utilisateur'] ?? 0);
+            if (!$this->repository->create($userId > 0 ? $userId : null, $email, $title, $message, 'interne')) {
+                throw new \RuntimeException('Création de conversation impossible.');
+            }
+            $_SESSION['success'] = 'Votre conversation est ouverte. L’équipe vous répondra ici.';
+        } catch (\Throwable $exception) {
+            error_log('Client internal conversation error: ' . $exception->getMessage());
+            $_SESSION['error'] = 'Votre conversation n’a pas pu être créée. Réessayez.';
         }
 
         $this->redirectClientInbox();

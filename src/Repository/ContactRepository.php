@@ -14,20 +14,22 @@ class ContactRepository
     {
     }
 
-    public function create(?int $userId, string $email, string $title, string $message): bool
+    public function create(?int $userId, string $email, string $title, string $message, string $channel = 'contact'): bool
     {
+        $this->ensureManagementColumns();
         $withUser = $this->hasUserIdColumn();
         $statement = $this->connection->prepare($withUser
-            ? 'INSERT INTO messages_contact (id_utilisateur, email, titre_message, contenu_message, date_envoi)
-               VALUES (:id_utilisateur, :email, :titre_message, :contenu_message, NOW())'
-            : 'INSERT INTO messages_contact (email, titre_message, contenu_message, date_envoi)
-               VALUES (:email, :titre_message, :contenu_message, NOW())'
+            ? 'INSERT INTO messages_contact (id_utilisateur, email, titre_message, contenu_message, canal, date_envoi)
+               VALUES (:id_utilisateur, :email, :titre_message, :contenu_message, :canal, NOW())'
+            : 'INSERT INTO messages_contact (email, titre_message, contenu_message, canal, date_envoi)
+               VALUES (:email, :titre_message, :contenu_message, :canal, NOW())'
         );
 
         $values = [
             'email' => $email,
             'titre_message' => $title,
             'contenu_message' => $message,
+            'canal' => $channel,
         ];
         if ($withUser) {
             $values['id_utilisateur'] = $userId;
@@ -52,7 +54,7 @@ class ContactRepository
         $this->ensureManagementColumns();
         $primaryKey = $this->primaryKey();
         $statement = $this->connection->query(
-            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, date_envoi,
+            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, canal, date_envoi,
                     est_traite, date_traitement, reponse
              FROM messages_contact
              ORDER BY est_traite ASC, date_envoi DESC"
@@ -67,7 +69,7 @@ class ContactRepository
         $this->ensureManagementColumns();
         $primaryKey = $this->primaryKey();
         $statement = $this->connection->prepare(
-            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, date_envoi,
+            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, canal, date_envoi,
                     est_traite, date_traitement, reponse
              FROM messages_contact
              WHERE `{$primaryKey}` = :id"
@@ -110,7 +112,7 @@ class ContactRepository
         $this->ensureManagementColumns();
         $primaryKey = $this->primaryKey();
         $statement = $this->connection->prepare(
-            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, date_envoi,
+            "SELECT `{$primaryKey}` AS id, email, titre_message, contenu_message, canal, date_envoi,
                     est_traite, date_traitement, reponse
              FROM messages_contact
              WHERE email = :email
@@ -158,6 +160,7 @@ class ContactRepository
             'est_traite' => 'TINYINT(1) NOT NULL DEFAULT 0',
             'date_traitement' => 'DATETIME NULL',
             'reponse' => 'TEXT NULL',
+            'canal' => "VARCHAR(20) NOT NULL DEFAULT 'contact'",
         ];
 
         foreach ($required as $name => $definition) {

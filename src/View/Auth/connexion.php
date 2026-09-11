@@ -11,13 +11,13 @@
                     <?= htmlspecialchars($error) ?>
                     </div>
                 <?php endif; ?>
-                <form action="index.php?page=connexion" method="post">
+                <form  action="index.php?page=connexion" method="post">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Adresse e-mail</label>
-                        <input id="email" type="email" class="form-control" name="email" autocomplete="email" required>
+
+                        <input id="email" type="email" class="form-control" name="email"  placeholder="e-mail" autocomplete="email" required>
                     </div>
-                    <div class="mb-3"><label for="mdp" class="form-label">Mot de passe</label>
-                        <input id="mdp" type="password" class="form-control" name="mdp" autocomplete="current-password" required>
+                    <div class="mb-3">
+                        <input id="mdp" type="password" class="form-control" name="mdp" placeholder="mot de passe" autocomplete="current-password" required>
                     </div>
                     <button class="btn btn-primary w-100" type="submit">Se connecter</button>
                 </form>

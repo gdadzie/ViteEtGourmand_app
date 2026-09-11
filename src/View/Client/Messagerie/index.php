@@ -14,12 +14,22 @@
         <?php if (!empty($success)): ?><div class="alert alert-success" role="status"><?= htmlspecialchars($success) ?></div><?php endif; ?>
         <?php if (!empty($error)): ?><div class="alert alert-danger" role="alert"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
+        <section class="message-card p-4 mb-4">
+            <h2 class="h5 mb-2"><i class="bi bi-plus-circle me-2"></i>Écrire à l’équipe</h2>
+            <p class="text-muted small">Ouvrez une conversation avec un administrateur ou un employé. Les réponses apparaîtront directement ci-dessous.</p>
+            <form action="index.php?page=ma_messagerie" method="post" class="reply-form">
+                <input type="hidden" name="action" value="start">
+                <div class="mb-3"><label for="conversation-title" class="form-label">Objet</label><input id="conversation-title" name="title" class="form-control" maxlength="255" required placeholder="Ex. Question sur ma commande"></div>
+                <div><label for="conversation-message" class="form-label">Votre message</label><textarea id="conversation-message" name="message" class="form-control" rows="3" maxlength="5000" required placeholder="Écrivez votre message…"></textarea></div>
+                <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-send me-1"></i>Ouvrir la conversation</button>
+            </form>
+        </section>
+
         <?php if (empty($messages)): ?>
             <section class="empty-inbox text-center p-5">
                 <i class="bi bi-chat-square-text fs-1 d-block mb-3"></i>
                 <h2 class="h4">Aucune conversation</h2>
-                <p class="text-muted mb-3">Envoyez votre première demande depuis notre formulaire de contact.</p>
-                <a href="?page=contact" class="btn btn-primary">Nous contacter</a>
+                <p class="text-muted mb-0">Utilisez le formulaire ci-dessus pour écrire directement à l’équipe.</p>
             </section>
         <?php else: ?>
             <div class="row g-4">

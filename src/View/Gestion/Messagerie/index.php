@@ -34,6 +34,7 @@
                                 <div>
                                     <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
                                         <h2 class="h5 mb-0"><?= htmlspecialchars($message['titre_message']) ?></h2>
+                                        <?php if (($message['canal'] ?? 'contact') === 'interne'): ?><span class="badge text-bg-info">Messagerie interne</span><?php endif; ?>
                                         <span class="badge <?= $isTreated ? 'text-bg-success' : 'text-bg-warning' ?>">
                                             <?= $isTreated ? 'Traité' : 'À traiter' ?>
                                         </span>
@@ -45,32 +46,25 @@
                                 <small class="text-muted"><i class="bi bi-calendar3 me-1"></i><?= htmlspecialchars((string) $message['date_envoi']) ?></small>
                             </div>
 
-                            <div class="message-body mb-4"><?= nl2br(htmlspecialchars($message['contenu_message'])) ?></div>
-
-                            <?php if (!empty($message['reponse'])): ?>
-                                <div class="sent-reply mb-4">
-                                    <strong><i class="bi bi-reply-fill me-1"></i>Réponse envoyée</strong>
-                                    <p class="mb-0 mt-2"><?= nl2br(htmlspecialchars($message['reponse'])) ?></p>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (!$isTreated): ?>
-                                <form action="index.php?page=messagerie_contact" method="post" class="reply-form">
-                                    <input type="hidden" name="message_id" value="<?= (int) $message['id'] ?>">
-                                    <label for="reply-<?= (int) $message['id'] ?>" class="form-label fw-semibold">Répondre au client</label>
-                                    <textarea id="reply-<?= (int) $message['id'] ?>" name="reply" class="form-control" rows="4" maxlength="5000" placeholder="Rédigez votre réponse…"></textarea>
-                                    <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
-                                        <button type="submit" name="action" value="reply" class="btn btn-primary">
-                                            <i class="bi bi-send me-1"></i>Envoyer la réponse
-                                        </button>
-                                        <button type="submit" name="action" value="mark-treated" class="btn btn-outline-secondary">
-                                            <i class="bi bi-check2-circle me-1"></i>Marquer comme traité
-                                        </button>
+                            <div class="chat-thread mb-4">
+                                <div class="chat-bubble chat-client"><small>Client · <?= htmlspecialchars((string) $message['date_envoi']) ?></small><p><?= nl2br(htmlspecialchars($message['contenu_message'])) ?></p></div>
+                                <?php foreach ($message['exchanges'] ?? [] as $exchange): ?>
+                                    <div class="chat-bubble <?= $exchange['auteur'] === 'equipe' ? 'chat-team' : 'chat-client' ?>">
+                                        <small><?= $exchange['auteur'] === 'equipe' ? 'Équipe Vite & Gourmand' : 'Client' ?> · <?= htmlspecialchars((string) $exchange['date_envoi']) ?></small>
+                                        <p><?= nl2br(htmlspecialchars($exchange['contenu'])) ?></p>
                                     </div>
-                                </form>
-                            <?php elseif (!empty($message['date_traitement'])): ?>
-                                <small class="text-success"><i class="bi bi-check2-circle me-1"></i>Traité le <?= htmlspecialchars((string) $message['date_traitement']) ?></small>
-                            <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
+
+                            <form action="index.php?page=messagerie_contact" method="post" class="reply-form">
+                                <input type="hidden" name="message_id" value="<?= (int) $message['id'] ?>">
+                                <label for="reply-<?= (int) $message['id'] ?>" class="form-label fw-semibold">Répondre dans cette conversation</label>
+                                <textarea id="reply-<?= (int) $message['id'] ?>" name="reply" class="form-control" rows="4" maxlength="5000" required placeholder="Rédigez votre réponse…"></textarea>
+                                <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
+                                    <button type="submit" name="action" value="reply" class="btn btn-primary"><i class="bi bi-send me-1"></i>Envoyer</button>
+                                    <?php if (!$isTreated): ?><button type="submit" name="action" value="mark-treated" class="btn btn-outline-secondary"><i class="bi bi-check2-circle me-1"></i>Marquer comme traité</button><?php endif; ?>
+                                </div>
+                            </form>
                         </article>
                     </div>
                 <?php endforeach; ?>

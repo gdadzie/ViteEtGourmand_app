@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Police utilisée pour les titres, paragraphes et éléments de navigation. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <meta name="description" content="<?= htmlspecialchars($metaDescription ?? '') ?>">
 
     <title><?= htmlspecialchars($pageTitle ?? 'Vite & Gourmand') ?></title>
@@ -25,7 +30,7 @@
     <?php foreach ($cssFiles ?? [] as $css): ?>
         <link rel="stylesheet" href="<?= htmlspecialchars($css) ?>">
     <?php endforeach; ?>
-    <link rel="stylesheet" href="/assets/css/maquette-canva.css?v=1">
+    <link rel="stylesheet" href="/assets/css/maquette-canva.css?v=2">
 </head>
 
 <body class="app-shell">
